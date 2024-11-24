@@ -19,7 +19,6 @@ struct DiffuserCard: View {
         case A, B, C
         var id: Self { self }
     }
-
     var body: some View {
         ZStack {
             // Back of the Card (Settings View)
@@ -32,11 +31,23 @@ struct DiffuserCard: View {
                         .font(.headline).foregroundColor(.white).padding(.leading)
                     Spacer()
                 }
-                Picker("Programs", selection: $selectedProgram) {
+                HStack(spacing: 10) {
                     ForEach(Programs.allCases) { program in
                         Text(program.rawValue.capitalized)
+                            .font(.headline)
+                            .foregroundColor(selectedProgram == program ? .white : .gray) // White for unselected, black for selected
+                            .padding(12)
+                            .frame(maxWidth: .infinity) // Equal spacing
+                            .background(selectedProgram == program ? Color(red: 15 / 255, green: 32 / 255, blue: 71 / 255) : Color.clear) // Highlight selected with white background
+                            .cornerRadius(8) // Rounded corners
+                            .onTapGesture {
+                                selectedProgram = program // Update selected program on tap
+                            }
                     }
-                }.pickerStyle(.segmented)
+                }
+                .padding(5)
+                .background(Color(UIColor.secondarySystemBackground)) // Match your theme background
+
                     
                 VStack(alignment: .leading, spacing: 8) {
 
@@ -58,7 +69,7 @@ struct DiffuserCard: View {
 
                     
                     // Repeat Row
-                    NavigationLink(destination: OperationCycleView())
+                    NavigationLink(destination: DiffusingIntensityView())
                     {
                         HStack {
                             Text("Diffusing Intencity")
@@ -152,20 +163,7 @@ struct DiffuserCard: View {
             .opacity(isFlipped ? 0 : 1)
             .animation(isFlipped ? .linear : .linear.delay(0.35), value: isFlipped)
         }
-        .gesture(
-            DragGesture()
-                .onEnded { value in
-                    if value.translation.width < -50 { // Swipe left
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            isFlipped = true
-                        }
-                    } else if value.translation.width > 50 { // Swipe right
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            isFlipped = false
-                        }
-                    }
-                }
-        )
+
         
         .onTapGesture {
             withAnimation(.easeInOut(duration: 0.6)) {
@@ -206,6 +204,7 @@ struct DiffuserCard_Previews: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 }
+
 
 
 

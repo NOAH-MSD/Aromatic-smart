@@ -12,7 +12,14 @@
       }
     },
     "100%" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100٪"
+          }
+        }
+      }
     },
     "Aromatic App" : {
       "localizations" : {
@@ -31,7 +38,14 @@
       }
     },
     "Choose the Diffusing Intensity for your program" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اختر شدة التعطير لجهازك"
+          }
+        }
+      }
     },
     "Choose the time of activity for your device" : {
       "localizations" : {
@@ -65,6 +79,26 @@
         }
       }
     },
+    "Connect" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اتصل"
+          }
+        }
+      }
+    },
+    "Connection Status" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حالة الاتصال "
+          }
+        }
+      }
+    },
     "Delete Device" : {
       "localizations" : {
         "ar" : {
@@ -77,6 +111,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Delete device"
+          }
+        }
+      }
+    },
+    "Device Details" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تفاصيل الجهاز "
           }
         }
       }
@@ -98,10 +142,24 @@
       }
     },
     "Diffusing Intencity" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قوة التعطير"
+          }
+        }
+      }
     },
     "Diffusing Intensity" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قوة التعطير "
+          }
+        }
+      }
     },
     "Ending Time" : {
       "localizations" : {
@@ -109,6 +167,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "وقت التوقف"
+          }
+        }
+      }
+    },
+    "Enter Pairing Password" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أدخل كلمة مرور الاقتران ( 8888) عادة "
+          }
+        }
+      }
+    },
+    "Error" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطأ"
           }
         }
       }
@@ -233,7 +311,14 @@
       }
     },
     "from 1pm to 10pm in selected days" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "من الساعة 1م إلى 10م في أيام مختارة "
+          }
+        }
+      }
     },
     "ⓘ اضغط لضبط مؤقت التشغيل" : {
       "localizations" : {
@@ -251,6 +336,16 @@
         }
       }
     },
+    "Make sure your Bluetooth device is turned on and discoverable." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تأكد من أن جهازك قيد التشغيل وقابل للاكتشاف"
+          }
+        }
+      }
+    },
     "Model Number: %@" : {
       "localizations" : {
         "ar" : {
@@ -263,6 +358,47 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Model number: %@"
+          }
+        }
+      }
+    },
+    "Name: %@" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الاسم: %@"
+          }
+        }
+      }
+    },
+    "No devices found." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لم يتم العثور على أي أجهزة"
+          }
+        }
+      }
+    },
+    "No devices found. Please try scanning again." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لم يتم العثور على جهازك، تأكد من تشغيل الجهاز و أعد البحث مجدداً. "
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حسناً "
           }
         }
       }
@@ -299,6 +435,26 @@
         }
       }
     },
+    "Pair Device" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الاقتران بالجهاز "
+          }
+        }
+      }
+    },
+    "Pairing Result" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حالة الاقتران"
+          }
+        }
+      }
+    },
     "Profile" : {
       "localizations" : {
         "ar" : {
@@ -315,22 +471,22 @@
         }
       }
     },
-    "Programs" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "البرامج"
-          }
-        }
-      }
-    },
     "Programs :" : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "البرامج :"
+          }
+        }
+      }
+    },
+    "Rescan" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إعادة البحث"
           }
         }
       }
@@ -377,6 +533,26 @@
         }
       }
     },
+    "Status: %@" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " الحالة : %@"
+          }
+        }
+      }
+    },
+    "UUID: %@" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الرقم المميز : %@"
+          }
+        }
+      }
+    },
     "أجهزتي" : {
       "localizations" : {
         "ar" : {
@@ -393,23 +569,6 @@
         }
       }
     },
-    "أدخل تسمية" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اختر تسمية"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter a Naming"
-          }
-        }
-      }
-    },
     "إعدادات الجهاز" : {
       "localizations" : {
         "ar" : {
@@ -422,40 +581,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
-          }
-        }
-      }
-    },
-    "اختيار أيام التكرار" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اختر أيام التكرار"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cycle days"
-          }
-        }
-      }
-    },
-    "اختيار الصوت" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اختيار الصوت"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sound choice"
           }
         }
       }
@@ -524,23 +649,6 @@
         }
       }
     },
-    "الصوت" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الصوت"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sound"
-          }
-        }
-      }
-    },
     "المتجر" : {
       "localizations" : {
         "ar" : {
@@ -569,17 +677,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sign out"
-          }
-        }
-      }
-    },
-    "تسمية المنبه" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تسمية المنبه"
           }
         }
       }
