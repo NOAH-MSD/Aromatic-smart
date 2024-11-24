@@ -12,7 +12,7 @@ import SwiftData
 struct Aromatic_smartApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            Diffuser.self, // Include Diffuser in the schema
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -23,9 +23,18 @@ struct Aromatic_smartApp: App {
         }
     }()
 
+    // Create the DiffuserManager and pass the ModelContainer
+    @StateObject private var diffuserManager: DiffuserManager
+
+    init() {
+        let diffuserManager = DiffuserManager(context: sharedModelContainer.mainContext)
+        _diffuserManager = StateObject(wrappedValue: diffuserManager)
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(diffuserManager) // Inject DiffuserManager as an environment object
         }
         .modelContainer(sharedModelContainer)
     }
