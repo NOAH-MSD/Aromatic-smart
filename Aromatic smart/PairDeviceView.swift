@@ -165,7 +165,6 @@ struct PairDeviceView_Previews: PreviewProvider {
 struct DeviceDetailsView: View {
     var device: CBPeripheral
     @ObservedObject var bluetoothManager: BluetoothManager
-    @State private var pairingPassword: String = ""
     @State private var showPairingResultAlert: Bool = false
 
     var body: some View {
@@ -201,28 +200,30 @@ struct DeviceDetailsView: View {
                 }
                 .padding()
             } else {
-                // **Pairing Password Input**
-                TextField("Enter Pairing Password", text: $pairingPassword)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                // Automatically send pairing password
+                Text("Pairing in progress...")
+                    .font(.headline)
+                    .foregroundColor(.blue)
                     .padding()
 
-                // **Pair Device Button**
-                Button(action: {
-                    bluetoothManager.sendPairingPassword(password: pairingPassword, peripheral: device)
-                }) {
-                    Text("Pair Device")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                .padding()
+                // Show a spinner or placeholder for pairing status
+                LoadingAnimationView()
+                    .frame(width: 100, height: 100)
+                    .padding()
+
+                Spacer()
             }
 
             Spacer()
         }
         .padding()
+        .onAppear {
+            // Automatically send the pairing password when the device is connected
+            if bluetoothManager.isConnected(to: device) {
+                let defaultPassword = "8888"
+                bluetoothManager.sendPairingPassword(peripheral: device, customCode: "1234")
+            }
+        }
         .onReceive(bluetoothManager.$pairingResultMessage) { message in
             if message != nil {
                 showPairingResultAlert = true

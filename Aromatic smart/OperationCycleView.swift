@@ -1,6 +1,12 @@
 import SwiftUI
 
 struct OperationCycleView: View {
+    @State private var selectedIntencity: Intencities = .LOW
+    
+    enum Intencities: String, CaseIterable, Identifiable {
+        case Jet , HIGH , MID , LOW
+        var id: Self { self }
+    }
     @State private var startTime = Date() // State to track the start time
     @State private var stopTime = Date() // State to track the stop time
     @State private var selectedDays: [String: Bool] = [
@@ -86,13 +92,59 @@ struct OperationCycleView: View {
                     }
                 }
                 .listStyle(PlainListStyle())
-                .frame(maxHeight: 350)
+                .frame(maxHeight: 420)
             }
             
             Spacer()
+            
+            VStack(alignment: .leading, spacing: 12) {
+                Text("Diffusing Intensity")
+                    .font(.title2.bold())
+                    .frame(maxWidth: .infinity, alignment: .leading).padding()
+                Text("Choose the Diffusing Intensity for your program")
+                    .foregroundColor(.gray)
+                    .frame(maxWidth: .infinity, alignment: .leading).padding()
+               
+                
+                HStack{
+                    Spacer()
+                    Button(action: {
+                        print("action")
+                    }) {
+                        Text("Auto")
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                        Image(systemName: "fan.badge.automatic.fill")
+                    }
+                    Spacer()
+                }
+                
+                
+                Picker("Intencity", selection: $selectedIntencity) {
+                    ForEach(Intencities.allCases) { Intencity in
+                        Text(Intencity.rawValue.capitalized)
+                        
+                    }
+                    
+                }.pickerStyle(.segmented).padding()
+                
+            Spacer()
+            }//v
+            
+            
         }
         .padding(.top, 20)
+        
+        
+        
     }
+    
+    
+    
+    
+    
 }
 
 struct OCView: View {

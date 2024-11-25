@@ -16,7 +16,7 @@ struct DiffuserCard: View {
     
     
     enum Programs: String, CaseIterable, Identifiable {
-        case A, B, C
+        case A, B, C, D
         var id: Self { self }
     }
     var body: some View {

@@ -37,6 +37,9 @@
         }
       }
     },
+    "Auto" : {
+
+    },
     "Choose the Diffusing Intensity for your program" : {
       "localizations" : {
         "ar" : {
@@ -172,6 +175,7 @@
       }
     },
     "Enter Pairing Password" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -336,6 +340,9 @@
         }
       }
     },
+    "Intencity" : {
+
+    },
     "Make sure your Bluetooth device is turned on and discoverable." : {
       "localizations" : {
         "ar" : {
@@ -436,6 +443,7 @@
       }
     },
     "Pair Device" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -444,6 +452,9 @@
           }
         }
       }
+    },
+    "Pairing in progress..." : {
+
     },
     "Pairing Result" : {
       "localizations" : {
