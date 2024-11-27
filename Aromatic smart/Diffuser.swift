@@ -19,6 +19,17 @@ class Diffuser: Identifiable {
     var serialNumber: String
     var timerSetting: Int
     
+    // New properties based on the response
+    var powerOn: String = ""
+    var powerOff: String = ""
+    var daysOfOperation: [String] = []
+    var gradeMode: String = ""
+    var grade: Int = 0
+    var customWorkTime: Int = 0
+    var customPauseTime: Int = 0
+    var mainSwitch: Bool = false
+    var fanStatus: Bool = false
+    var clockTime: Date? = nil
     
     init(name: String, isConnected: Bool, modelNumber: String, serialNumber: String, timerSetting: Int) {
         self.name = name
