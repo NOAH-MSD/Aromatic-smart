@@ -1,15 +1,31 @@
 import CoreBluetooth
-import SwiftUI
+import Combine
 
 class BluetoothManager: NSObject, ObservableObject {
     // Published properties for real-time updates
     @Published var discoveredDevices: [CBPeripheral] = [] // List of discovered devices
     @Published var isScanning: Bool = false               // Scanning state
-    @Published var state: CBManagerState = .unknown       // Bluetooth state
     @Published var showConnectionAlert: Bool = false      // Show connection alert
     @Published var connectionAlertMessage: String = ""    // Connection alert message
     @Published var pairingResultMessage: String? = nil
+    @Published var state: CBManagerState = .unknown
+    
+    // Combine publishers for parsed responses
+    var authenticationResponsePublisher = PassthroughSubject<AuthenticationResponse, Never>()
+    var equipmentVersionPublisher = PassthroughSubject<EquipmentVersionResponse, Never>()
+    var gradeLimitsPublisher = PassthroughSubject<GradeLimitsResponse, Never>()
+    var machineModelPublisher = PassthroughSubject<MachineModelResponse, Never>()
+    var fragranceTimingPublisher = PassthroughSubject<FragranceTimingResponse, Never>()
+    var gradeTimingPublisher = PassthroughSubject<GradeTimingResponse, Never>()
+    var fragranceNamesPublisher = PassthroughSubject<FragranceNamesResponse, Never>()
+    var essentialOilStatusPublisher = PassthroughSubject<EssentialOilStatusResponse, Never>()
+    var clockResponsePublisher = PassthroughSubject<ClockResponse, Never>()
+    var mainSwitchPublisher = PassthroughSubject<MainSwitchResponse, Never>()
+    var pcbAndEquipmentVersionPublisher = PassthroughSubject<PCBAndEquipmentVersionResponse, Never>()
+    var genericResponsePublisher = PassthroughSubject<Data, Never>()
 
+    
+    private var cancellables: Set<AnyCancellable> = []
     private var centralManager: CBCentralManager!
     private var connectedPeripheral: CBPeripheral?
     private var pairingCharacteristic: CBCharacteristic?
@@ -26,6 +42,22 @@ class BluetoothManager: NSObject, ObservableObject {
         centralManager = CBCentralManager(delegate: self, queue: nil)
         state = centralManager.state
         setupResponseHandlers()
+
+        // Add Combine subscription for authentication responses
+        authenticationResponsePublisher
+            .sink { response in
+                print("Received Authentication Response: \(response.version)")
+                if response.version.hasPrefix("CY_V3") {
+                    print("Authentication successful with version \(response.version)")
+                    // Trigger additional actions, e.g., request data from the device
+                    if let peripheral = self.connectedPeripheral {
+                        self.requestDataFromDevice(peripheral: peripheral)
+                    }
+                } else {
+                    print("Unexpected authentication version: \(response.version)")
+                }
+            }
+            .store(in: &cancellables)
     }
 
     private func setupResponseHandlers() {
@@ -178,24 +210,28 @@ class BluetoothManager: NSObject, ObservableObject {
 
     /// Handle incoming data packets
     func handleIncomingDataPackets(peripheral: CBPeripheral, characteristic: CBCharacteristic, packetCount: Int) {
-        var receivedPackets: [Data] = [] // Store received packets
+        var receivedPackets: [Data] = []
+        var timeoutTimer: Timer? // Declare a variable to hold the timer
 
-        // Handle incoming packets in `didUpdateValueFor`
+        timeoutTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { timer in
+            if receivedPackets.count < packetCount {
+                print("Timeout waiting for all packets. Received \(receivedPackets.count)/\(packetCount).")
+                // Handle incomplete data here
+            }
+        }
+
         func onPacketReceived(data: Data) {
             receivedPackets.append(data)
-            print("Received packet \(receivedPackets.count)/\(packetCount): \(data.map { String(format: "%02x", $0) }.joined())")
+            print("Received packet \(receivedPackets.count)/\(packetCount).")
 
-            // Parse the response for each packet
-            parseResponse(data)
-
-            // Check if all packets are received
             if receivedPackets.count == packetCount {
-                print("All packets received. Processing combined data...")
+                print("All packets received.")
+                timeoutTimer?.invalidate() // Invalidate the timer once all packets are received
                 processReceivedData(receivedPackets)
             }
         }
 
-        // Process the incoming data
+        // Process the first packet if available
         if let data = characteristic.value {
             onPacketReceived(data: data)
         }
@@ -221,8 +257,7 @@ class BluetoothManager: NSObject, ObservableObject {
         if let handler = responseHandlers[startByte] {
             handler(data)
         } else {
-            print("Unhandled Response Type (Start Byte: 0x\(String(format: "%02x", startByte))).")
-            parseGenericResponse(data)
+            print("Unhandled Response Type (Start Byte: 0x\(String(format: "%02x", startByte))): \(data.map { String(format: "0x%02x", $0) }.joined())")
         }
     }
 
@@ -286,7 +321,10 @@ struct AuthenticationResponse {
     let version: String
 
     init?(data: Data) {
-        guard let versionString = String(data: data[1...], encoding: .ascii) else { return nil }
+        guard data.count > 1, let versionString = String(data: data[1...], encoding: .ascii) else {
+            print("Invalid Authentication Data: \(data.map { String(format: "0x%02x", $0) }.joined())")
+            return nil
+        }
         self.version = versionString
     }
 }
@@ -510,9 +548,18 @@ struct PCBAndEquipmentVersionResponse {
 
 extension BluetoothManager {
     func parseAuthenticationResponse(_ data: Data) {
+        print("Parsing Authentication Response...")
         if let response = AuthenticationResponse(data: data) {
-            print("Authentication Response: \(response.version)")
-            self.pairingResultMessage = response.version
+            print("Parsed Authentication Response: \(response.version)")
+            authenticationResponsePublisher.send(response)
+
+            // Trigger logic based on the response
+            if response.version.hasPrefix("CY_V3") {
+                print("Authentication successful with version \(response.version)")
+                // Handle successful authentication logic here
+            } else {
+                print("Unexpected authentication response: \(response.version)")
+            }
         } else {
             print("Failed to parse authentication response.")
         }
@@ -522,9 +569,16 @@ extension BluetoothManager {
         if let response = DataPacketResponse(data: data) {
             print("Data Packet Response:")
             print("Packet Count: \(response.packetCount)")
-            if let additionalData = response.additionalData {
-                print("Additional Data: \(additionalData.map { String(format: "0x%02x", $0) }.joined(separator: " "))")
+
+            // Safely unwrap connectedPeripheral and pairingCharacteristic
+            guard let peripheral = connectedPeripheral,
+                  let characteristic = pairingCharacteristic else {
+                print("Error: connectedPeripheral or pairingCharacteristic is nil.")
+                return
             }
+
+            // Pass the unwrapped values to the method
+            handleIncomingDataPackets(peripheral: peripheral, characteristic: characteristic, packetCount: response.packetCount)
         } else {
             print("Failed to parse data packet response.")
         }
@@ -533,10 +587,12 @@ extension BluetoothManager {
     func parseEquipmentVersionResponse(_ data: Data) {
         if let response = EquipmentVersionResponse(data: data) {
             print("Equipment Version: \(response.version)")
+            equipmentVersionPublisher.send(response)
         } else {
             print("Failed to parse equipment version response.")
         }
     }
+
 
     func parseGradeLimitsResponse(_ data: Data) {
         if let response = GradeLimitsResponse(data: data) {
@@ -548,6 +604,7 @@ extension BluetoothManager {
             print("Max Custom Grade Pause: \(response.maxCustomGradePause)")
             print("Number of Fragrances: \(response.numberOfFragrances)")
             print("Number of Atmosphere Light Modes: \(response.numberOfLightModes)")
+            gradeLimitsPublisher.send(response)
         } else {
             print("Failed to parse grade limits response.")
         }
@@ -556,10 +613,12 @@ extension BluetoothManager {
     func parseMachineModelResponse(_ data: Data) {
         if let response = MachineModelResponse(data: data) {
             print("Machine Model: \(response.model)")
+            machineModelPublisher.send(response)
         } else {
             print("Failed to parse machine model response.")
         }
     }
+
 
     func parseFragranceTimingResponse(_ data: Data) {
         if let response = FragranceTimingResponse(data: data) {
@@ -576,6 +635,7 @@ extension BluetoothManager {
             print("Grade: \(response.grade)")
             print("Custom Work Time: \(response.customWorkTime) seconds")
             print("Custom Pause Time: \(response.customPauseTime) seconds")
+            fragranceTimingPublisher.send(response)
         } else {
             print("Failed to parse fragrance timing response.")
         }
@@ -587,6 +647,7 @@ extension BluetoothManager {
             for (index, timing) in response.gradeTimings.enumerated() {
                 print("Grade \(index + 1): Work Time = \(timing.workTime) seconds, Pause Time = \(timing.pauseTime) seconds")
             }
+            gradeTimingPublisher.send(response)
         } else {
             print("Failed to parse grade timing response.")
         }
@@ -598,6 +659,7 @@ extension BluetoothManager {
             for (index, name) in response.fragranceNames.enumerated() {
                 print("Fragrance \(index + 1): \(name)")
             }
+            fragranceNamesPublisher.send(response)
         } else {
             print("Failed to parse fragrance names response.")
         }
@@ -610,6 +672,7 @@ extension BluetoothManager {
             for (index, oil) in response.essentialOilData.enumerated() {
                 print("Scent \(index + 1): Total Amount = \(oil.total), Remaining Amount = \(oil.remaining)")
             }
+            essentialOilStatusPublisher.send(response)
         } else {
             print("Failed to parse essential oil status response.")
         }
@@ -620,6 +683,7 @@ extension BluetoothManager {
             print("Clock Response:")
             print("Current Time: \(response.currentTime)")
             print("Weekday: \(response.weekday)")
+            clockResponsePublisher.send(response)
         } else {
             print("Failed to parse clock response.")
         }
@@ -633,6 +697,7 @@ extension BluetoothManager {
             print("Demo Mode: \(response.demoMode ? "Enabled" : "Disabled")")
             print("Atmosphere Light Switch: \(response.atmosphereLightSwitch ? "On (Fixed)" : "Off")")
             print("Atmosphere Light Value: \(response.atmosphereLightValue)")
+            mainSwitchPublisher.send(response)
         } else {
             print("Failed to parse main switch response.")
         }
@@ -643,6 +708,7 @@ extension BluetoothManager {
             print("PCB and Equipment Version Response:")
             print("PCB Version: \(response.pcbVersion)")
             print("Equipment Version: \(response.equipmentVersion)")
+            pcbAndEquipmentVersionPublisher.send(response)
         } else {
             print("Failed to parse PCB and equipment version response.")
         }
@@ -655,6 +721,7 @@ extension BluetoothManager {
         } else {
             print("Raw Data: \(data.map { String(format: "0x%02x", $0) }.joined(separator: " "))")
         }
+        genericResponsePublisher.send(data)
     }
 }
 
@@ -786,15 +853,8 @@ extension BluetoothManager: CBPeripheralDelegate {
             return
         }
 
-        // Handle response to 0x40 command
-        if data.count >= 2, data[0] == 0x40 {
-            let packetCount = Int(data[1]) // Number of packets to expect
-            print("Device will send \(packetCount) data packets.")
-            handleIncomingDataPackets(peripheral: peripheral, characteristic: characteristic, packetCount: packetCount)
-        } else {
-            // For all other responses, use parseResponse directly
-            parseResponse(data)
-        }
+        print("Raw Data Received: \(data.map { String(format: "0x%02x", $0) }.joined())")
+        parseResponse(data) // Ensure this is called
     }
 
     // Handle write confirmations
@@ -806,3 +866,4 @@ extension BluetoothManager: CBPeripheralDelegate {
         }
     }
 }
+

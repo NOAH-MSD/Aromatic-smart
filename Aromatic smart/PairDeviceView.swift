@@ -3,6 +3,7 @@
 import SwiftUI
 import CoreBluetooth
 
+
 struct PairDeviceView: View {
     @EnvironmentObject var diffuserManager: DiffuserManager
     @StateObject private var bluetoothManager = BluetoothManager()
@@ -76,7 +77,11 @@ struct PairDeviceView: View {
                 }
                 .sheet(isPresented: $isDeviceDetailsPresented) {
                     if let device = selectedDevice {
-                        DeviceDetailsView(device: device, bluetoothManager: bluetoothManager)
+                        DeviceDetailsView(
+                            device: device,
+                            bluetoothManager: bluetoothManager,
+                            isPresented: $isDeviceDetailsPresented // Pass binding here
+                        )
                     }
                 }
             }
@@ -101,9 +106,6 @@ struct PairDeviceView: View {
                 bluetoothManager.stopScanning()
             }
         }
-        
-        
-        
         .onAppear {
             if bluetoothManager.state == .poweredOn {
                 bluetoothManager.startScanning()
@@ -161,10 +163,10 @@ struct PairDeviceView_Previews: PreviewProvider {
 }
 
 
-
 struct DeviceDetailsView: View {
     var device: CBPeripheral
     @ObservedObject var bluetoothManager: BluetoothManager
+    @Binding var isPresented: Bool
     @State private var showPairingResultAlert: Bool = false
 
     var body: some View {
@@ -187,7 +189,6 @@ struct DeviceDetailsView: View {
                 .padding()
 
             if !bluetoothManager.isConnected(to: device) {
-                // **Connect Button**
                 Button(action: {
                     bluetoothManager.connect(device)
                 }) {
@@ -200,13 +201,11 @@ struct DeviceDetailsView: View {
                 }
                 .padding()
             } else {
-                // Automatically send pairing password
                 Text("Pairing in progress...")
                     .font(.headline)
                     .foregroundColor(.blue)
                     .padding()
 
-                // Show a spinner or placeholder for pairing status
                 LoadingAnimationView()
                     .frame(width: 100, height: 100)
                     .padding()
@@ -218,15 +217,24 @@ struct DeviceDetailsView: View {
         }
         .padding()
         .onAppear {
-            // Automatically send the pairing password when the device is connected
             if bluetoothManager.isConnected(to: device) {
-                let defaultPassword = "8888"
                 bluetoothManager.sendPairingPassword(peripheral: device, customCode: "1234")
+            }
+        }
+        .onReceive(bluetoothManager.authenticationResponsePublisher) { response in
+            if response.version.hasPrefix("CY_V3"){ // Adjust this condition as per your authentication response
+                isPresented = false // Dismiss the sheet
             }
         }
         .onReceive(bluetoothManager.$pairingResultMessage) { message in
             if message != nil {
                 showPairingResultAlert = true
+
+                // Handle pairing failure
+                if message?.contains("successful") != true {
+                    // Keep the sheet open on failure
+                    print("Pairing failed: \(message ?? "Unknown error")")
+                }
             }
         }
         .alert(isPresented: $showPairingResultAlert) {

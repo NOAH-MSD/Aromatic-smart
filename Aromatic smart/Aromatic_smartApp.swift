@@ -1,10 +1,3 @@
-//
-//  Aromatic_smartApp.swift
-//  Aromatic smart
-//
-//  Created by عارف on 20/11/2024.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -23,11 +16,17 @@ struct Aromatic_smartApp: App {
         }
     }()
 
-    // Create the DiffuserManager and pass the ModelContainer
+    // Create the DiffuserManager and BluetoothManager
     @StateObject private var diffuserManager: DiffuserManager
+    @StateObject private var bluetoothManager: BluetoothManager
 
     init() {
-        let diffuserManager = DiffuserManager(context: sharedModelContainer.mainContext)
+        // Initialize the BluetoothManager
+        let bluetoothManager = BluetoothManager()
+        _bluetoothManager = StateObject(wrappedValue: bluetoothManager)
+
+        // Initialize the DiffuserManager with context and bluetoothManager
+        let diffuserManager = DiffuserManager(context: sharedModelContainer.mainContext, bluetoothManager: bluetoothManager)
         _diffuserManager = StateObject(wrappedValue: diffuserManager)
     }
 
@@ -35,6 +34,7 @@ struct Aromatic_smartApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(diffuserManager) // Inject DiffuserManager as an environment object
+                .environmentObject(bluetoothManager) // Inject BluetoothManager if needed
         }
         .modelContainer(sharedModelContainer)
     }

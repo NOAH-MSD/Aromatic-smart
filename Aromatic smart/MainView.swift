@@ -78,11 +78,15 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         // Create a shared model container for the preview
         let container = try! ModelContainer(for: Diffuser.self)
-        let manager = DiffuserManager(context: container.mainContext) // Pass required parameter
-
+        
+        // Create a mock BluetoothManager
+        let bluetoothManager = BluetoothManager() // Instantiate the BluetoothManager
+        
+        // Create the DiffuserManager with the BluetoothManager
+        let manager = DiffuserManager(context: container.mainContext, bluetoothManager: bluetoothManager)
+        
         return MainView()
             .modelContainer(container)  // Attach the model container
             .environmentObject(manager) // Provide the DiffuserManager as an environment object
     }
 }
-

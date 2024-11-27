@@ -16,7 +16,7 @@ struct DiffuserCard: View {
     
     
     enum Programs: String, CaseIterable, Identifiable {
-        case A, B, C, D
+        case A, B, C,D
         var id: Self { self }
     }
     var body: some View {
@@ -187,8 +187,11 @@ struct DiffuserCard_Previews: PreviewProvider {
             fatalError("Failed to create ModelContainer for preview: \(error)")
         }
 
-        // Create a DiffuserManager with the context from the container
-        let diffuserManager = DiffuserManager(context: container.mainContext)
+        // Create a mock BluetoothManager
+        let bluetoothManager = BluetoothManager()
+
+        // Create a DiffuserManager with the context from the container and the BluetoothManager
+        let diffuserManager = DiffuserManager(context: container.mainContext, bluetoothManager: bluetoothManager)
 
         // Provide the environment object and preview layout
         return DiffuserCard(
@@ -204,7 +207,6 @@ struct DiffuserCard_Previews: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 }
-
 
 
 
