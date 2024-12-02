@@ -1,6 +1,7 @@
 import CoreBluetooth
 import Combine
 
+//none msvu complint
 class BluetoothManager: NSObject, ObservableObject {
     // Published properties for real-time updates
     @Published var discoveredDevices: [CBPeripheral] = [] // List of discovered devices
