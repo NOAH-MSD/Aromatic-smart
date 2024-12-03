@@ -12,38 +12,31 @@ class Diffuser: Identifiable {
     var serialNumber: String
     var timerSetting: Int
 
-    // MARK: - Transformable Array Properties with Transformer
-    @Attribute(.transformable(by: "NSSecureUnarchiveFromData"))
-    private var daysOfOperationStorage: [String]?
-
-    @Attribute(.transformable(by: "NSSecureUnarchiveFromData"))
-    private var supportedFeaturesStorage: [String]?
-
-    @Attribute(.transformable(by: "NSSecureUnarchiveFromData"))
-    private var customCommandsStorage: [String]?
-
-    @Attribute(.transformable(by: "NSSecureUnarchiveFromData"))
-    private var fragranceNamesStorage: [String]?
+    // MARK: - Transformable Properties using Codable Types
+    var daysOfOperationWrapper: StringArrayWrapper?
+    var supportedFeaturesWrapper: StringArrayWrapper?
+    var customCommandsWrapper: StringArrayWrapper?
+    var fragranceNamesWrapper: StringArrayWrapper?
 
     // MARK: - Computed Properties for Array Access
     var daysOfOperation: [String] {
-        get { daysOfOperationStorage ?? [] }
-        set { daysOfOperationStorage = newValue }
+        get { daysOfOperationWrapper?.values ?? [] }
+        set { daysOfOperationWrapper = StringArrayWrapper(values: newValue) }
     }
 
     var supportedFeatures: [String] {
-        get { supportedFeaturesStorage ?? [] }
-        set { supportedFeaturesStorage = newValue }
+        get { supportedFeaturesWrapper?.values ?? [] }
+        set { supportedFeaturesWrapper = StringArrayWrapper(values: newValue) }
     }
 
     var customCommands: [String] {
-        get { customCommandsStorage ?? [] }
-        set { customCommandsStorage = newValue }
+        get { customCommandsWrapper?.values ?? [] }
+        set { customCommandsWrapper = StringArrayWrapper(values: newValue) }
     }
 
     var fragranceNames: [String] {
-        get { fragranceNamesStorage ?? [] }
-        set { fragranceNamesStorage = newValue }
+        get { fragranceNamesWrapper?.values ?? [] }
+        set { fragranceNamesWrapper = StringArrayWrapper(values: newValue) }
     }
 
     // MARK: - Bluetooth-Specific Properties
@@ -63,7 +56,7 @@ class Diffuser: Identifiable {
     var customPauseTime: Int = 0
     var mainSwitch: Bool = false
     var fanStatus: Bool = false
-    var clockTime: Date? = nil
+    var clockTime: Date?
 
     // Device status
     var status: String = "Idle"
@@ -73,18 +66,21 @@ class Diffuser: Identifiable {
     var firmwareVersion: String = ""
     var hardwareVersion: String = ""
 
-    // MARK: - User Preferences with Transformer
-    @Attribute(.transformable(by: "NSSecureUnarchiveFromData"))
-    private var userPreferencesStorage: [UserPreference]?
+    // MARK: - User Preferences
+    var userPreferencesWrapper: UserPreferencesWrapper?
 
     var userPreferences: [UserPreference] {
-        get { userPreferencesStorage ?? [] }
-        set { userPreferencesStorage = newValue }
+        get { userPreferencesWrapper?.preferences ?? [] }
+        set { userPreferencesWrapper = UserPreferencesWrapper(preferences: newValue) }
     }
 
     struct UserPreference: Codable {
         var preferenceKey: String
         var preferenceValue: String
+    }
+
+    struct UserPreferencesWrapper: Codable {
+        var preferences: [UserPreference]
     }
 
     // MARK: - Initializer
@@ -127,4 +123,8 @@ class Diffuser: Identifiable {
     func removeUserPreference(for key: String) {
         userPreferences.removeAll { $0.preferenceKey == key }
     }
+}
+
+struct StringArrayWrapper: Codable {
+    var values: [String]
 }
