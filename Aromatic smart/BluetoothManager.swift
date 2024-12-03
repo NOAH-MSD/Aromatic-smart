@@ -3,6 +3,7 @@ import Combine
 
 //none msvu complint
 class BluetoothManager: NSObject, ObservableObject {
+    static let shared = BluetoothManager()
     // Published properties for real-time updates
     @Published var discoveredDevices: [CBPeripheral] = [] // List of discovered devices
     @Published var isScanning: Bool = false               // Scanning state
@@ -49,6 +50,7 @@ class BluetoothManager: NSObject, ObservableObject {
         state = centralManager.state
         setupResponseHandlers()
         setupReadyToSubscribePublisher()
+        print("BluetoothManager initialized: \(Unmanaged.passUnretained(self).toOpaque())")
         
 
         // Add Combine subscription for authentication responses
@@ -302,11 +304,13 @@ class BluetoothManager: NSObject, ObservableObject {
             return
         }
 
-        //print("Received start byte: 0x\(String(format: "%02x", startByte))")
+        print("Received data: \(data.map { String(format: "%02x", $0) }.joined(separator: " "))")
+        print("Received start byte: 0x\(String(format: "%02x", startByte))")
+
         if let handler = responseHandlers[startByte] {
             handler(data)
         } else {
-            print("Unhandled Response Type (Start Byte: 0x\(String(format: "%02x", startByte))): \(data.map { String(format: "0x%02x", $0) }.joined())")
+            print("Unhandled Response Type (Start Byte: 0x\(String(format: "%02x", startByte)))")
         }
     }
 
@@ -622,7 +626,9 @@ extension BluetoothManager {
         //print("Parsing Authentication Response...")
         if let response = AuthenticationResponse(data: data) {
             print("Parsed Authentication Response: \(response.version)")
-            authenticationResponsePublisher.send(response)
+            DispatchQueue.main.async {
+                self.authenticationResponsePublisher.send(response)
+            }
 
             // Trigger logic based on the response
             if response.version.hasPrefix("CY_V3") {
@@ -905,7 +911,7 @@ extension BluetoothManager: CBPeripheralDelegate {
                 sendPairingPassword(peripheral: peripheral, customCode: customCode)
 
                 // Optionally subscribe to notifications
-                if characteristic.properties.contains(.notify) {
+                if characteristic.properties.contains(.notify) || characteristic.properties.contains(.indicate) {
                     peripheral.setNotifyValue(true, for: characteristic)
                 }
             }

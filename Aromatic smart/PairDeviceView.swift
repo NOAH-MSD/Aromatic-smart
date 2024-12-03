@@ -2,11 +2,12 @@
 
 import SwiftUI
 import CoreBluetooth
+import SwiftData
 
 
 struct PairDeviceView: View {
     @EnvironmentObject var diffuserManager: DiffuserManager
-    @StateObject private var bluetoothManager = BluetoothManager()
+    @EnvironmentObject var bluetoothManager: BluetoothManager
     @State private var showErrorAlert: Bool = false
     @State private var errorMessage: String = ""
     @State private var showConnectionAlert: Bool = false
@@ -79,8 +80,7 @@ struct PairDeviceView: View {
                     if let device = selectedDevice {
                         DeviceDetailsView(
                             device: device,
-                            bluetoothManager: bluetoothManager,
-                            isPresented: $isDeviceDetailsPresented // Pass binding here
+                            isPresented: $isDeviceDetailsPresented
                         )
                     }
                 }
@@ -158,14 +158,20 @@ struct LoadingAnimationView: View {
 // Preview
 struct PairDeviceView_Previews: PreviewProvider {
     static var previews: some View {
+        let container = try! ModelContainer(for: Diffuser.self)
+        let bluetoothManager = BluetoothManager.shared
+        let diffuserManager = DiffuserManager(context: container.mainContext , bluetoothManager: bluetoothManager)
+
         PairDeviceView()
+            .environmentObject(bluetoothManager)
+            .environmentObject(diffuserManager)
     }
 }
 
 
 struct DeviceDetailsView: View {
     var device: CBPeripheral
-    @ObservedObject var bluetoothManager: BluetoothManager
+    @EnvironmentObject var bluetoothManager: BluetoothManager
     @Binding var isPresented: Bool
     @State private var showPairingResultAlert: Bool = false
 

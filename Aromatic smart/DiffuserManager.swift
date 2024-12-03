@@ -16,7 +16,9 @@ class DiffuserManager: ObservableObject {
     init(context: ModelContext, bluetoothManager: BluetoothManager) {
         self.bluetoothManager = bluetoothManager
         self.modelContext = context
+        print("DiffuserManager initialized with BluetoothManager: \(Unmanaged.passUnretained(bluetoothManager).toOpaque())")
         loadDiffusers() // Load initial data from SwiftData
+        setupSubscriptions()
         
         self.bluetoothManager.$readyToSubscribe
             .removeDuplicates() // Prevent duplicate updates
@@ -32,36 +34,29 @@ class DiffuserManager: ObservableObject {
             }
             .store(in: &cancellables)
         
-        
         // Manually trigger setupSubscriptions if readyToSubscribe is already true
         if bluetoothManager.readyToSubscribe {
             print("readyToSubscribe was already true. Setting up subscriptions.")
             setupSubscriptions()
         }
-        
     }
 
     func setupSubscriptions() {
         // Ensure subscriptions are only set up once
-        guard bluetoothManager.readyToSubscribe else {
-            print("setupSubscriptions called prematurely. readyToSubscribe: \(bluetoothManager.readyToSubscribe)")
-            return
-        }
         guard !subscriptionsSetUp else {
             print("Subscriptions already set up.")
             return
         }
+        subscriptionsSetUp = true
 
         print("Setting up subscriptions. State: \(bluetoothManager.state), Peripheral: \(bluetoothManager.connectedPeripheral?.name ?? "None")")
-
-        subscriptionsSetUp = true // Prevent multiple setups
 
         // Authentication response subscription
         bluetoothManager.authenticationResponsePublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] response in
                 guard let self = self else { return }
-                print("Authentication response received. Version: \(response.version), Code: \(String(describing: response.code))")
+                print("DiffuserManager received authentication response. Version: \(response.version), Code: \(String(describing: response.code))")
                 self.handleAuthenticationResponse(response)
             }
             .store(in: &cancellables)

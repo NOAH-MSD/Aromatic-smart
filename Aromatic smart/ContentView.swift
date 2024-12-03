@@ -1,8 +1,10 @@
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     @State private var selectedTab = 1 // Track the selected tab (1 for MainView)
-
+    @EnvironmentObject var diffuserManager: DiffuserManager
+    @EnvironmentObject var bluetoothManager: BluetoothManager
     var body: some View {
         NavigationView { // Wrap the entire content in NavigationView
             ZStack {
@@ -57,13 +59,29 @@ struct ContentView: View {
             }
             .navigationTitle("Aromatic App") // Add a navigation title
             .navigationBarHidden(true) // Hide the navigation bar if necessary
+        }.onAppear {
+            print("ContentView using DiffuserManager: \(Unmanaged.passUnretained(diffuserManager).toOpaque()) and BluetoothManager: \(Unmanaged.passUnretained(bluetoothManager).toOpaque())")
         }
+        
+        
+        
     }
+    
+    
+    
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let container = try! ModelContainer(for: Diffuser.self)
+        
+        let bluetoothManager = BluetoothManager.shared
+        let diffuserManager = DiffuserManager(context: container.mainContext, bluetoothManager: bluetoothManager)
+        
+        return ContentView()
+            .environmentObject(diffuserManager)
+            .environmentObject(bluetoothManager)
     }
 }
 
