@@ -10,6 +10,12 @@ class BluetoothManager: NSObject, ObservableObject {
     @Published var connectionAlertMessage: String = ""    // Connection alert message
     @Published var pairingResultMessage: String? = nil
     @Published var state: CBManagerState = .unknown
+    @Published var readyToSubscribe: Bool = false {
+        didSet {
+            print("readyToSubscribe updated: \(readyToSubscribe)")
+        }
+    }
+    @Published var connectedPeripheral: CBPeripheral?
     
     // Combine publishers for parsed responses
     var authenticationResponsePublisher = PassthroughSubject<AuthenticationResponse, Never>()
@@ -24,11 +30,10 @@ class BluetoothManager: NSObject, ObservableObject {
     var mainSwitchPublisher = PassthroughSubject<MainSwitchResponse, Never>()
     var pcbAndEquipmentVersionPublisher = PassthroughSubject<PCBAndEquipmentVersionResponse, Never>()
     var genericResponsePublisher = PassthroughSubject<Data, Never>()
-
     
     private var cancellables: Set<AnyCancellable> = []
     private var centralManager: CBCentralManager!
-    private var connectedPeripheral: CBPeripheral?
+
     private var pairingCharacteristic: CBCharacteristic?
     private var responseHandlers: [UInt8: (Data) -> Void] = [:]
     private var validStartBytes: Set<UInt8> = [
@@ -43,16 +48,20 @@ class BluetoothManager: NSObject, ObservableObject {
         centralManager = CBCentralManager(delegate: self, queue: nil)
         state = centralManager.state
         setupResponseHandlers()
+        setupReadyToSubscribePublisher()
+        
 
         // Add Combine subscription for authentication responses
         authenticationResponsePublisher
             .sink { response in
-                print("Received Authentication Response: \(response.version)")
+                print("Published authentication response: \(response.version)")
                 if response.version.hasPrefix("CY_V3") {
                     print("Authentication successful with version \(response.version)")
                     // Trigger additional actions, e.g., request data from the device
                     if let peripheral = self.connectedPeripheral {
                         self.requestDataFromDevice(peripheral: peripheral)
+                        
+                       
                     }
                 } else {
                     print("Unexpected authentication version: \(response.version)")
@@ -60,7 +69,21 @@ class BluetoothManager: NSObject, ObservableObject {
             }
             .store(in: &cancellables)
     }
-
+    
+    
+    private func setupReadyToSubscribePublisher() {
+        Publishers.CombineLatest($state, $connectedPeripheral)
+            .map { state, connectedPeripheral in
+                return state == .poweredOn && connectedPeripheral != nil
+            }
+            .sink { [weak self] isReady in
+                self?.readyToSubscribe = isReady
+                print("readyToSubscribe updated via Combine: \(isReady)")
+            }
+            .store(in: &cancellables)
+        print("setup Ready To Subscribe Publisher executed")
+    }
+    
     private func setupResponseHandlers() {
         responseHandlers = [
             0x8f: parseAuthenticationResponse,
@@ -124,7 +147,31 @@ class BluetoothManager: NSObject, ObservableObject {
     func deviceStatus(for device: CBPeripheral) -> String {
         return isConnected(to: device) ? "Connected" : "Not Connected"
     }
+    
+    func simulateAuthenticationResponse() {
+        // Create mock data that represents the expected input format
 
+        
+        let realData = Data([0x8f, 0x43, 0x59, 0x5f, 0x56, 0x33, 0x2e, 0x30, 0x41, 0x41, 0x30, 0x31, 0x54])
+        
+        let mockVersionString = "CY_V3.0AA01T@"
+        guard let mockData = mockVersionString.data(using: .ascii) else {
+            print("Failed to create mock Data for AuthenticationResponse")
+            return
+        }
+        
+        // Prepend the required byte if needed (depends on your AuthenticationResponse logic)
+        let mockResponseData = Data([0x8F]) + realData
+
+        // Initialize AuthenticationResponse with the mock data
+        if let mockResponse = AuthenticationResponse(data: mockResponseData) {
+            print("Publishing mock authentication response: \(mockResponse.version)")
+            authenticationResponsePublisher.send(mockResponse)
+        } else {
+            print("Failed to create mock AuthenticationResponse")
+        }
+    }
+    
     /// Send pairing password to the device
     func sendPairingPassword(peripheral: CBPeripheral, customCode: String) {
         let defaultPassword = "8888" // Hardcoded password
@@ -255,6 +302,7 @@ class BluetoothManager: NSObject, ObservableObject {
             return
         }
 
+        //print("Received start byte: 0x\(String(format: "%02x", startByte))")
         if let handler = responseHandlers[startByte] {
             handler(data)
         } else {
@@ -320,13 +368,35 @@ extension BluetoothManager {
 
 struct AuthenticationResponse {
     let version: String
+    let code: String?
 
     init?(data: Data) {
-        guard data.count > 1, let versionString = String(data: data[1...], encoding: .ascii) else {
+        // Ensure the data is valid and long enough
+        guard data.count > 1, let rawVersionString = String(data: data[1...], encoding: .ascii) else {
             print("Invalid Authentication Data: \(data.map { String(format: "0x%02x", $0) }.joined())")
             return nil
         }
-        self.version = versionString
+
+        print("Raw Version String: \(rawVersionString)")
+
+        // Sanitize by removing control characters and trimming whitespace
+        let sanitizedVersion = rawVersionString
+            .components(separatedBy: .controlCharacters)
+            .joined()
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // Validate that the sanitized string is ASCII-encodable
+        guard sanitizedVersion.data(using: .ascii) != nil else {
+            print("Sanitized version string is not ASCII encodable: \(sanitizedVersion)")
+            return nil
+        }
+
+        // Split into version and optional code
+        let components = sanitizedVersion.split(separator: "T", maxSplits: 1, omittingEmptySubsequences: true)
+        self.version = String(components.first ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        self.code = components.count > 1 ? String(components.last!).trimmingCharacters(in: .whitespacesAndNewlines) : nil
+
+        print("Parsed Version: \(self.version), Code: \(self.code ?? "None")")
     }
 }
 
@@ -549,7 +619,7 @@ struct PCBAndEquipmentVersionResponse {
 
 extension BluetoothManager {
     func parseAuthenticationResponse(_ data: Data) {
-        print("Parsing Authentication Response...")
+        //print("Parsing Authentication Response...")
         if let response = AuthenticationResponse(data: data) {
             print("Parsed Authentication Response: \(response.version)")
             authenticationResponsePublisher.send(response)
@@ -731,7 +801,7 @@ extension BluetoothManager {
 extension BluetoothManager: CBCentralManagerDelegate {
     // Update Bluetooth state
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        self.state = central.state // Update the published state property
+        state = central.state
         switch central.state {
         case .poweredOn:
             print("Bluetooth is powered on.")
@@ -767,7 +837,7 @@ extension BluetoothManager: CBCentralManagerDelegate {
         connectedPeripheral = peripheral
         peripheral.delegate = self
         peripheral.discoverServices(nil) // Start discovering services
-
+        setupReadyToSubscribePublisher()
         DispatchQueue.main.async {
             self.connectionAlertMessage = "Connected to \(self.formatPeripheralName(peripheral.name))"
             self.showConnectionAlert = true
@@ -854,8 +924,10 @@ extension BluetoothManager: CBPeripheralDelegate {
             return
         }
 
-        print("Raw Data Received: \(data.map { String(format: "0x%02x", $0) }.joined())")
-        parseResponse(data) // Ensure this is called
+        //print("Raw Data Received: \(data.map { String(format: "0x%02x", $0) }.joined())")
+        //print("ASCII Representation: \(String(data: data, encoding: .ascii) ?? "Invalid ASCII Data")")
+
+        parseResponse(data)
     }
 
     // Handle write confirmations
