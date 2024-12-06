@@ -2,7 +2,7 @@
 //  BluetoothUtils.swift
 //  aromatic-app
 //
-//  Created by عارف on 17/11/2024.
+
 //
 
 // Utilities/BluetoothUtils.swift

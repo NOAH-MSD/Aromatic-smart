@@ -4,7 +4,7 @@ import CoreBluetooth
 
 @Model
 class Diffuser: Identifiable {
-    // MARK: - Core Properties
+    // MARK: Core Properties
     var id = UUID()
     var name: String
     var isConnected: Bool
@@ -12,7 +12,7 @@ class Diffuser: Identifiable {
     var serialNumber: String
     var timerSetting: Int
 
-    // MARK: - Transformable Properties using Codable Types
+    // MARK: - transformable Properties using Codable Types
     var daysOfOperationWrapper: StringArrayWrapper?
     var supportedFeaturesWrapper: StringArrayWrapper?
     var customCommandsWrapper: StringArrayWrapper?

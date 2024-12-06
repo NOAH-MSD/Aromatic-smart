@@ -1,7 +1,7 @@
 import CoreBluetooth
 import Combine
 
-//none msvu complint
+//needs msvu complint
 class BluetoothManager: NSObject, ObservableObject {
     static let shared = BluetoothManager()
     // Published properties for real-time updates
@@ -623,7 +623,7 @@ struct PCBAndEquipmentVersionResponse {
 
 extension BluetoothManager {
     func parseAuthenticationResponse(_ data: Data) {
-        //print("Parsing Authentication Response...")
+        print("Parsing Authentication Response...")
         if let response = AuthenticationResponse(data: data) {
             print("Parsed Authentication Response: \(response.version)")
             DispatchQueue.main.async {
@@ -930,8 +930,8 @@ extension BluetoothManager: CBPeripheralDelegate {
             return
         }
 
-        //print("Raw Data Received: \(data.map { String(format: "0x%02x", $0) }.joined())")
-        //print("ASCII Representation: \(String(data: data, encoding: .ascii) ?? "Invalid ASCII Data")")
+        print("Raw Data Received: \(data.map { String(format: "0x%02x", $0) }.joined())")
+        print("ASCII Representation: \(String(data: data, encoding: .ascii) ?? "Invalid ASCII Data")")
 
         parseResponse(data)
     }
