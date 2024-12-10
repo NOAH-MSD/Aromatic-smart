@@ -1,40 +1,28 @@
 import SwiftUI
 
 struct OperationCycleView: View {
-    @State private var selectedIntencity: Intencities = .LOW
-    
-    enum Intencities: String, CaseIterable, Identifiable {
-        case Jet , HIGH , MID , LOW
-        var id: Self { self }
+    @ObservedObject var diffuser: Diffuser
+    @State private var powerOnDate: Date
+    @State private var powerOffDate: Date
+    @State private var selectedIntensity: Intencities = .LOW
+
+    init(diffuser: Diffuser) {
+        self.diffuser = diffuser
+        _powerOnDate = State(initialValue: DateFormatter.timeFormatter.date(from: diffuser.powerOn) ?? Date())
+        _powerOffDate = State(initialValue: DateFormatter.timeFormatter.date(from: diffuser.powerOff) ?? Date())
     }
-    @State private var startTime = Date() // State to track the start time
-    @State private var stopTime = Date() // State to track the stop time
-    @State private var selectedDays: [String: Bool] = [
-        NSLocalizedString("every sunday", comment: "كل أحد"): false,
-        NSLocalizedString("every monday", comment: "كل إثنين"): false,
-        NSLocalizedString("every tuesday", comment: "كل ثلاثاء"): false,
-        NSLocalizedString("every wednesday", comment: "كل أربعاء"): false,
-        NSLocalizedString("every thursday", comment: "كل خميس"): false,
-        NSLocalizedString("every friday", comment: "كل جمعة"): false,
-        NSLocalizedString("every saturday", comment: "كل سبت"): false
-    ]
-    
-    // Define the order of the days explicitly
-    let dayOrder = [
-        NSLocalizedString("every sunday", comment: "كل أحد"),
-        NSLocalizedString("every monday", comment: "كل إثنين"),
-        NSLocalizedString("every tuesday", comment: "كل ثلاثاء"),
-        NSLocalizedString("every wednesday", comment: "كل أربعاء"),
-        NSLocalizedString("every thursday", comment: "كل خميس"),
-        NSLocalizedString("every friday", comment: "كل جمعة"),
-        NSLocalizedString("every saturday", comment: "كل سبت")
-    ]
-    
+
+    enum Intencities: String, CaseIterable, Identifiable {
+        case Jet, HIGH, MID, LOW
+        var id: Self { self }
+        var displayName: String { rawValue.capitalized }
+    }
+
     var body: some View {
         VStack(spacing: 20) {
-            // MARK: Title and Subtitle
+            // Header
             VStack(alignment: .leading, spacing: 8) {
-                Text("Operation cycle")
+                Text("Operation Cycle")
                     .font(.title.bold())
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text("Choose the time of activity for your device")
@@ -42,119 +30,108 @@ struct OperationCycleView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(.horizontal, 16)
-            
-            // MARK: Time Pickers Section
+
+            // Time Pickers
             HStack(spacing: 20) {
-                VStack(spacing: 5) {
-                    Text("Starting Time")
-                        .font(.headline)
-                    DatePicker("", selection: $startTime, displayedComponents: .hourAndMinute)
-                        .labelsHidden()
-                        .scaleEffect(1.2)
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
-                
-                Divider()
-                    .frame(height: 100)
-                
-                VStack(spacing: 5) {
-                    Text("Ending Time")
-                        .font(.headline)
-                    DatePicker("", selection: $stopTime, displayedComponents: .hourAndMinute)
-                        .labelsHidden()
-                        .scaleEffect(1.2)
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
+                TimePicker(title: "Starting Time", date: $powerOnDate)
+                    .onChange(of: powerOnDate) { newValue in
+                        diffuser.powerOn = DateFormatter.timeFormatter.string(from: newValue)
+                    }
+
+                Divider().frame(height: 100)
+
+                TimePicker(title: "Ending Time", date: $powerOffDate)
+                    .onChange(of: powerOffDate) { newValue in
+                        diffuser.powerOff = DateFormatter.timeFormatter.string(from: newValue)
+                    }
             }
             .padding(.horizontal, 16)
-            
-            // MARK: Repeat Section
+
+            // Intensity Picker
+            VStack {
+                Text("Intensity Level").font(.headline)
+                Picker("Intensity", selection: $selectedIntensity) {
+                    ForEach(Intencities.allCases) { intensity in
+                        Text(intensity.displayName).tag(intensity)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+            }
+            .padding(.horizontal, 16)
+
+            // Days of Operation
             VStack(alignment: .leading, spacing: 8) {
-                Text("التكرار")
-                    .font(.headline)
-                    .padding(.leading, 16)
-                
+                Text("Repeat").font(.headline).padding(.leading, 16)
                 List {
-                    ForEach(dayOrder, id: \.self) { day in
-                        HStack {
-                            Text(day)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Spacer()
-                            if selectedDays[day] ?? false {
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.orange)
+                    ForEach(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], id: \.self) { day in
+                        Toggle(day, isOn: Binding(
+                            get: { diffuser.daysOfOperation.contains(day) },
+                            set: { isSelected in
+                                if isSelected {
+                                    diffuser.daysOfOperation.append(day)
+                                } else {
+                                    diffuser.daysOfOperation.removeAll { $0 == day }
+                                }
                             }
-                        }
-                        .contentShape(Rectangle()) // Make the entire row tappable
-                        .onTapGesture {
-                            selectedDays[day]?.toggle()
-                        }
+                        ))
                     }
                 }
                 .listStyle(PlainListStyle())
                 .frame(maxHeight: 420)
             }
-            
+
+            // Key-Value Rows
+            VStack(spacing: 20) {
+                KeyValueRow(key: "Atomization", value: diffuser.atomizationSwitch ? "On" : "Off")
+                KeyValueRow(key: "Fan", value: diffuser.fanSwitch ? "On" : "Off")
+                KeyValueRow(key: "Power On", value: diffuser.powerOn)
+                KeyValueRow(key: "Power Off", value: diffuser.powerOff)
+                KeyValueRow(key: "Days of Operation", value: diffuser.daysOfOperation.isEmpty ? "None" : diffuser.daysOfOperation.joined(separator: ", "))
+                KeyValueRow(key: "Grade Mode", value: diffuser.gradeMode)
+                KeyValueRow(key: "Grade", value: "\(diffuser.grade)")
+                KeyValueRow(key: "Custom Work Time", value: "\(diffuser.customWorkTime) seconds")
+                KeyValueRow(key: "Custom Pause Time", value: "\(diffuser.customPauseTime) seconds")
+            }
+            .padding(.horizontal, 16)
+
             Spacer()
-            
-            VStack(alignment: .leading, spacing: 12) {
-                Text("Diffusing Intensity")
-                    .font(.title2.bold())
-                    .frame(maxWidth: .infinity, alignment: .leading).padding()
-                Text("Choose the Diffusing Intensity for your program")
-                    .foregroundColor(.gray)
-                    .frame(maxWidth: .infinity, alignment: .leading).padding()
-               
-                
-                HStack{
-                    Spacer()
-                    Button(action: {
-                        print("action")
-                    }) {
-                        Text("Auto")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                        Image(systemName: "fan.badge.automatic.fill")
-                    }
-                    Spacer()
-                }
-                
-                
-                Picker("Intencity", selection: $selectedIntencity) {
-                    ForEach(Intencities.allCases) { Intencity in
-                        Text(Intencity.rawValue.capitalized)
-                        
-                    }
-                    
-                }.pickerStyle(.segmented).padding()
-                
-            Spacer()
-            }//v
-            
-            
         }
         .padding(.top, 20)
-        
-        
-        
     }
-    
-    
-    
-    
-    
+}
+// Helper for TimeFormatter
+extension DateFormatter {
+    static var timeFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }
 }
 
-struct OCView: View {
+struct TimePicker: View {
+    let title: String
+    @Binding var date: Date
+
     var body: some View {
-        OperationCycleView()
+        VStack(spacing: 5) {
+            Text(title).font(.headline)
+            DatePicker("", selection: $date, displayedComponents: .hourAndMinute)
+                .labelsHidden()
+                .scaleEffect(1.2)
+        }
     }
 }
 
-struct OCView_Previews: PreviewProvider {
-    static var previews: some View {
-        OCView()
+struct KeyValueRow: View {
+    let key: String
+    let value: String
+    
+    var body: some View {
+        HStack {
+            Text("\(key):").bold().frame(maxWidth: 150, alignment: .leading)
+            Spacer()
+            Text(value).frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(.vertical, 4)
     }
 }

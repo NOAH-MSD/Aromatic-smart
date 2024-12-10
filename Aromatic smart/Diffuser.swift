@@ -3,7 +3,7 @@ import SwiftData
 import CoreBluetooth
 
 @Model
-class Diffuser: Identifiable {
+class Diffuser: ObservableObject, Identifiable {
     // MARK: Core Properties
     var id = UUID()
     var name: String
@@ -12,7 +12,19 @@ class Diffuser: Identifiable {
     var serialNumber: String
     var timerSetting: Int
 
-    // MARK: - transformable Properties using Codable Types
+    // Properties for fragrance timing
+    var atomizationSwitch: Bool = false
+    var fanSwitch: Bool = false
+    var currentTiming: Int = 0
+    var timingNumber: Int = 0
+    var powerOn: String = "00:00"
+    var powerOff: String = "00:00"
+    var gradeMode: String = "Default"
+    var grade: Int = 0
+    var customWorkTime: Int = 0
+    var customPauseTime: Int = 0
+
+    // MARK: - Transformable Properties using Codable Types
     var daysOfOperationWrapper: StringArrayWrapper?
     var supportedFeaturesWrapper: StringArrayWrapper?
     var customCommandsWrapper: StringArrayWrapper?
@@ -48,12 +60,6 @@ class Diffuser: Identifiable {
     var lastSeen: Date?
 
     // MARK: - Diffuser State
-    var powerOn: String = ""
-    var powerOff: String = ""
-    var gradeMode: String = ""
-    var grade: Int = 0
-    var customWorkTime: Int = 0
-    var customPauseTime: Int = 0
     var mainSwitch: Bool = false
     var fanStatus: Bool = false
     var clockTime: Date?

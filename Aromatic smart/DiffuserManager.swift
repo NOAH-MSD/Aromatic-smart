@@ -11,7 +11,7 @@ class DiffuserManager: ObservableObject {
     private var subscriptionsSetUp = false
 
     private var cancellables = Set<AnyCancellable>()
-    @Published private var currentDiffuser: Diffuser?
+    @Published  var currentDiffuser: Diffuser?
 
     init(context: ModelContext, bluetoothManager: BluetoothManager) {
         self.bluetoothManager = bluetoothManager
@@ -55,9 +55,9 @@ class DiffuserManager: ObservableObject {
         bluetoothManager.authenticationResponsePublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] response in
-                guard let self = self else { return }
-                print("DiffuserManager received authentication response. Version: \(response.version), Code: \(String(describing: response.code))")
-                self.handleAuthenticationResponse(response)
+                guard let self = self, let connectedPeripheral = self.bluetoothManager.connectedPeripheral else { return }
+                print("setupSubscriptions DiffuserManager received authentication response. Version: \(response.version), Code: \(String(describing: response.code))")
+                self.handleAuthenticationResponse(response, peripheral: connectedPeripheral)
             }
             .store(in: &cancellables)
 
@@ -66,7 +66,7 @@ class DiffuserManager: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] response in
                 guard let self = self else { return }
-                print("Equipment version response received: \(response.version)")
+                print("setupSubscriptions Equipment version response received: \(response.version)")
                 self.handleEquipmentVersionResponse(response)
             }
             .store(in: &cancellables)
@@ -76,7 +76,7 @@ class DiffuserManager: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] response in
                 guard let self = self else { return }
-                print("Machine model response received: \(response.model)")
+                print("setupSubscriptions Machine model response received: \(response.model)")
                 self.handleMachineModelResponse(response)
             }
             .store(in: &cancellables)
@@ -86,8 +86,8 @@ class DiffuserManager: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] response in
                 guard let self = self else { return }
-                print("Fragrance timing response received: \(response)")
-                self.handleFragranceTimingResponse(response)
+                print("setupSubscriptions Fragrance timing response received: \(response)")
+                self.updateDiffuserWithFragranceTiming(response)
             }
             .store(in: &cancellables)
 
@@ -96,8 +96,8 @@ class DiffuserManager: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] response in
                 guard let self = self else { return }
-                print("Main switch response received: \(response)")
-                self.handleMainSwitchResponse(response)
+                print("setupSubscriptions Main switch response received: \(response)")
+                self.updateDiffuserWithMainSwitch(response)
             }
             .store(in: &cancellables)
 
@@ -106,13 +106,13 @@ class DiffuserManager: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] response in
                 guard let self = self else { return }
-                print("Clock response received: \(response)")
-                self.handleClockResponse(response)
+                print("setupSubscriptions Clock response received: \(response)")
+                self.updateDiffuserWithClock(response)
             }
             .store(in: &cancellables)
 
-        print("Subscriptions successfully set up.")
-    }
+        print("setupSubscriptions Subscriptions successfully set up.")
+    } // end of ss
 
     // Add a diffuser to the list and persist it
     func addDiffuser(name: String, isConnected: Bool, modelNumber: String, serialNumber: String, timerSetting: Int) {
@@ -139,17 +139,18 @@ class DiffuserManager: ObservableObject {
     }
     
     
-    private func handleAuthenticationResponse(_ response: AuthenticationResponse) {
-        let name = "Diffuser \(UUID().uuidString.prefix(5))"
+    private func handleAuthenticationResponse(_ response: AuthenticationResponse, peripheral: CBPeripheral) {
+        let name = "Diffuser \(peripheral.identifier.uuidString.suffix(5))"
         addDiffuser(
             name: name,
             isConnected: true,
             modelNumber: response.version,
-            serialNumber: UUID().uuidString,
+            serialNumber: peripheral.identifier.uuidString,
             timerSetting: 30
         )
         print("Added diffuser with authentication response.")
     }
+    
     
     private func handleEquipmentVersionResponse(_ response: EquipmentVersionResponse) {
         guard let current = currentDiffuser else {
@@ -176,6 +177,10 @@ class DiffuserManager: ObservableObject {
             print("No current diffuser to update fragrance timing.")
             return
         }
+        current.atomizationSwitch = response.atomizationSwitch
+        current.fanSwitch = response.fanSwitch
+        current.currentTiming = Int(response.currentTiming)
+        current.timingNumber = Int(response.timingNumber)
         current.powerOn = response.powerOnTime
         current.powerOff = response.powerOffTime
         current.daysOfOperation = response.daysOfOperation
@@ -226,6 +231,61 @@ class DiffuserManager: ObservableObject {
         }
     }
 
+    
+    private func updateDiffuserWithFragranceTiming(_ response: FragranceTimingResponse) {
+        guard let current = currentDiffuser else {
+            print("No current diffuser to update fragrance timing.")
+            return
+        }
+        current.atomizationSwitch = response.atomizationSwitch
+        current.fanSwitch = response.fanSwitch
+        current.currentTiming = Int(response.currentTiming)
+        current.timingNumber = Int(response.timingNumber)
+        current.powerOn = response.powerOnTime
+        current.powerOff = response.powerOffTime
+        current.daysOfOperation = response.daysOfOperation
+        current.gradeMode = response.gradeMode
+        current.grade = Int(response.grade)
+        current.customWorkTime = Int(response.customWorkTime)
+        current.customPauseTime = Int(response.customPauseTime)
+        saveContext()
+        print("Updated fragrance timing in current diffuser.")
+    }
+    
+    private func updateDiffuserWithMainSwitch(_ response: MainSwitchResponse) {
+        guard let current = currentDiffuser else {
+            print("No current diffuser to update main switch.")
+            return
+        }
+        current.mainSwitch = response.mainSwitch
+        current.fanStatus = response.fanStatus
+        saveContext()
+        print("Updated main switch status in current diffuser.")
+    }
+    
+    private func updateDiffuserWithClock(_ response: ClockResponse) {
+        guard let current = currentDiffuser else {
+            print("No current diffuser to update clock.")
+            return
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        if let date = formatter.date(from: response.currentTime) {
+            current.clockTime = date
+            saveContext()
+            print("Updated clock time in current diffuser.")
+        } else {
+            print("Failed to parse clock time from response.")
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     private func saveContext() {
         do {
             try modelContext.save()
