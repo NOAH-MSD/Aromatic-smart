@@ -12,7 +12,25 @@
       }
     },
     "%@:" : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
+    },
+    "%lld s" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ث %lld"
+          }
+        }
+      }
     },
     "100%" : {
       "extractionState" : "stale",
@@ -42,9 +60,18 @@
       }
     },
     "Auto" : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تلقائي"
+          }
+        }
+      }
     },
     "Choose the Diffusing Intensity for your program" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -55,6 +82,7 @@
       }
     },
     "Choose the time of activity for your device" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -66,6 +94,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Choose the time of activity for your device"
+          }
+        }
+      }
+    },
+    "Configuration" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الإعدادات"
+          }
+        }
+      }
+    },
+    "Configure the device’s operation times, intensity, and other settings." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اضبط إعدادات توقيت العمل، شدة التعطير، وغيرها"
           }
         }
       }
@@ -98,7 +146,14 @@
       }
     },
     "Connected" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "متصل"
+          }
+        }
+      }
     },
     "Connection Status" : {
       "localizations" : {
@@ -106,6 +161,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "حالة الاتصال "
+          }
+        }
+      }
+    },
+    "Custom Durations" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مدة مخصصة"
           }
         }
       }
@@ -165,6 +230,7 @@
       }
     },
     "Diffusing Intensity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -175,7 +241,14 @@
       }
     },
     "Disconnected" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "غير متصل"
+          }
+        }
+      }
     },
     "Ending Time" : {
       "extractionState" : "stale",
@@ -184,6 +257,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "وقت التوقف"
+          }
+        }
+      }
+    },
+    "Enter Diffuser Name" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أدخل اسم الجهاز"
           }
         }
       }
@@ -205,6 +288,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "خطأ"
+          }
+        }
+      }
+    },
+    "Every %@" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "كل %@"
           }
         }
       }
@@ -335,6 +428,26 @@
         }
       }
     },
+    "Fan" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المروحة"
+          }
+        }
+      }
+    },
+    "Fan Status" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حالة المروحة"
+          }
+        }
+      }
+    },
     "from 1pm to 10pm in selected days" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -363,14 +476,25 @@
         }
       }
     },
-    "Intencity" : {
-
-    },
     "Intensity" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الشدة"
+          }
+        }
+      }
     },
     "Intensity Level" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شدة التعطير"
+          }
+        }
+      }
     },
     "Make sure your Bluetooth device is turned on and discoverable." : {
       "localizations" : {
@@ -400,7 +524,14 @@
       }
     },
     "Model: %@" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الطراز : %@"
+          }
+        }
+      }
     },
     "Name: %@" : {
       "localizations" : {
@@ -433,6 +564,12 @@
         }
       }
     },
+    "No timings found for this diffuser." : {
+
+    },
+    "Off: %@" : {
+
+    },
     "OK" : {
       "localizations" : {
         "ar" : {
@@ -442,6 +579,9 @@
           }
         }
       }
+    },
+    "On: %@" : {
+
     },
     "Operation cycle" : {
       "extractionState" : "stale",
@@ -461,7 +601,14 @@
       }
     },
     "Operation Cycle" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دورة التشغيل"
+          }
+        }
+      }
     },
     "Operation cycles" : {
       "extractionState" : "stale",
@@ -492,7 +639,14 @@
       }
     },
     "Pairing in progress..." : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جاري الاقتران .. "
+          }
+        }
+      }
     },
     "Pairing Result" : {
       "localizations" : {
@@ -503,6 +657,12 @@
           }
         }
       }
+    },
+    "Pause Time" : {
+
+    },
+    "Pause Time (s)" : {
+
     },
     "Profile" : {
       "localizations" : {
@@ -532,10 +692,24 @@
       }
     },
     "Remove Device" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف الجهاز"
+          }
+        }
+      }
     },
     "Repeat" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تكرار"
+          }
+        }
+      }
     },
     "Rescan" : {
       "localizations" : {
@@ -581,7 +755,15 @@
       }
     },
     "Serial: %@" : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التسلسلي: %@"
+          }
+        }
+      }
     },
     "Starting Time" : {
       "extractionState" : "stale",
@@ -604,6 +786,12 @@
         }
       }
     },
+    "Timing %lld" : {
+
+    },
+    "Timings" : {
+
+    },
     "UUID: %@" : {
       "localizations" : {
         "ar" : {
@@ -614,7 +802,14 @@
         }
       }
     },
+    "Work Time" : {
+
+    },
+    "Work Time (s)" : {
+
+    },
     "أجهزتي" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {

@@ -150,29 +150,7 @@ class BluetoothManager: NSObject, ObservableObject {
         return isConnected(to: device) ? "Connected" : "Not Connected"
     }
     
-    func simulateAuthenticationResponse() {
-        // Create mock data that represents the expected input format
 
-        
-        let realData = Data([0x8f, 0x43, 0x59, 0x5f, 0x56, 0x33, 0x2e, 0x30, 0x41, 0x41, 0x30, 0x31, 0x54])
-        
-        let mockVersionString = "CY_V3.0AA01T@"
-        guard let mockData = mockVersionString.data(using: .ascii) else {
-            print("Failed to create mock Data for AuthenticationResponse")
-            return
-        }
-        
-        // Prepend the required byte if needed (depends on your AuthenticationResponse logic)
-        let mockResponseData = Data([0x8F]) + realData
-
-        // Initialize AuthenticationResponse with the mock data
-        if let mockResponse = AuthenticationResponse(data: mockResponseData) {
-            print("Publishing mock authentication response: \(mockResponse.version)")
-            authenticationResponsePublisher.send(mockResponse)
-        } else {
-            print("Failed to create mock AuthenticationResponse")
-        }
-    }
     
     /// Send pairing password to the device
     func sendPairingPassword(peripheral: CBPeripheral, customCode: String) {
@@ -185,15 +163,15 @@ class BluetoothManager: NSObject, ObservableObject {
             guard let self = self else { return }
             if let pairingResult = self.pairingResultMessage {
                 if pairingResult.contains("V2.0") {
-                    print("Old protocol pairing successful.")
+                    //print("Old protocol pairing successful.")
                     // Request data after successful pairing
                     self.requestDataFromDevice(peripheral: peripheral)
                 } else {
-                    print("Old protocol failed. Attempting new protocol...")
+                    //print("Old protocol failed. Attempting new protocol...")
                     self.sendNewProtocolPassword(password: defaultPassword, customCode: customCode, peripheral: peripheral)
                 }
             } else {
-                print("No response. Attempting new protocol...")
+                //print("No response. Attempting new protocol...")
                 self.sendNewProtocolPassword(password: defaultPassword, customCode: customCode, peripheral: peripheral)
             }
         }
@@ -202,57 +180,57 @@ class BluetoothManager: NSObject, ObservableObject {
     /// Request equipment version from the device
     func requestEquipmentVersion(peripheral: CBPeripheral) {
         guard let characteristic = pairingCharacteristic else {
-            print("Characteristic not found.")
+            //print("Characteristic not found.")
             return
         }
 
         let command = Data([0x87]) // Command to request equipment version
         peripheral.writeValue(command, for: characteristic, type: .withResponse)
-        print("Sent 0x87 command to request equipment version.")
+        //print("Sent 0x87 command to request equipment version.")
     }
 
     /// Request data from the device
     func requestDataFromDevice(peripheral: CBPeripheral) {
         guard let characteristic = pairingCharacteristic else {
-            print("Characteristic not found.")
+            //print("Characteristic not found.")
             return
         }
         let command = Data([0x40]) // Command to request data packets
         peripheral.writeValue(command, for: characteristic, type: .withResponse)
-        print("Sent 0x40 command to request data packets.")
+        //print("Sent 0x40 command to request data packets.")
     }
 
     /// Send old protocol password
     func sendOldProtocolPassword(password: String, peripheral: CBPeripheral) {
         guard let characteristic = pairingCharacteristic else {
-            print("Pairing characteristic not found.")
+            //print("Pairing characteristic not found.")
             return
         }
         let command = createOldProtocolCommand(password: password)
         peripheral.writeValue(command, for: characteristic, type: .withResponse)
-        print("Old protocol password sent.")
+        //print("Old protocol password sent.")
     }
 
     /// Send new protocol password
     func sendNewProtocolPassword(password: String, customCode: String, peripheral: CBPeripheral) {
         guard let characteristic = pairingCharacteristic else {
-            print("Pairing characteristic not found.")
+            //print("Pairing characteristic not found.")
             return
         }
         let command = createNewProtocolCommand(password: password, customCode: customCode)
         peripheral.writeValue(command, for: characteristic, type: .withResponse)
-        print("New protocol password sent.")
+        //print("New protocol password sent.")
 
         // Request data after pairing
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self = self else { return }
             if let pairingResult = self.pairingResultMessage {
                 if pairingResult.contains("CY_V3.0") {
-                    print("New protocol pairing successful.")
+                    //print("New protocol pairing successful.")
                     // self.requestDataFromDevice(peripheral: peripheral)
                     // self.requestEquipmentVersion(peripheral: peripheral)
                 } else {
-                    print("Pairing failed: \(self.pairingResultMessage ?? "Unknown error").")
+                    //print("Pairing failed: \(self.pairingResultMessage ?? "Unknown error").")
                 }
             }
         }
@@ -265,17 +243,17 @@ class BluetoothManager: NSObject, ObservableObject {
 
         timeoutTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { timer in
             if receivedPackets.count < packetCount {
-                print("Timeout waiting for all packets. Received \(receivedPackets.count)/\(packetCount).")
+                //print("Timeout waiting for all packets. Received \(receivedPackets.count)/\(packetCount).")
                 // Handle incomplete data here
             }
         }
 
         func onPacketReceived(data: Data) {
             receivedPackets.append(data)
-            print("Received packet \(receivedPackets.count)/\(packetCount).")
+            //print("Received packet \(receivedPackets.count)/\(packetCount).")
 
             if receivedPackets.count == packetCount {
-                print("All packets received.")
+                //print("All packets received.")
                 timeoutTimer?.invalidate() // Invalidate the timer once all packets are received
                 processReceivedData(receivedPackets)
             }
@@ -300,17 +278,17 @@ class BluetoothManager: NSObject, ObservableObject {
     /// Parse the response data
     func parseResponse(_ data: Data) {
         guard let startByte = data.first else {
-            print("Invalid response: Data too short.")
+            //print("Invalid response: Data too short.")
             return
         }
 
-        print("Received data: \(data.map { String(format: "%02x", $0) }.joined(separator: " "))")
-        print("Received start byte: 0x\(String(format: "%02x", startByte))")
+        //print("Received data: \(data.map { String(format: "%02x", $0) }.joined(separator: " "))")
+        //print("Received start byte: 0x\(String(format: "%02x", startByte))")
 
         if let handler = responseHandlers[startByte] {
             handler(data)
         } else {
-            print("Unhandled Response Type (Start Byte: 0x\(String(format: "%02x", startByte)))")
+            //print("Unhandled Response Type (Start Byte: 0x\(String(format: "%02x", startByte)))")
         }
     }
 
@@ -354,17 +332,17 @@ extension BluetoothManager {
     /// Parse combined data from multiple packets
     func parseCombinedData(_ data: Data) {
         if let asciiString = String(data: data, encoding: .ascii) {
-            print("ASCII Data: \(asciiString)")
+            //print("ASCII Data: \(asciiString)")
         } else {
-            print("Data contains non-ASCII bytes.")
+            //print("Data contains non-ASCII bytes.")
         }
 
         // Example: Extract specific bytes
         let packetHeader = data.prefix(2) // First 2 bytes
-        print("Packet Header: \(packetHeader.map { String(format: "%02x", $0) }.joined())")
+        //print("Packet Header: \(packetHeader.map { String(format: "%02x", $0) }.joined())")
 
         let restOfData = data.dropFirst(2) // Skip the first 2 bytes
-        print("Remaining Data: \(restOfData.map { String(format: "%02x", $0) }.joined())")
+        //print("Remaining Data: \(restOfData.map { String(format: "%02x", $0) }.joined())")
     }
 }
 
@@ -377,11 +355,11 @@ struct AuthenticationResponse {
     init?(data: Data) {
         // Ensure the data is valid and long enough
         guard data.count > 1, let rawVersionString = String(data: data[1...], encoding: .ascii) else {
-            print("Invalid Authentication Data: \(data.map { String(format: "0x%02x", $0) }.joined())")
+            //print("Invalid Authentication Data: \(data.map { String(format: "0x%02x", $0) }.joined())")
             return nil
         }
 
-        print("Raw Version String: \(rawVersionString)")
+        //print("Raw Version String: \(rawVersionString)")
 
         // Sanitize by removing control characters and trimming whitespace
         let sanitizedVersion = rawVersionString
@@ -391,7 +369,7 @@ struct AuthenticationResponse {
 
         // Validate that the sanitized string is ASCII-encodable
         guard sanitizedVersion.data(using: .ascii) != nil else {
-            print("Sanitized version string is not ASCII encodable: \(sanitizedVersion)")
+            //print("Sanitized version string is not ASCII encodable: \(sanitizedVersion)")
             return nil
         }
 
@@ -400,7 +378,7 @@ struct AuthenticationResponse {
         self.version = String(components.first ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         self.code = components.count > 1 ? String(components.last!).trimmingCharacters(in: .whitespacesAndNewlines) : nil
 
-        print("Parsed Version: \(self.version), Code: \(self.code ?? "None")")
+        //print("Parsed Version: \(self.version), Code: \(self.code ?? "None")")
     }
 }
 
@@ -455,6 +433,7 @@ struct MachineModelResponse {
 }
 
 struct FragranceTimingResponse {
+    var peripheralUUID = "UnknownUUID"
     let fragranceType: UInt8
     let atomizationSwitch: Bool
     let fanSwitch: Bool
@@ -470,6 +449,8 @@ struct FragranceTimingResponse {
 
     init?(data: Data) {
         guard data.count >= 18 else { return nil }
+        // peripheralUUID is never set here!
+        
         self.fragranceType = data[1]
         let switches = data[3]
         self.atomizationSwitch = (switches & 0x01) != 0
@@ -483,6 +464,7 @@ struct FragranceTimingResponse {
         self.grade = data[13]
         self.customWorkTime = UInt16(data[14]) << 8 | UInt16(data[15])
         self.customPauseTime = UInt16(data[16]) << 8 | UInt16(data[17])
+
     }
 
     private static func decodeDaysOfWeek(byte: UInt8) -> [String] {
@@ -623,178 +605,183 @@ struct PCBAndEquipmentVersionResponse {
 
 extension BluetoothManager {
     func parseAuthenticationResponse(_ data: Data) {
-        print("Parsing Authentication Response...")
+        //print("Parsing Authentication Response...")
         if let response = AuthenticationResponse(data: data) {
-            print("Parsed Authentication Response: \(response.version)")
+            //print("Parsed Authentication Response: \(response.version)")
             DispatchQueue.main.async {
                 self.authenticationResponsePublisher.send(response)
             }
 
             // Trigger logic based on the response
             if response.version.hasPrefix("CY_V3") {
-                print("Authentication successful with version \(response.version)")
+                //print("Authentication successful with version \(response.version)")
                 // Handle successful authentication logic here
             } else {
-                print("Unexpected authentication response: \(response.version)")
+                //print("Unexpected authentication response: \(response.version)")
             }
         } else {
-            print("Failed to parse authentication response.")
+            //print("Failed to parse authentication response.")
         }
     }
 
     func parseDataPacketResponse(_ data: Data) {
         if let response = DataPacketResponse(data: data) {
-            print("Data Packet Response:")
-            print("Packet Count: \(response.packetCount)")
+            //print("Data Packet Response:")
+            //print("Packet Count: \(response.packetCount)")
 
             // Safely unwrap connectedPeripheral and pairingCharacteristic
             guard let peripheral = connectedPeripheral,
                   let characteristic = pairingCharacteristic else {
-                print("Error: connectedPeripheral or pairingCharacteristic is nil.")
+                //print("Error: connectedPeripheral or pairingCharacteristic is nil.")
                 return
             }
 
             // Pass the unwrapped values to the method
             handleIncomingDataPackets(peripheral: peripheral, characteristic: characteristic, packetCount: response.packetCount)
         } else {
-            print("Failed to parse data packet response.")
+            //print("Failed to parse data packet response.")
         }
     }
 
     func parseEquipmentVersionResponse(_ data: Data) {
         if let response = EquipmentVersionResponse(data: data) {
-            print("Equipment Version: \(response.version)")
+            //print("Equipment Version: \(response.version)")
             equipmentVersionPublisher.send(response)
         } else {
-            print("Failed to parse equipment version response.")
+            //print("Failed to parse equipment version response.")
         }
     }
 
 
     func parseGradeLimitsResponse(_ data: Data) {
         if let response = GradeLimitsResponse(data: data) {
-            print("Grade Limits Response:")
-            print("Max Grade: \(response.maxGrade)")
-            print("Min Custom Grade Working: \(response.minCustomGradeWorking)")
-            print("Max Custom Grade Working: \(response.maxCustomGradeWorking)")
-            print("Min Custom Grade Pause: \(response.minCustomGradePause)")
-            print("Max Custom Grade Pause: \(response.maxCustomGradePause)")
-            print("Number of Fragrances: \(response.numberOfFragrances)")
-            print("Number of Atmosphere Light Modes: \(response.numberOfLightModes)")
+            //print("Grade Limits Response:")
+            //print("Max Grade: \(response.maxGrade)")
+            //print("Min Custom Grade Working: \(response.minCustomGradeWorking)")
+            //print("Max Custom Grade Working: \(response.maxCustomGradeWorking)")
+            //print("Min Custom Grade Pause: \(response.minCustomGradePause)")
+            //print("Max Custom Grade Pause: \(response.maxCustomGradePause)")
+            //print("Number of Fragrances: \(response.numberOfFragrances)")
+            //print("Number of Atmosphere Light Modes: \(response.numberOfLightModes)")
             gradeLimitsPublisher.send(response)
         } else {
-            print("Failed to parse grade limits response.")
+            //print("Failed to parse grade limits response.")
         }
     }
 
     func parseMachineModelResponse(_ data: Data) {
         if let response = MachineModelResponse(data: data) {
-            print("Machine Model: \(response.model)")
+            //print("Machine Model: \(response.model)")
             machineModelPublisher.send(response)
         } else {
-            print("Failed to parse machine model response.")
+            //print("Failed to parse machine model response.")
         }
     }
 
 
     func parseFragranceTimingResponse(_ data: Data) {
-        if let response = FragranceTimingResponse(data: data) {
-            print("Fragrance Timing Response:")
-            print("Fragrance Type: \(response.fragranceType)")
-            print("Atomization Switch: \(response.atomizationSwitch ? "On" : "Off")")
-            print("Fan Switch: \(response.fanSwitch ? "On" : "Off")")
-            print("Current Timing Number: \(response.currentTiming)")
-            print("Timing Number: \(response.timingNumber)")
-            print("Power On: \(response.powerOnTime)")
-            print("Power Off: \(response.powerOffTime)")
-            print("Days of Operation: \(response.daysOfOperation.joined(separator: ", "))")
-            print("Grade Mode: \(response.gradeMode)")
-            print("Grade: \(response.grade)")
-            print("Custom Work Time: \(response.customWorkTime) seconds")
-            print("Custom Pause Time: \(response.customPauseTime) seconds")
+        if var response = FragranceTimingResponse(data: data) {
+            // Assign peripheralUUID from connectedPeripheral
+            let uuidString = connectedPeripheral?.identifier.uuidString ?? "UnknownUUID"
+            response.peripheralUUID = uuidString
+
+            //print("💨Fragrance Timing Response:")
+            //print("💨Fragrance Type: \(response.fragranceType)")
+            //print("💨Atomization Switch: \(response.atomizationSwitch ? "On" : "Off")")
+            print("💨Fan Switch: \(response.fanSwitch ? "On" : "Off")")
+            print("💨Current Timing Number: \(response.currentTiming)")
+            print("💨Timing Number: \(response.timingNumber)")
+            print("💨Power On: \(response.powerOnTime)")
+            print("💨Power Off: \(response.powerOffTime)")
+            print("💨Days of Operation: \(response.daysOfOperation.joined(separator: ", "))")
+            print("💨Grade Mode: \(response.gradeMode)")
+            print("💨Grade: \(response.grade)")
+            print("💨Custom Work Time: \(response.customWorkTime) seconds")
+            print("💨Custom Pause Time: \(response.customPauseTime) seconds")
+
             fragranceTimingPublisher.send(response)
         } else {
-            print("Failed to parse fragrance timing response.")
+            //print("Failed to parse fragrance timing response.")
         }
     }
 
     func parseGradeTimingResponse(_ data: Data) {
         if let response = GradeTimingResponse(data: data) {
-            print("Grade Timing Response:")
+            //print("Grade Timing Response:")
             for (index, timing) in response.gradeTimings.enumerated() {
-                print("Grade \(index + 1): Work Time = \(timing.workTime) seconds, Pause Time = \(timing.pauseTime) seconds")
+                //print("Grade \(index + 1): Work Time = \(timing.workTime) seconds, Pause Time = \(timing.pauseTime) seconds")
             }
             gradeTimingPublisher.send(response)
         } else {
-            print("Failed to parse grade timing response.")
+            //print("Failed to parse grade timing response.")
         }
     }
 
     func parseFragranceNamesResponse(_ data: Data) {
         if let response = FragranceNamesResponse(data: data) {
-            print("Fragrance Names Response:")
+            //print("Fragrance Names Response:")
             for (index, name) in response.fragranceNames.enumerated() {
-                print("Fragrance \(index + 1): \(name)")
+                //print("Fragrance \(index + 1): \(name)")
             }
             fragranceNamesPublisher.send(response)
         } else {
-            print("Failed to parse fragrance names response.")
+            //print("Failed to parse fragrance names response.")
         }
     }
 
     func parseEssentialOilStatusResponse(_ data: Data) {
         if let response = EssentialOilStatusResponse(data: data) {
-            print("Essential Oil Status Response:")
-            print("Battery Level: \(response.batteryLevel)%")
+            //print("Essential Oil Status Response:")
+            //print("Battery Level: \(response.batteryLevel)%")
             for (index, oil) in response.essentialOilData.enumerated() {
-                print("Scent \(index + 1): Total Amount = \(oil.total), Remaining Amount = \(oil.remaining)")
+                //print("Scent \(index + 1): Total Amount = \(oil.total), Remaining Amount = \(oil.remaining)")
             }
             essentialOilStatusPublisher.send(response)
         } else {
-            print("Failed to parse essential oil status response.")
+            //print("Failed to parse essential oil status response.")
         }
     }
 
     func parseClockResponse(_ data: Data) {
         if let response = ClockResponse(data: data) {
-            print("Clock Response:")
-            print("Current Time: \(response.currentTime)")
-            print("Weekday: \(response.weekday)")
+            //print("Clock Response:")
+            //print("Current Time: \(response.currentTime)")
+            //print("Weekday: \(response.weekday)")
             clockResponsePublisher.send(response)
         } else {
-            print("Failed to parse clock response.")
+            //print("Failed to parse clock response.")
         }
     }
 
     func parseMainSwitchResponse(_ data: Data) {
         if let response = MainSwitchResponse(data: data) {
-            print("Main Switch Response:")
-            print("Main Switch: \(response.mainSwitch ? "On" : "Off")")
-            print("Fan Status: \(response.fanStatus ? "On (Fixed)" : "Off")")
-            print("Demo Mode: \(response.demoMode ? "Enabled" : "Disabled")")
-            print("Atmosphere Light Switch: \(response.atmosphereLightSwitch ? "On (Fixed)" : "Off")")
-            print("Atmosphere Light Value: \(response.atmosphereLightValue)")
+            //print("Main Switch Response:")
+            //print("Main Switch: \(response.mainSwitch ? "On" : "Off")")
+            //print("Fan Status: \(response.fanStatus ? "On (Fixed)" : "Off")")
+            //print("Demo Mode: \(response.demoMode ? "Enabled" : "Disabled")")
+            //print("Atmosphere Light Switch: \(response.atmosphereLightSwitch ? "On (Fixed)" : "Off")")
+            //print("Atmosphere Light Value: \(response.atmosphereLightValue)")
             mainSwitchPublisher.send(response)
         } else {
-            print("Failed to parse main switch response.")
+            //print("Failed to parse main switch response.")
         }
     }
 
     func parsePCBAndEquipmentVersionResponse(_ data: Data) {
         if let response = PCBAndEquipmentVersionResponse(data: data) {
-            print("PCB and Equipment Version Response:")
-            print("PCB Version: \(response.pcbVersion)")
-            print("Equipment Version: \(response.equipmentVersion)")
+            //print("PCB and Equipment Version Response:")
+            //print("PCB Version: \(response.pcbVersion)")
+            //print("Equipment Version: \(response.equipmentVersion)")
             pcbAndEquipmentVersionPublisher.send(response)
         } else {
-            print("Failed to parse PCB and equipment version response.")
+            //print("Failed to parse PCB and equipment version response.")
         }
     }
 
     func parseGenericResponse(_ data: Data) {
         let asciiPart = data[1...]
         if let decodedString = String(data: asciiPart, encoding: .ascii) {
-            print("Generic ASCII Data: \(decodedString)")
+            //print("Generic ASCII Data: \(decodedString)")
         } else {
             print("Raw Data: \(data.map { String(format: "0x%02x", $0) }.joined(separator: " "))")
         }
@@ -930,8 +917,8 @@ extension BluetoothManager: CBPeripheralDelegate {
             return
         }
 
-        print("Raw Data Received: \(data.map { String(format: "0x%02x", $0) }.joined())")
-        print("ASCII Representation: \(String(data: data, encoding: .ascii) ?? "Invalid ASCII Data")")
+        //print("Raw Data Received: \(data.map { String(format: "0x%02x", $0) }.joined())")
+        //print("ASCII Representation: \(String(data: data, encoding: .ascii) ?? "Invalid ASCII Data")")
 
         parseResponse(data)
     }

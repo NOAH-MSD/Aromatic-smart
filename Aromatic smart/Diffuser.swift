@@ -1,10 +1,11 @@
 import Foundation
 import SwiftData
-import CoreBluetooth
+
 
 @Model
 class Diffuser: ObservableObject, Identifiable {
     // MARK: Core Properties
+    var peripheralUUID: String? // Persist the UUID of the peripheral
     var id = UUID()
     var name: String
     var isConnected: Bool
@@ -52,9 +53,10 @@ class Diffuser: ObservableObject, Identifiable {
     }
 
     // MARK: - Bluetooth-Specific Properties
-    var peripheralUUID: String? // Persist the UUID of the peripheral
-    @Transient var peripheral: CBPeripheral? // Runtime-only reference for Bluetooth operations
 
+    //@Transient var peripheral: CBPeripheral? // Runtime-only reference for Bluetooth operations
+    //TODO chick this out later
+    
     // Bluetooth-related data
     var rssi: Int?
     var lastSeen: Date?
@@ -90,20 +92,22 @@ class Diffuser: ObservableObject, Identifiable {
     }
 
     // MARK: - Initializer
-    init(name: String, isConnected: Bool, modelNumber: String, serialNumber: String, timerSetting: Int) {
+    init(name: String,
+         isConnected: Bool,
+         modelNumber: String,
+         serialNumber: String,
+         timerSetting: Int,
+         peripheralUUID: String? = nil) {
         self.name = name
         self.isConnected = isConnected
         self.modelNumber = modelNumber
         self.serialNumber = serialNumber
         self.timerSetting = timerSetting
+        self.peripheralUUID = peripheralUUID
     }
 
     // MARK: - Helper Methods
-    /// Link a Bluetooth peripheral to this diffuser and store its UUID.
-    func linkPeripheral(_ peripheral: CBPeripheral) {
-        self.peripheral = peripheral
-        self.peripheralUUID = peripheral.identifier.uuidString
-    }
+
 
     /// Update diffuser state properties based on received data.
     func updateState(powerOn: String, powerOff: String, gradeMode: String, grade: Int, workTime: Int, pauseTime: Int, mainSwitch: Bool, fanStatus: Bool) {

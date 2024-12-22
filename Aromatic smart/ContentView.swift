@@ -2,16 +2,17 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @State private var selectedTab = 1 // Track the selected tab (1 for MainView)
+    @State private var selectedTab = 1 // Default to MainView
     @EnvironmentObject var diffuserManager: DiffuserManager
     @EnvironmentObject var bluetoothManager: BluetoothManager
+
     var body: some View {
-        NavigationView { // Wrap the entire content in NavigationView
+        NavigationView {
             ZStack {
                 // Main TabView
                 TabView(selection: $selectedTab) {
                     
-                    // User Profile Tab
+                    // Preferences Tab
                     UserProfileView()
                         .tabItem {
                             Image(systemName: "person")
@@ -19,7 +20,7 @@ struct ContentView: View {
                         }
                         .tag(0)
                     
-                    // Main Page Tab
+                    // Main View Tab
                     MainView()
                         .tabItem {
                             Image(systemName: "house")
@@ -27,7 +28,7 @@ struct ContentView: View {
                         }
                         .tag(1)
                     
-                    // WebView Tab
+                    // Store WebView Tab
                     WebView(url: URL(string: "https://aromatic.sa/categories/4423/أجهزة-التعطير?gad_source=1&gbraid=0AAAAA9cLCG0B3fHpObEw1aGr5L7RYFRBb&gclid=Cj0KCQiA_qG5BhDTARIsAA0UHSKQzyBF5skfRGJwOo314L75QjowNIjlMIVzhCA_rzp3cNiW9PMdyHEaAps5EALw_wcB")!)
                         .tabItem {
                             Image(systemName: "cart")
@@ -36,41 +37,51 @@ struct ContentView: View {
                         .tag(2)
                 }
                 
-                // Show "+" button only on MainView tab
+                // "+" Button only on MainView tab
                 if selectedTab == 1 {
-                    VStack {
-                        Spacer()
-                        HStack {
-                            Spacer()
-                            NavigationLink(destination: PairDeviceView()) {
-                                Image(systemName: "plus")
-                                    .font(.system(size: 24))
-                                    .foregroundColor(.white)
-                                    .frame(width: 60, height: 60)
-                                    .background(Color.blue)
-                                    .clipShape(Circle())
-                                    .shadow(radius: 10)
-                            }
-                            .padding(.bottom, 70) // Adjust padding to position above TabView
-                            .padding(.trailing, 170)
-                        }
-                    }
+                    floatingAddButton
                 }
             }
-            .navigationTitle("Aromatic App") // Add a navigation title
-            .navigationBarHidden(true) // Hide the navigation bar if necessary
-        }.onAppear {
-            print("ContentView using DiffuserManager: \(Unmanaged.passUnretained(diffuserManager).toOpaque()) and BluetoothManager: \(Unmanaged.passUnretained(bluetoothManager).toOpaque())")
+            .navigationBarTitle("Aromatic App") // Title for NavigationView
+            .navigationBarHidden(true)         // Hide navigation bar if needed
         }
-        
-        
-        
+        .onAppear {
+            debugManagers()
+        }
     }
-    
-    
-    
-    
 }
+
+// MARK: - Subviews and Helpers
+
+extension ContentView {
+    /// Floating "+" button for adding a device
+    private var floatingAddButton: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                NavigationLink(destination: PairDeviceView()) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 24))
+                        .foregroundColor(.white)
+                        .frame(width: 60, height: 60)
+                        .background(Color.blue)
+                        .clipShape(Circle())
+                        .shadow(radius: 10)
+                }
+                .padding(.bottom, 70) // Adjust padding to position above TabView
+                .padding(.trailing, 170)
+            }
+        }
+    }
+
+    /// Debug environment objects
+    private func debugManagers() {
+        print("ContentView using DiffuserManager: \(Unmanaged.passUnretained(diffuserManager).toOpaque()) and BluetoothManager: \(Unmanaged.passUnretained(bluetoothManager).toOpaque())")
+    }
+}
+
+// MARK: - Preview
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
@@ -84,5 +95,3 @@ struct ContentView_Previews: PreviewProvider {
             .environmentObject(bluetoothManager)
     }
 }
-
-

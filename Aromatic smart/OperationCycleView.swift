@@ -1,15 +1,21 @@
 import SwiftUI
+import SwiftData
 
 struct OperationCycleView: View {
     @ObservedObject var diffuser: Diffuser
+
     @State private var powerOnDate: Date
     @State private var powerOffDate: Date
     @State private var selectedIntensity: Intencities = .LOW
+    @State private var selectedDays: Set<String>
+    @State private var fanEnabled: Bool
 
     init(diffuser: Diffuser) {
         self.diffuser = diffuser
         _powerOnDate = State(initialValue: DateFormatter.timeFormatter.date(from: diffuser.powerOn) ?? Date())
         _powerOffDate = State(initialValue: DateFormatter.timeFormatter.date(from: diffuser.powerOff) ?? Date())
+        _selectedDays = State(initialValue: Set(diffuser.daysOfOperation))
+        _fanEnabled = State(initialValue: diffuser.fanSwitch)
     }
 
     enum Intencities: String, CaseIterable, Identifiable {
@@ -19,86 +25,122 @@ struct OperationCycleView: View {
     }
 
     var body: some View {
-        VStack(spacing: 20) {
-            // Header
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Operation Cycle")
-                    .font(.title.bold())
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Text("Choose the time of activity for your device")
-                    .foregroundColor(.gray)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+        List {
+            // Header Section
+            Section {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Operation Cycle")
+                        .font(.title.bold())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text("Configure the device’s operation times, intensity, and other settings.")
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .padding(.vertical, 8)
             }
-            .padding(.horizontal, 16)
 
-            // Time Pickers
-            HStack(spacing: 20) {
-                TimePicker(title: "Starting Time", date: $powerOnDate)
-                    .onChange(of: powerOnDate) { newValue in
-                        diffuser.powerOn = DateFormatter.timeFormatter.string(from: newValue)
-                    }
+            // Time Pickers Section
+            Section {
+                HStack(spacing: 20) {
+                    TimePicker(title: "Starting Time", date: $powerOnDate)
+                        .onChange(of: powerOnDate) { newValue in
+                            diffuser.powerOn = DateFormatter.timeFormatter.string(from: newValue)
+                        }
 
-                Divider().frame(height: 100)
+                    Divider().frame(height: 100)
 
-                TimePicker(title: "Ending Time", date: $powerOffDate)
-                    .onChange(of: powerOffDate) { newValue in
-                        diffuser.powerOff = DateFormatter.timeFormatter.string(from: newValue)
-                    }
+                    TimePicker(title: "Ending Time", date: $powerOffDate)
+                        .onChange(of: powerOffDate) { newValue in
+                            diffuser.powerOff = DateFormatter.timeFormatter.string(from: newValue)
+                        }
+                }
+                .padding(.vertical, 8)
             }
-            .padding(.horizontal, 16)
 
-            // Intensity Picker
-            VStack {
-                Text("Intensity Level").font(.headline)
+            // Intensity Section
+            Section(header: Text("Intensity Level")) {
                 Picker("Intensity", selection: $selectedIntensity) {
                     ForEach(Intencities.allCases) { intensity in
                         Text(intensity.displayName).tag(intensity)
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-            }
-            .padding(.horizontal, 16)
-
-            // Days of Operation
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Repeat").font(.headline).padding(.leading, 16)
-                List {
-                    ForEach(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], id: \.self) { day in
-                        Toggle(day, isOn: Binding(
-                            get: { diffuser.daysOfOperation.contains(day) },
-                            set: { isSelected in
-                                if isSelected {
-                                    diffuser.daysOfOperation.append(day)
-                                } else {
-                                    diffuser.daysOfOperation.removeAll { $0 == day }
-                                }
-                            }
-                        ))
+                .onChange(of: selectedIntensity) { newIntensity in
+                    switch newIntensity {
+                    case .Jet: diffuser.grade = 3
+                    case .HIGH: diffuser.grade = 2
+                    case .MID: diffuser.grade = 1
+                    case .LOW: diffuser.grade = 0
                     }
                 }
-                .listStyle(PlainListStyle())
-                .frame(maxHeight: 420)
+            }
+            
+            Section(header: Text("Custom Durations")) {
+                HStack(spacing: 20) {
+                    VStack(alignment: .leading) {
+                        Text("Work Time (s)").font(.subheadline)
+                        Picker("Work Time", selection: $diffuser.customWorkTime) {
+                            ForEach(15...600, id: \.self) { value in
+                                Text("\(value) s").tag(value)
+                            }
+                        }
+                        .pickerStyle(WheelPickerStyle())
+                        .frame(width: 100, height: 100)
+                    }
+
+                    VStack(alignment: .leading) {
+                        Text("Pause Time (s)").font(.subheadline)
+                        Picker("Pause Time", selection: $diffuser.customPauseTime) {
+                            ForEach(15...600, id: \.self) { value in
+                                Text("\(value) s").tag(value)
+                            }
+                        }
+                        .pickerStyle(WheelPickerStyle())
+                        .frame(width: 100, height: 100)
+                    }
+                }
+                .padding(.vertical, 8)
             }
 
-            // Key-Value Rows
-            VStack(spacing: 20) {
-                KeyValueRow(key: "Atomization", value: diffuser.atomizationSwitch ? "On" : "Off")
-                KeyValueRow(key: "Fan", value: diffuser.fanSwitch ? "On" : "Off")
-                KeyValueRow(key: "Power On", value: diffuser.powerOn)
-                KeyValueRow(key: "Power Off", value: diffuser.powerOff)
-                KeyValueRow(key: "Days of Operation", value: diffuser.daysOfOperation.isEmpty ? "None" : diffuser.daysOfOperation.joined(separator: ", "))
-                KeyValueRow(key: "Grade Mode", value: diffuser.gradeMode)
-                KeyValueRow(key: "Grade", value: "\(diffuser.grade)")
-                KeyValueRow(key: "Custom Work Time", value: "\(diffuser.customWorkTime) seconds")
-                KeyValueRow(key: "Custom Pause Time", value: "\(diffuser.customPauseTime) seconds")
+            // Days of Operation Section
+            Section(header: Text("Repeat")) {
+                ForEach(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], id: \.self) { day in
+                    HStack {
+                        Text("Every \(day)")
+                        Spacer()
+                        if selectedDays.contains(day) {
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.blue)
+                        }
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        if selectedDays.contains(day) {
+                            selectedDays.remove(day)
+                        } else {
+                            selectedDays.insert(day)
+                        }
+                        diffuser.daysOfOperation = Array(selectedDays)
+                    }
+                }
             }
-            .padding(.horizontal, 16)
 
-            Spacer()
+            // Fan Toggle Section
+            Section(header: Text("Fan")) {
+                Toggle("Fan Status", isOn: $fanEnabled)
+                    .onChange(of: fanEnabled) { newValue in
+                        diffuser.fanSwitch = newValue
+                    }
+            }
+
+            // Custom Durations Section
+          
         }
-        .padding(.top, 20)
+        .navigationTitle("Configuration")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
+
 // Helper for TimeFormatter
 extension DateFormatter {
     static var timeFormatter: DateFormatter {
@@ -119,19 +161,5 @@ struct TimePicker: View {
                 .labelsHidden()
                 .scaleEffect(1.2)
         }
-    }
-}
-
-struct KeyValueRow: View {
-    let key: String
-    let value: String
-    
-    var body: some View {
-        HStack {
-            Text("\(key):").bold().frame(maxWidth: 150, alignment: .leading)
-            Spacer()
-            Text(value).frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .padding(.vertical, 4)
     }
 }

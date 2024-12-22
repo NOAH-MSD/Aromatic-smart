@@ -7,19 +7,20 @@ struct MainView: View {
     @Query var diffusers: [Diffuser]
 
     var body: some View {
-        VStack {
-            // Logo at the top center
-            logoView
+        NavigationView { // Wrap everything in NavigationView
+            VStack {
+                // Logo at the top center
+                logoView
 
-            // Title text
-            headerText
-
-            // Main content: either the list of diffusers or a placeholder message
-            if diffusers.isEmpty {
-                noDevicesView
-            } else {
-                devicesScrollView
+                // Main content: either the list of diffusers or a placeholder message
+                if diffusers.isEmpty {
+                    noDevicesView
+                } else {
+                    devicesScrollView
+                }
             }
+            
+            .padding()
         }
     }
 }
@@ -34,11 +35,7 @@ extension MainView {
             .frame(width: 140, height: 140)
     }
 
-    private var headerText: some View {
-        Text("أجهزتي")
-            .font(.largeTitle)
-            .foregroundColor(Color(red: 21 / 255, green: 47 / 255, blue: 119 / 255))
-    }
+
 
     private var noDevicesView: some View {
         VStack {
@@ -53,13 +50,17 @@ extension MainView {
 
     private var devicesScrollView: some View {
         ScrollView {
-            VStack(spacing: 50) { // Space between cards
+            VStack(spacing: 10) { // Space between cards
                 ForEach(diffusers) { diffuser in
-                    DiffuserCard(diffuser: diffuser)
-                        .frame(width: UIScreen.main.bounds.width, height: 410)
+                    
+                        DiffuserCard(diffuser: diffuser)
+                            .frame(width: UIScreen.main.bounds.width - 40, height: 410)
+                            .cornerRadius(20)
+                            .shadow(radius: 5)
+                    
                 }
             }
-            .padding(.horizontal, 20) // Padding around the scrollable content
+            
         }
     }
 }

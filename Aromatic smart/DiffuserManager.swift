@@ -9,9 +9,10 @@ class DiffuserManager: ObservableObject {
     private var modelContext: ModelContext
     private var bluetoothManager: BluetoothManager
     private var subscriptionsSetUp = false
-
     private var cancellables = Set<AnyCancellable>()
-    @Published  var currentDiffuser: Diffuser?
+    @Published var diffuserTimings: [String: [Timing]] = [:]
+
+    @Published var currentDiffuser: Diffuser?
 
     init(context: ModelContext, bluetoothManager: BluetoothManager) {
         self.bluetoothManager = bluetoothManager
@@ -19,7 +20,7 @@ class DiffuserManager: ObservableObject {
         print("DiffuserManager initialized with BluetoothManager: \(Unmanaged.passUnretained(bluetoothManager).toOpaque())")
         loadDiffusers() // Load initial data from SwiftData
         setupSubscriptions()
-        
+
         self.bluetoothManager.$readyToSubscribe
             .removeDuplicates() // Prevent duplicate updates
             .sink { [weak self] isReady in
@@ -33,11 +34,41 @@ class DiffuserManager: ObservableObject {
                 }
             }
             .store(in: &cancellables)
-        
+
         // Manually trigger setupSubscriptions if readyToSubscribe is already true
         if bluetoothManager.readyToSubscribe {
             print("readyToSubscribe was already true. Setting up subscriptions.")
             setupSubscriptions()
+        }
+    }
+    
+    // Link a peripheral to a diffuser by setting its peripheralUUID
+    func linkPeripheral(_ peripheral: CBPeripheral, to diffuser: Diffuser) {
+        diffuser.peripheralUUID = peripheral.identifier.uuidString
+    }
+
+    // Handle a newly connected peripheral:
+    // If we have an existing diffuser, link it. Otherwise, create a new diffuser and map it.
+    func handlePeripheralConnected(_ peripheral: CBPeripheral) {
+        if let existingDiffuser = diffuserMapping[peripheral] {
+            // Existing diffuser found, just update peripheralUUID if needed
+            existingDiffuser.peripheralUUID = peripheral.identifier.uuidString
+            print("Linked existing diffuser \(existingDiffuser.id) to peripheral \(peripheral.identifier)")
+        } else {
+            // Create a new diffuser including the peripheralUUID
+            let newDiffuser = Diffuser(
+                name: "New Diffuser",
+                isConnected: true,
+                modelNumber: "Unknown",
+                serialNumber: peripheral.identifier.uuidString,
+                timerSetting: 30,
+                peripheralUUID: peripheral.identifier.uuidString // Passing peripheralUUID here
+            )
+            modelContext.insert(newDiffuser)
+            diffusers.append(newDiffuser)
+            diffuserMapping[peripheral] = newDiffuser
+            currentDiffuser = newDiffuser
+            print("Created and linked new diffuser \(newDiffuser.id) to peripheral \(peripheral.identifier)")
         }
     }
 
@@ -57,7 +88,9 @@ class DiffuserManager: ObservableObject {
             .sink { [weak self] response in
                 guard let self = self, let connectedPeripheral = self.bluetoothManager.connectedPeripheral else { return }
                 print("setupSubscriptions DiffuserManager received authentication response. Version: \(response.version), Code: \(String(describing: response.code))")
-                self.handleAuthenticationResponse(response, peripheral: connectedPeripheral)
+                self.handlePeripheralConnected(connectedPeripheral)
+                
+                
             }
             .store(in: &cancellables)
 
@@ -85,9 +118,9 @@ class DiffuserManager: ObservableObject {
         bluetoothManager.fragranceTimingPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] response in
-                guard let self = self else { return }
+                guard let self = self, let connectedPeripheral = self.bluetoothManager.connectedPeripheral else { return }
                 print("setupSubscriptions Fragrance timing response received: \(response)")
-                self.updateDiffuserWithFragranceTiming(response)
+                self.handleFragranceTimingResponse(response, peripheral: connectedPeripheral)
             }
             .store(in: &cancellables)
 
@@ -112,9 +145,8 @@ class DiffuserManager: ObservableObject {
             .store(in: &cancellables)
 
         print("setupSubscriptions Subscriptions successfully set up.")
-    } // end of ss
+    }
 
-    // Add a diffuser to the list and persist it
     func addDiffuser(name: String, isConnected: Bool, modelNumber: String, serialNumber: String, timerSetting: Int) {
         let newDiffuser = Diffuser(
             name: name,
@@ -123,13 +155,12 @@ class DiffuserManager: ObservableObject {
             serialNumber: serialNumber,
             timerSetting: timerSetting
         )
-        
+
         modelContext.insert(newDiffuser) // Insert into SwiftData
         diffusers.append(newDiffuser) // Update the published array
         currentDiffuser = newDiffuser
     }
 
-    // Remove a diffuser from the list and SwiftData
     func removeDiffuser(_ diffuser: Diffuser) {
         modelContext.delete(diffuser) // Remove from SwiftData
         diffusers.removeAll { $0.id == diffuser.id } // Update the published array
@@ -137,21 +168,7 @@ class DiffuserManager: ObservableObject {
             currentDiffuser = nil
         }
     }
-    
-    
-    private func handleAuthenticationResponse(_ response: AuthenticationResponse, peripheral: CBPeripheral) {
-        let name = "Diffuser \(peripheral.identifier.uuidString.suffix(5))"
-        addDiffuser(
-            name: name,
-            isConnected: true,
-            modelNumber: response.version,
-            serialNumber: peripheral.identifier.uuidString,
-            timerSetting: 30
-        )
-        print("Added diffuser with authentication response.")
-    }
-    
-    
+
     private func handleEquipmentVersionResponse(_ response: EquipmentVersionResponse) {
         guard let current = currentDiffuser else {
             print("No current diffuser to update equipment version.")
@@ -161,7 +178,7 @@ class DiffuserManager: ObservableObject {
         saveContext()
         print("Updated equipment version in current diffuser.")
     }
-    
+
     private func handleMachineModelResponse(_ response: MachineModelResponse) {
         guard let current = currentDiffuser else {
             print("No current diffuser to update machine model.")
@@ -171,87 +188,28 @@ class DiffuserManager: ObservableObject {
         saveContext()
         print("Updated machine model in current diffuser.")
     }
-    
-    private func handleFragranceTimingResponse(_ response: FragranceTimingResponse) {
-        guard let current = currentDiffuser else {
-            print("No current diffuser to update fragrance timing.")
-            return
-        }
-        current.atomizationSwitch = response.atomizationSwitch
-        current.fanSwitch = response.fanSwitch
-        current.currentTiming = Int(response.currentTiming)
-        current.timingNumber = Int(response.timingNumber)
-        current.powerOn = response.powerOnTime
-        current.powerOff = response.powerOffTime
-        current.daysOfOperation = response.daysOfOperation
-        current.gradeMode = response.gradeMode
-        current.grade = Int(response.grade)
-        current.customWorkTime = Int(response.customWorkTime)
-        current.customPauseTime = Int(response.customPauseTime)
-        saveContext()
-        print("Updated fragrance timing in current diffuser.")
-    }
-    
-    private func handleMainSwitchResponse(_ response: MainSwitchResponse) {
-        guard let current = currentDiffuser else {
-            print("No current diffuser to update main switch.")
-            return
-        }
-        current.mainSwitch = response.mainSwitch
-        current.fanStatus = response.fanStatus
-        saveContext()
-        print("Updated main switch status in current diffuser.")
-    }
-    
-    private func handleClockResponse(_ response: ClockResponse) {
-        guard let current = currentDiffuser else {
-            print("No current diffuser to update clock.")
-            return
-        }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        if let date = formatter.date(from: response.currentTime) {
-            current.clockTime = date
-            saveContext()
-            print("Updated clock time in current diffuser.")
-        } else {
-            print("Failed to parse clock time from response.")
-        }
-    }
-    
 
-    private func loadDiffusers() {
-        do {
-            // Fetch all Diffuser objects using a FetchDescriptor
-            let fetchDescriptor = FetchDescriptor<Diffuser>()
-            let allDiffusers = try modelContext.fetch(fetchDescriptor)
-            self.diffusers = allDiffusers
-        } catch {
-            print("Error loading diffusers: \(error)")
+    func handleFragranceTimingResponse(_ response: FragranceTimingResponse, peripheral: CBPeripheral) {
+        let peripheralUUID = peripheral.identifier.uuidString
+        let timing = Timing(
+            number: Int(response.timingNumber),
+            powerOn: response.powerOnTime,
+            powerOff: response.powerOffTime,
+            daysOfOperation: response.daysOfOperation,
+            gradeMode: response.gradeMode,
+            grade: Int(response.grade),
+            customWorkTime: Int(response.customWorkTime),
+            customPauseTime: Int(response.customPauseTime)
+        )
+
+        if diffuserTimings[peripheralUUID] == nil {
+            diffuserTimings[peripheralUUID] = []
         }
+
+        diffuserTimings[peripheralUUID]?.append(timing)
+        print("📀 timing for UUID \(peripheralUUID): \(timing)")
     }
 
-    
-    private func updateDiffuserWithFragranceTiming(_ response: FragranceTimingResponse) {
-        guard let current = currentDiffuser else {
-            print("No current diffuser to update fragrance timing.")
-            return
-        }
-        current.atomizationSwitch = response.atomizationSwitch
-        current.fanSwitch = response.fanSwitch
-        current.currentTiming = Int(response.currentTiming)
-        current.timingNumber = Int(response.timingNumber)
-        current.powerOn = response.powerOnTime
-        current.powerOff = response.powerOffTime
-        current.daysOfOperation = response.daysOfOperation
-        current.gradeMode = response.gradeMode
-        current.grade = Int(response.grade)
-        current.customWorkTime = Int(response.customWorkTime)
-        current.customPauseTime = Int(response.customPauseTime)
-        saveContext()
-        print("Updated fragrance timing in current diffuser.")
-    }
-    
     private func updateDiffuserWithMainSwitch(_ response: MainSwitchResponse) {
         guard let current = currentDiffuser else {
             print("No current diffuser to update main switch.")
@@ -262,7 +220,7 @@ class DiffuserManager: ObservableObject {
         saveContext()
         print("Updated main switch status in current diffuser.")
     }
-    
+
     private func updateDiffuserWithClock(_ response: ClockResponse) {
         guard let current = currentDiffuser else {
             print("No current diffuser to update clock.")
@@ -278,14 +236,17 @@ class DiffuserManager: ObservableObject {
             print("Failed to parse clock time from response.")
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
+    private func loadDiffusers() {
+        do {
+            let fetchDescriptor = FetchDescriptor<Diffuser>()
+            let allDiffusers = try modelContext.fetch(fetchDescriptor)
+            self.diffusers = allDiffusers
+        } catch {
+            print("Error loading diffusers: \(error)")
+        }
+    }
+
     private func saveContext() {
         do {
             try modelContext.save()
