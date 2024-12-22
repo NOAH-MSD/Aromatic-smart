@@ -10,7 +10,6 @@ class DiffuserManager: ObservableObject {
     private var bluetoothManager: BluetoothManager
     private var subscriptionsSetUp = false
     private var cancellables = Set<AnyCancellable>()
-    @Published var diffuserTimings: [String: [Timing]] = [:]
 
     @Published var currentDiffuser: Diffuser?
 
@@ -18,62 +17,38 @@ class DiffuserManager: ObservableObject {
         self.bluetoothManager = bluetoothManager
         self.modelContext = context
         print("DiffuserManager initialized with BluetoothManager: \(Unmanaged.passUnretained(bluetoothManager).toOpaque())")
-        loadDiffusers() // Load initial data from SwiftData
+
+        // Load any existing diffusers from SwiftData
+        loadDiffusers()
+
+        // Set up Combine subscriptions
         setupSubscriptions()
 
+        // Observe changes in `readyToSubscribe`
         self.bluetoothManager.$readyToSubscribe
-            .removeDuplicates() // Prevent duplicate updates
+            .removeDuplicates()
             .sink { [weak self] isReady in
                 guard let self = self else { return }
                 print("readyToSubscribe changed: \(isReady)")
                 if isReady {
                     print("BluetoothManager is ready. Setting up subscriptions.")
-                    self.setupSubscriptions() // Explicitly call when ready
+                    self.setupSubscriptions()
                 } else {
                     print("BluetoothManager not ready. Subscriptions will not be set up.")
                 }
             }
             .store(in: &cancellables)
 
-        // Manually trigger setupSubscriptions if readyToSubscribe is already true
+        // If the BluetoothManager was already ready, set up immediately
         if bluetoothManager.readyToSubscribe {
             print("readyToSubscribe was already true. Setting up subscriptions.")
             setupSubscriptions()
         }
     }
-    
-    // Link a peripheral to a diffuser by setting its peripheralUUID
-    func linkPeripheral(_ peripheral: CBPeripheral, to diffuser: Diffuser) {
-        diffuser.peripheralUUID = peripheral.identifier.uuidString
-    }
 
-    // Handle a newly connected peripheral:
-    // If we have an existing diffuser, link it. Otherwise, create a new diffuser and map it.
-    func handlePeripheralConnected(_ peripheral: CBPeripheral) {
-        if let existingDiffuser = diffuserMapping[peripheral] {
-            // Existing diffuser found, just update peripheralUUID if needed
-            existingDiffuser.peripheralUUID = peripheral.identifier.uuidString
-            print("Linked existing diffuser \(existingDiffuser.id) to peripheral \(peripheral.identifier)")
-        } else {
-            // Create a new diffuser including the peripheralUUID
-            let newDiffuser = Diffuser(
-                name: "New Diffuser",
-                isConnected: true,
-                modelNumber: "Unknown",
-                serialNumber: peripheral.identifier.uuidString,
-                timerSetting: 30,
-                peripheralUUID: peripheral.identifier.uuidString // Passing peripheralUUID here
-            )
-            modelContext.insert(newDiffuser)
-            diffusers.append(newDiffuser)
-            diffuserMapping[peripheral] = newDiffuser
-            currentDiffuser = newDiffuser
-            print("Created and linked new diffuser \(newDiffuser.id) to peripheral \(peripheral.identifier)")
-        }
-    }
+    // MARK: - Setup Subscriptions
 
     func setupSubscriptions() {
-        // Ensure subscriptions are only set up once
         guard !subscriptionsSetUp else {
             print("Subscriptions already set up.")
             return
@@ -89,8 +64,6 @@ class DiffuserManager: ObservableObject {
                 guard let self = self, let connectedPeripheral = self.bluetoothManager.connectedPeripheral else { return }
                 print("setupSubscriptions DiffuserManager received authentication response. Version: \(response.version), Code: \(String(describing: response.code))")
                 self.handlePeripheralConnected(connectedPeripheral)
-                
-                
             }
             .store(in: &cancellables)
 
@@ -147,27 +120,87 @@ class DiffuserManager: ObservableObject {
         print("setupSubscriptions Subscriptions successfully set up.")
     }
 
-    func addDiffuser(name: String, isConnected: Bool, modelNumber: String, serialNumber: String, timerSetting: Int) {
-        let newDiffuser = Diffuser(
-            name: name,
-            isConnected: isConnected,
-            modelNumber: modelNumber,
-            serialNumber: serialNumber,
-            timerSetting: timerSetting
-        )
+    // MARK: - Peripheral Handling
 
-        modelContext.insert(newDiffuser) // Insert into SwiftData
-        diffusers.append(newDiffuser) // Update the published array
-        currentDiffuser = newDiffuser
+    // Called when a new or existing peripheral is connected
+    func handlePeripheralConnected(_ peripheral: CBPeripheral) {
+        guard let diffuser = findOrCreateDiffuser(for: peripheral) else { return }
+        // We can optionally set currentDiffuser to the newly linked or found diffuser
+        currentDiffuser = diffuser
     }
 
-    func removeDiffuser(_ diffuser: Diffuser) {
-        modelContext.delete(diffuser) // Remove from SwiftData
-        diffusers.removeAll { $0.id == diffuser.id } // Update the published array
-        if diffuser.id == currentDiffuser?.id {
-            currentDiffuser = nil
+    // MARK: - Find or Create Diffuser
+    private func findOrCreateDiffuser(for peripheral: CBPeripheral) -> Diffuser? {
+        if let existingDiffuser = diffuserMapping[peripheral] {
+            // Update peripheralUUID in case we reconnected
+            existingDiffuser.peripheralUUID = peripheral.identifier.uuidString
+            print("Linked existing diffuser \(existingDiffuser.id) to peripheral \(peripheral.identifier)")
+            return existingDiffuser
+        } else {
+            // Create a new Diffuser
+            let newDiffuser = Diffuser(
+                name: "New Diffuser",
+                isConnected: true,
+                modelNumber: "Unknown",
+                serialNumber: peripheral.identifier.uuidString,
+                timerSetting: 30,
+                peripheralUUID: peripheral.identifier.uuidString
+            )
+            modelContext.insert(newDiffuser)
+            diffusers.append(newDiffuser)
+            diffuserMapping[peripheral] = newDiffuser
+            do {
+                try modelContext.save()
+                print("Created and linked new diffuser \(newDiffuser.id) to peripheral \(peripheral.identifier)")
+                return newDiffuser
+            } catch {
+                print("Failed to save new diffuser for \(peripheral.identifier): \(error)")
+                return nil
+            }
         }
     }
+
+    
+    func findDiffuser(by peripheralUUID: String) -> Diffuser? {
+        // Example: look for a diffuser with a matching peripheralUUID
+        diffusers.first { $0.peripheralUUID == peripheralUUID }
+    }
+    
+    // MARK: - Handle Fragrance Timing
+    func handleFragranceTimingResponse(_ response: FragranceTimingResponse, peripheral: CBPeripheral) {
+        guard let diffuser = findOrCreateDiffuser(for: peripheral) else {
+            print("Could not find or create diffuser for peripheral: \(peripheral.identifier)")
+            return
+        }
+
+        // Create a new Timing object from the response
+        let newTiming = Timing(
+            number: Int(response.timingNumber),
+            powerOn: response.powerOnTime,
+            powerOff: response.powerOffTime,
+            daysOfOperation: response.daysOfOperation,
+            gradeMode: response.gradeMode,
+            grade: Int(response.grade),
+            customWorkTime: Int(response.customWorkTime),
+            customPauseTime: Int(response.customPauseTime)
+        )
+
+        // If there's a 9-timing limit, enforce it here
+        if diffuser.timings.count < 9 {
+            diffuser.timings.append(newTiming)
+            modelContext.insert(newTiming)
+            do {
+                try modelContext.save()
+                print("Stored timing #\(newTiming.number) for diffuser \(diffuser.id).")
+            } catch {
+                print("Error saving context after adding timing: \(error)")
+            }
+        } else {
+            print("Diffuser \(diffuser.id) already has 9 timings. Skipping.")
+        }
+    }
+
+    // MARK: - Equipment / Machine Model / Switch / Clock
 
     private func handleEquipmentVersionResponse(_ response: EquipmentVersionResponse) {
         guard let current = currentDiffuser else {
@@ -187,27 +220,6 @@ class DiffuserManager: ObservableObject {
         current.modelNumber = response.model
         saveContext()
         print("Updated machine model in current diffuser.")
-    }
-
-    func handleFragranceTimingResponse(_ response: FragranceTimingResponse, peripheral: CBPeripheral) {
-        let peripheralUUID = peripheral.identifier.uuidString
-        let timing = Timing(
-            number: Int(response.timingNumber),
-            powerOn: response.powerOnTime,
-            powerOff: response.powerOffTime,
-            daysOfOperation: response.daysOfOperation,
-            gradeMode: response.gradeMode,
-            grade: Int(response.grade),
-            customWorkTime: Int(response.customWorkTime),
-            customPauseTime: Int(response.customPauseTime)
-        )
-
-        if diffuserTimings[peripheralUUID] == nil {
-            diffuserTimings[peripheralUUID] = []
-        }
-
-        diffuserTimings[peripheralUUID]?.append(timing)
-        print("📀 timing for UUID \(peripheralUUID): \(timing)")
     }
 
     private func updateDiffuserWithMainSwitch(_ response: MainSwitchResponse) {
@@ -237,11 +249,40 @@ class DiffuserManager: ObservableObject {
         }
     }
 
+    // MARK: - CRUD
+
+    func addDiffuser(name: String, isConnected: Bool, modelNumber: String, serialNumber: String, timerSetting: Int) {
+        let newDiffuser = Diffuser(
+            name: name,
+            isConnected: isConnected,
+            modelNumber: modelNumber,
+            serialNumber: serialNumber,
+            timerSetting: timerSetting
+        )
+
+        modelContext.insert(newDiffuser)
+        diffusers.append(newDiffuser)
+        currentDiffuser = newDiffuser
+        saveContext()
+    }
+
+    func removeDiffuser(_ diffuser: Diffuser) {
+        modelContext.delete(diffuser)
+        diffusers.removeAll { $0.id == diffuser.id }
+        if diffuser.id == currentDiffuser?.id {
+            currentDiffuser = nil
+        }
+        saveContext()
+    }
+
+    // MARK: - Persistence
+
     private func loadDiffusers() {
         do {
             let fetchDescriptor = FetchDescriptor<Diffuser>()
             let allDiffusers = try modelContext.fetch(fetchDescriptor)
             self.diffusers = allDiffusers
+            // Optional: Rebuild your diffuserMapping if you store references to peripherals
         } catch {
             print("Error loading diffusers: \(error)")
         }

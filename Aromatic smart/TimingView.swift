@@ -7,42 +7,33 @@ struct TimingView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                if let timings = diffuserManager.diffuserTimings[peripheralUUID] {
-                    ForEach(timings) { timing in
-                        NavigationLink(destination: OperationCycleView(diffuser: createDiffuser(for: timing))) {
-                            TimingRow(timing: timing)
-                        }
-                    }
-                } else {
-                    Text("No timings found for this diffuser.")
-                        .foregroundColor(.gray)
-                }
-            }
-            .navigationTitle("Timings")
-        }
-    }
+            // Find the diffuser by peripheralUUID
+            if let diffuser = diffuserManager.findDiffuser(by: peripheralUUID) {
+                // Fetch the diffuser’s timings
+                let timings = diffuser.timings
 
-    private func createDiffuser(for timing: Timing) -> Diffuser {
-        let diffuser = Diffuser(
-            name: "Timing \(timing.number)",
-            isConnected: true,
-            modelNumber: "AF300",
-            serialNumber: "123ABC",
-            timerSetting: timing.number
-        )
-        diffuser.powerOn = timing.powerOn
-        diffuser.powerOff = timing.powerOff
-        diffuser.daysOfOperation = timing.daysOfOperation
-        diffuser.gradeMode = timing.gradeMode
-        diffuser.grade = timing.grade
-        diffuser.customWorkTime = timing.customWorkTime
-        diffuser.customPauseTime = timing.customPauseTime
-        return diffuser
+                List(timings) { timing in
+                    NavigationLink(
+                        destination: {
+                            // Directly navigate to OperationCycleView using the same diffuser
+                            OperationCycleView(diffuser: diffuser)
+                        }
+                    ) {
+                        TimingRow(timing: timing)
+                    }
+                }
+                .navigationTitle("Timings")
+            } else {
+                // If no Diffuser is found for this peripheralUUID
+                Text("No diffuser found for this peripheral.")
+                    .foregroundColor(.gray)
+                    .navigationTitle("Timings")
+            }
+        }
     }
 }
 
-// A simple view to show each timing in the list
+// A simple row to display each timing’s basic info
 struct TimingRow: View {
     let timing: Timing
 
@@ -52,11 +43,13 @@ struct TimingRow: View {
                 .font(.headline)
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
-                Text("On: \(timing.powerOn)").font(.subheadline).foregroundColor(.gray)
-                Text("Off: \(timing.powerOff)").font(.subheadline).foregroundColor(.gray)
+                Text("On: \(timing.powerOn)")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                Text("Off: \(timing.powerOff)")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
             }
         }
     }
 }
-
-
