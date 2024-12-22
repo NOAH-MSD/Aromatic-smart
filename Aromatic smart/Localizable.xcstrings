@@ -99,6 +99,7 @@
       }
     },
     "Configuration" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -109,6 +110,7 @@
       }
     },
     "Configure the device’s operation times, intensity, and other settings." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -117,6 +119,9 @@
           }
         }
       }
+    },
+    "Configure the device’s operation times, intensity, fan, and other settings." : {
+
     },
     "Confirm" : {
       "extractionState" : "stale",
@@ -174,6 +179,12 @@
           }
         }
       }
+    },
+    "Cycle #%lld" : {
+
+    },
+    "Days of Operation" : {
+
     },
     "Delete Device" : {
       "extractionState" : "stale",
@@ -564,7 +575,7 @@
         }
       }
     },
-    "No timings found for this diffuser." : {
+    "No diffuser found for this peripheral." : {
 
     },
     "Off: %@" : {
@@ -702,6 +713,7 @@
       }
     },
     "Repeat" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {

@@ -3,20 +3,21 @@ import Foundation
 
 @Model
 class Timing: Identifiable {
-    // Core properties
     var id: UUID = UUID()
-    
-    // Example fields (from your fragrance timing responses)
+
+    // Example properties
     var number: Int
     var powerOn: String
     var powerOff: String
-    var daysOfOperation: [String] // or a transformable property if you prefer
+    var daysOfOperation: [String]
     var gradeMode: String
     var grade: Int
     var customWorkTime: Int
     var customPauseTime: Int
-    
-    // Initializer
+
+    // Add this to fix "Value of type 'Timing' has no member 'fanSwitch'"
+    var fanSwitch: Bool = false
+
     init(
         number: Int,
         powerOn: String,
@@ -25,7 +26,8 @@ class Timing: Identifiable {
         gradeMode: String,
         grade: Int,
         customWorkTime: Int,
-        customPauseTime: Int
+        customPauseTime: Int,
+        fanSwitch: Bool = false
     ) {
         self.number = number
         self.powerOn = powerOn
@@ -35,8 +37,6 @@ class Timing: Identifiable {
         self.grade = grade
         self.customWorkTime = customWorkTime
         self.customPauseTime = customPauseTime
+        self.fanSwitch = fanSwitch
     }
-    
-    // Helper methods if needed
-    // e.g., a method to update the timing’s schedule, etc.
 }

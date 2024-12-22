@@ -15,8 +15,8 @@ struct TimingView: View {
                 List(timings) { timing in
                     NavigationLink(
                         destination: {
-                            // Directly navigate to OperationCycleView using the same diffuser
-                            OperationCycleView(diffuser: diffuser)
+                            // Pass a single Timing to OperationCycleView
+                            OperationCycleView(timing: timing)
                         }
                     ) {
                         TimingRow(timing: timing)

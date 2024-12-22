@@ -2,20 +2,39 @@ import SwiftUI
 import SwiftData
 
 struct OperationCycleView: View {
-    @ObservedObject var diffuser: Diffuser
+    @Bindable var timing: Timing
 
     @State private var powerOnDate: Date
     @State private var powerOffDate: Date
-    @State private var selectedIntensity: Intencities = .LOW
     @State private var selectedDays: Set<String>
+    @State private var selectedIntensity: Intencities
+
+    // NEW: Local state for fan toggle, since onChange requires an Equatable
     @State private var fanEnabled: Bool
 
-    init(diffuser: Diffuser) {
-        self.diffuser = diffuser
-        _powerOnDate = State(initialValue: DateFormatter.timeFormatter.date(from: diffuser.powerOn) ?? Date())
-        _powerOffDate = State(initialValue: DateFormatter.timeFormatter.date(from: diffuser.powerOff) ?? Date())
-        _selectedDays = State(initialValue: Set(diffuser.daysOfOperation))
-        _fanEnabled = State(initialValue: diffuser.fanSwitch)
+    init(timing: Timing) {
+        self._timing = Bindable(timing)
+
+        // Convert timing.powerOn/off to Date
+        _powerOnDate = State(initialValue: DateFormatter.timeFormatter.date(from: timing.powerOn) ?? Date())
+        _powerOffDate = State(initialValue: DateFormatter.timeFormatter.date(from: timing.powerOff) ?? Date())
+
+        // Days of operation as a set
+        _selectedDays = State(initialValue: Set(timing.daysOfOperation))
+
+        // Convert timing.grade to Intensity
+        if timing.grade == 3 {
+            _selectedIntensity = State(initialValue: .Jet)
+        } else if timing.grade == 2 {
+            _selectedIntensity = State(initialValue: .HIGH)
+        } else if timing.grade == 1 {
+            _selectedIntensity = State(initialValue: .MID)
+        } else {
+            _selectedIntensity = State(initialValue: .LOW)
+        }
+
+        // Initialize fanEnabled from timing
+        _fanEnabled = State(initialValue: timing.fanSwitch)
     }
 
     enum Intencities: String, CaseIterable, Identifiable {
@@ -26,15 +45,13 @@ struct OperationCycleView: View {
 
     var body: some View {
         List {
-            // Header Section
+            // Header
             Section {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Operation Cycle")
                         .font(.title.bold())
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Text("Configure the device’s operation times, intensity, and other settings.")
+                    Text("Configure the device’s operation times, intensity, fan, and other settings.")
                         .foregroundColor(.gray)
-                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.vertical, 8)
             }
@@ -43,37 +60,27 @@ struct OperationCycleView: View {
             Section {
                 HStack(spacing: 20) {
                     TimePicker(title: "Starting Time", date: $powerOnDate)
-                        .onChange(of: powerOnDate) { newValue in
-                            diffuser.powerOn = DateFormatter.timeFormatter.string(from: newValue)
+                        .onChange(of: powerOnDate) { newDate in
+                            timing.powerOn = DateFormatter.timeFormatter.string(from: newDate)
                         }
 
                     Divider().frame(height: 100)
 
                     TimePicker(title: "Ending Time", date: $powerOffDate)
-                        .onChange(of: powerOffDate) { newValue in
-                            diffuser.powerOff = DateFormatter.timeFormatter.string(from: newValue)
+                        .onChange(of: powerOffDate) { newDate in
+                            timing.powerOff = DateFormatter.timeFormatter.string(from: newDate)
                         }
                 }
-                
             }
-            
-            
+
             // Fan Toggle Section
             Section(header: Text("Fan")) {
-                           HStack {
-                               Toggle("Fan Status", isOn: $fanEnabled)
-                                   .onChange(of: fanEnabled) {
-                                       diffuser.fanSwitch = fanEnabled
-                                   }
-
-                               Spacer()
-
-                               Image(systemName: fanEnabled ? "fan" : "fan.slash")
-                                   .foregroundColor(fanEnabled ? .blue : .gray)
-                                   .scaleEffect(1.5)
-                                   .animation(.easeInOut, value: fanEnabled)
-                           }
-                       }
+                Toggle("Fan Status", isOn: $fanEnabled)
+                    .onChange(of: fanEnabled) { newValue in
+                        // Manually sync back to timing.fanSwitch
+                        timing.fanSwitch = newValue
+                    }
+            }
 
             // Intensity Section
             Section(header: Text("Intensity Level")) {
@@ -85,19 +92,20 @@ struct OperationCycleView: View {
                 .pickerStyle(SegmentedPickerStyle())
                 .onChange(of: selectedIntensity) { newIntensity in
                     switch newIntensity {
-                    case .Jet: diffuser.grade = 3
-                    case .HIGH: diffuser.grade = 2
-                    case .MID: diffuser.grade = 1
-                    case .LOW: diffuser.grade = 0
+                    case .Jet: timing.grade = 3
+                    case .HIGH: timing.grade = 2
+                    case .MID:  timing.grade = 1
+                    case .LOW:  timing.grade = 0
                     }
                 }
             }
-            
+
+            // Custom Durations Section
             Section(header: Text("Custom Durations")) {
                 HStack(spacing: 20) {
                     VStack(alignment: .leading) {
                         Text("Work Time (s)").font(.subheadline)
-                        Picker("Work Time", selection: $diffuser.customWorkTime) {
+                        Picker("Work Time", selection: $timing.customWorkTime) {
                             ForEach(15...600, id: \.self) { value in
                                 Text("\(value) s").tag(value)
                             }
@@ -108,7 +116,7 @@ struct OperationCycleView: View {
 
                     VStack(alignment: .leading) {
                         Text("Pause Time (s)").font(.subheadline)
-                        Picker("Pause Time", selection: $diffuser.customPauseTime) {
+                        Picker("Pause Time", selection: $timing.customPauseTime) {
                             ForEach(15...600, id: \.self) { value in
                                 Text("\(value) s").tag(value)
                             }
@@ -121,8 +129,8 @@ struct OperationCycleView: View {
             }
 
             // Days of Operation Section
-            Section(header: Text("Repeat")) {
-                ForEach(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], id: \.self) { day in
+            Section(header: Text("Days of Operation")) {
+                ForEach(["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"], id: \.self) { day in
                     HStack {
                         Text("Every \(day)")
                         Spacer()
@@ -138,23 +146,18 @@ struct OperationCycleView: View {
                         } else {
                             selectedDays.insert(day)
                         }
-                        diffuser.daysOfOperation = Array(selectedDays)
+                        timing.daysOfOperation = Array(selectedDays)
                     }
                 }
             }
-
-
-                   
-
-            // Custom Durations Section
-          
         }
-        .navigationTitle("Configuration")
+        .navigationTitle("Cycle #\(timing.number)")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
-// Helper for TimeFormatter
+// MARK: - Helper
+
 extension DateFormatter {
     static var timeFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -163,6 +166,7 @@ extension DateFormatter {
     }
 }
 
+/// Simple time picker component
 struct TimePicker: View {
     let title: String
     @Binding var date: Date
