@@ -54,8 +54,26 @@ struct OperationCycleView: View {
                             diffuser.powerOff = DateFormatter.timeFormatter.string(from: newValue)
                         }
                 }
-                .padding(.vertical, 8)
+                
             }
+            
+            
+            // Fan Toggle Section
+            Section(header: Text("Fan")) {
+                           HStack {
+                               Toggle("Fan Status", isOn: $fanEnabled)
+                                   .onChange(of: fanEnabled) {
+                                       diffuser.fanSwitch = fanEnabled
+                                   }
+
+                               Spacer()
+
+                               Image(systemName: fanEnabled ? "fan" : "fan.slash")
+                                   .foregroundColor(fanEnabled ? .blue : .gray)
+                                   .scaleEffect(1.5)
+                                   .animation(.easeInOut, value: fanEnabled)
+                           }
+                       }
 
             // Intensity Section
             Section(header: Text("Intensity Level")) {
@@ -125,13 +143,8 @@ struct OperationCycleView: View {
                 }
             }
 
-            // Fan Toggle Section
-            Section(header: Text("Fan")) {
-                Toggle("Fan Status", isOn: $fanEnabled)
-                    .onChange(of: fanEnabled) { newValue in
-                        diffuser.fanSwitch = newValue
-                    }
-            }
+
+                   
 
             // Custom Durations Section
           
