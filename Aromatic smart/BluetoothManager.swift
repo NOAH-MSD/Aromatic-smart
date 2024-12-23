@@ -3,6 +3,7 @@ import Combine
 
 /// A protocol describing all the operations needed by a diffuser type
 
+
 class BluetoothManager: NSObject, ObservableObject {
     static let shared = BluetoothManager()
     // MARK: - Combine Publishers
@@ -67,13 +68,116 @@ class BluetoothManager: NSObject, ObservableObject {
         centralManager.stopScan()
         print("Scanning stopped.")
     }
+    
+    func formatPeripheralName(_ name: String?) -> String {
+        return name ?? "Unnamed Device"
+    }
+    
+    
+    func isConnected(to device: CBPeripheral) -> Bool {
+        return connectedPeripheral?.identifier == device.identifier
+    }
+    
+    func deviceStatus(for device: CBPeripheral) -> String {
+        return isConnected(to: device) ? "Connected" : "Not Connected"
+    }
+    
+    
+    
+    
+    
 
     func connect(_ peripheral: CBPeripheral) {
         centralManager.connect(peripheral, options: nil)
         peripheral.delegate = self
         print("Connecting to \(peripheral.name ?? "Unknown")...")
     }
+    
+    func requestDataFromDevice(peripheral: CBPeripheral) {
+        guard let characteristic = pairingCharacteristic else {
+            //print("Characteristic not found.")
+            return
+        }
+        let command = Data([0x40]) // Command to request data packets
+        peripheral.writeValue(command, for: characteristic, type: .withResponse)
+        //print("Sent 0x40 command to request data packets.")
+    }
 
+    func sendOldProtocolPassword(password: String, peripheral: CBPeripheral) {
+        // 1. Ensure the pairing characteristic is available
+        guard let characteristic = pairingCharacteristic else {
+            print("No pairing characteristic. Can't send old protocol password.")
+            return
+        }
+
+        // 2. Create the data to be written
+        let commandData = createOldProtocolCommand(password: password)
+
+        // 3. Write the password data to the characteristic
+        peripheral.writeValue(commandData, for: characteristic, type: .withResponse)
+
+        // 4. Log the action for debugging
+        let hexString = commandData.map { String(format: "%02x", $0) }.joined(separator: " ")
+        print("Old protocol password (\(password)) sent. Command Data: [\(hexString)]")
+    }
+    
+    func sendNewProtocolPassword(password: String, customCode: String, peripheral: CBPeripheral) {
+        // 1. Ensure the pairing characteristic is available
+        guard let characteristic = pairingCharacteristic else {
+            print("No pairing characteristic. Can't send new protocol password.")
+            return
+        }
+
+        // 2. Create the data to be written (new protocol command)
+        let commandData = createNewProtocolCommand(password: password, customCode: customCode)
+
+        // 3. Write the password data to the characteristic
+        peripheral.writeValue(commandData, for: characteristic, type: .withResponse)
+
+        // 4. Log for debugging
+        let hexString = commandData.map { String(format: "%02x", $0) }.joined(separator: " ")
+        print("New protocol password (\(password), custom code: \(customCode)) sent. Command Data: [\(hexString)]")
+
+        // 5. Optionally, wait or listen for pairing result, then proceed.
+        //    For instance, you might do something in didUpdateValueFor characteristic
+        //    or rely on pairingResultMessage being updated by parse logic.
+    }
+    
+    func sendPairingPassword(peripheral: CBPeripheral, customCode: String) {
+        // 1. Define the default password for old protocol
+        let defaultPassword = "8888"
+        
+        // 2. Send old protocol first
+        sendOldProtocolPassword(password: defaultPassword, peripheral: peripheral)
+
+        // 3. After a short delay, check pairing results
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            guard let self = self else { return }
+            
+            // If we have some pairing result message by now:
+            if let pairingResult = self.pairingResultMessage {
+                // If old protocol succeeded
+                if pairingResult.contains("V2.0") {
+                    print("Old protocol pairing successful.")
+                    // Possibly request data or do further steps here
+                    self.requestDataFromDevice(peripheral: peripheral)
+                } else {
+                    // If old protocol didn’t succeed, attempt the new protocol
+                    print("Old protocol failed or unexpected. Trying new protocol...")
+                    self.sendNewProtocolPassword(password: defaultPassword,
+                                                 customCode: customCode,
+                                                 peripheral: peripheral)
+                }
+            } else {
+                // If we don’t have any result, also try new protocol
+                print("No response from old protocol. Sending new protocol password.")
+                self.sendNewProtocolPassword(password: defaultPassword,
+                                             customCode: customCode,
+                                             peripheral: peripheral)
+            }
+        }
+    }
+    
     func parseResponse(_ data: Data) {
         diffuserAPI?.parseResponse(data)
     }
@@ -157,59 +261,6 @@ extension BluetoothManager: CBCentralManagerDelegate {
     }
 }
 
-// MARK: - CBPeripheralDelegate
-extension BluetoothManager: CBPeripheralDelegate {
-    func peripheral(_ peripheral: CBPeripheral,
-                    didDiscoverServices error: Error?) {
-        if let error = error {
-            print("Failed to discover services: \(error.localizedDescription)")
-            return
-        }
-        guard let services = peripheral.services else { return }
-        for service in services {
-            print("Discovered service: \(service.uuid)")
-            peripheral.discoverCharacteristics(nil, for: service)
-        }
-    }
-
-    func peripheral(_ peripheral: CBPeripheral,
-                    didDiscoverCharacteristicsFor service: CBService,
-                    error: Error?)
-    {
-        if let error = error {
-            print("Failed to discover characteristics: \(error.localizedDescription)")
-            return
-        }
-        guard let characteristics = service.characteristics else { return }
-        for characteristic in characteristics {
-            print("Discovered characteristic: \(characteristic.uuid.uuidString)")
-            // For typeA, maybe it's FFF6
-            if characteristic.uuid == CBUUID(string: "FFF6") {
-                pairingCharacteristic = characteristic
-                print("Pairing characteristic found.")
-                // Possibly send pairing here...
-                if characteristic.properties.contains(.notify) {
-                    peripheral.setNotifyValue(true, for: characteristic)
-                }
-            }
-        }
-    }
-
-    func peripheral(_ peripheral: CBPeripheral,
-                    didUpdateValueFor characteristic: CBCharacteristic,
-                    error: Error?)
-    {
-        if let error = error {
-            print("Error reading value: \(error.localizedDescription)")
-            return
-        }
-        guard let data = characteristic.value else {
-            print("No data received.")
-            return
-        }
-        parseResponse(data)
-    }
-}
 
 struct AuthenticationResponse {
     let version: String
@@ -461,5 +512,81 @@ struct PCBAndEquipmentVersionResponse {
         }
         self.pcbVersion = pcbVersionString
         self.equipmentVersion = equipmentVersionString
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// MARK: - CBPeripheralDelegate
+extension BluetoothManager: CBPeripheralDelegate {
+    func peripheral(_ peripheral: CBPeripheral,
+                    didDiscoverServices error: Error?) {
+        if let error = error {
+            print("Failed to discover services: \(error.localizedDescription)")
+            return
+        }
+        guard let services = peripheral.services else { return }
+        for service in services {
+            print("Discovered service: \(service.uuid)")
+            peripheral.discoverCharacteristics(nil, for: service)
+        }
+    }
+    
+    
+
+    func peripheral(_ peripheral: CBPeripheral,
+                    didDiscoverCharacteristicsFor service: CBService,
+                    error: Error?) {
+        if let error = error {
+            print("⚠️ Characteristic discovery failed for \(service.uuid.uuidString): \(error.localizedDescription)")
+            return
+        }
+        guard let characteristics = service.characteristics, !characteristics.isEmpty else {
+            print("No characteristics found for service \(service.uuid.uuidString).")
+            return
+        }
+        for characteristic in characteristics {
+            print("🔎 Discovered characteristic: \(characteristic.uuid.uuidString) on service \(service.uuid.uuidString)")
+            // If it’s the pairing characteristic (FFF6):
+            if characteristic.uuid == CBUUID(string: "FFF6") {
+                pairingCharacteristic = characteristic
+                print("🚪 Pairing characteristic found on \(peripheral.name ?? "Unknown").")
+                
+                // 1. Immediately attempt pairing by sending the password
+                //    e.g., with a custom code "1234"
+                sendPairingPassword(peripheral: peripheral, customCode: "1234")
+
+                // 2. If the characteristic supports notifications, enable them
+                if characteristic.properties.contains(.notify) {
+                    peripheral.setNotifyValue(true, for: characteristic)
+                }
+            }
+        }
+    }
+
+    func peripheral(_ peripheral: CBPeripheral,
+                    didUpdateValueFor characteristic: CBCharacteristic,
+                    error: Error?)
+    {
+        if let error = error {
+            print("Error reading value: \(error.localizedDescription)")
+            return
+        }
+        guard let data = characteristic.value else {
+            print("No data received.")
+            return
+        }
+        parseResponse(data)
     }
 }

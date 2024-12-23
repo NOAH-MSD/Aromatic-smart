@@ -161,6 +161,7 @@
       }
     },
     "Connection Status" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {

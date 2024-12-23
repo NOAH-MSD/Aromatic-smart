@@ -72,6 +72,7 @@ struct OperationCycleView: View {
                         }
                 }
             }
+            
 
             // Fan Toggle Section
             Section(header: Text("Fan")) {
