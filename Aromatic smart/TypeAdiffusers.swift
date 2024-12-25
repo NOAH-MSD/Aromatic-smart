@@ -18,6 +18,7 @@ class TypeADiffuserAPI: DiffuserAPI {
         0xC5, 0x84, 0x46, 0xC6, 0x47, 0xC7, 0x03, 0x83, 0x4a, 0x48, 0xC8,
         0x4b, 0xcb, 0x4D
     ]
+    private let deviceModelKey = "DeviceModels"
 
     /// Mapping of start bytes to parse functions
     lazy var responseHandlers: [UInt8: (Data) -> Void] = [
@@ -44,12 +45,120 @@ class TypeADiffuserAPI: DiffuserAPI {
 
     // MARK: - DiffuserAPI Protocol Methods
 
+    /// Save the device model for a specific device
+
+
     /// Start scanning with Type A logic
     func startScanning(manager: CBCentralManager) {
         manager.scanForPeripherals(withServices: scanServiceUUIDs, options: nil)
         print("Type A scanning started. Service UUIDs: \(scanServiceUUIDs.map(\.uuidString).joined())")
     }
+    
+    func saveDeviceModel(peripheralUUID: String, model: String) {
+        var storedModels = UserDefaults.standard.dictionary(forKey: deviceModelKey) as? [String: String] ?? [:]
+        storedModels[peripheralUUID] = model
+        UserDefaults.standard.set(storedModels, forKey: deviceModelKey)
+        print("Saved device model: \(peripheralUUID) model: \(model)")
+    }
 
+    /// Retrieve the device model for a specific device
+    func loadDeviceModel(peripheralUUID: String) -> String? {
+        let storedModels = UserDefaults.standard.dictionary(forKey: deviceModelKey) as? [String: String]
+        return storedModels?[peripheralUUID]
+    }
+
+    
+    func sendOldProtocolPassword(peripheral: CBPeripheral, characteristic: CBCharacteristic, password: String) {
+        let commandData = createOldProtocolCommand(password: password)
+        peripheral.writeValue(commandData, for: characteristic, type: .withResponse)
+        logPasswordSent("Old Protocol", password, commandData)
+        saveDeviceModel(peripheralUUID: peripheral.identifier.uuidString, model: "old")
+        print("✍🏼Device model is set to old for device \(peripheral.identifier.uuidString).")
+    }
+
+    func sendNewProtocolPassword(peripheral: CBPeripheral, characteristic: CBCharacteristic, password: String, customCode: String) {
+        let commandData = createNewProtocolCommand(password: password, customCode: customCode)
+        peripheral.writeValue(commandData, for: characteristic, type: .withResponse)
+        logPasswordSent("New Protocol", "\(password), custom code: \(customCode)", commandData)
+        saveDeviceModel(peripheralUUID: peripheral.identifier.uuidString, model: "new")
+        print("✍🏼Device model is set to new for device \(peripheral.identifier.uuidString).")
+    }
+
+    func sendPairingPassword(peripheral: CBPeripheral, characteristic: CBCharacteristic, customCode: String) {
+        let defaultPassword = "8888"
+        sendOldProtocolPassword(peripheral: peripheral, characteristic: characteristic, password: defaultPassword)
+
+        // After a delay, attempt new protocol if old protocol fails
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            if let pairingResult = self.bluetoothManager?.pairingResultMessage {
+                if pairingResult.contains("V2.0") {
+                    print("Old protocol pairing successful for Type A.")
+                } else {
+                    print("Old protocol failed, attempting new protocol...")
+                    self.sendNewProtocolPassword(peripheral: peripheral,
+                                                 characteristic: characteristic,
+                                                 password: defaultPassword,
+                                                 customCode: customCode)
+                }
+            } else {
+                print("No response for old protocol, trying new protocol...")
+                self.sendNewProtocolPassword(peripheral: peripheral,
+                                             characteristic: characteristic,
+                                             password: defaultPassword,
+                                             customCode: customCode)
+            }
+        }
+    }
+    
+    private func createOldProtocolCommand(password: String) -> Data {
+        let passwordBytes = password.utf8.map { UInt8($0) }
+        return Data([0x8f] + passwordBytes) // Example command structure
+    }
+
+    private func createNewProtocolCommand(password: String, customCode: String) -> Data {
+        let passwordBytes = password.utf8.map { UInt8($0) }
+        let customCodeBytes = customCode.utf8.map { UInt8($0) }
+        return Data([0x8f] + passwordBytes + customCodeBytes) // Example command structure
+    }
+
+    private func logPasswordSent(_ protocolType: String, _ password: String, _ commandData: Data) {
+        let hexString = commandData.map { String(format: "%02x", $0) }.joined(separator: " ")
+        print("\(protocolType) password (\(password)) sent. Command Data: [\(hexString)]")
+    }
+    
+
+    func writeAndVerifySettings(
+        peripheral: CBPeripheral,
+        characteristic: CBCharacteristic,
+        writeCommand: [UInt8]
+    ) {
+        // 1. Write the settings to the diffuser
+        let writeData = Data(writeCommand)
+        peripheral.writeValue(writeData, for: characteristic, type: .withResponse)
+        logCommand(writeData, for: characteristic)
+
+        // 2. Determine the device model (old or new)
+        let deviceModel = loadDeviceModel(peripheralUUID: peripheral.identifier.uuidString)
+
+        // 3. Decide the read request based on the device model
+        let readRequest: [UInt8] = (deviceModel == "new") ? [0x40] : [0x03]
+
+        // 4. Optionally, add a small delay before sending the read request
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            let readData = Data(readRequest)
+            peripheral.writeValue(readData, for: characteristic, type: .withResponse)
+            self.logCommand(readData, for: characteristic)
+        }
+    }
+
+    /// Helper to log the command in a human-readable format
+    private func logCommand(_ data: Data, for characteristic: CBCharacteristic) {
+        let hexString = data.map { String(format: "%02x", $0) }.joined(separator: " ")
+        print("TypeADiffuserAPI: wrote command [\(hexString)] to \(characteristic.uuid)")
+    }
+
+    
+    
     /// Request equipment version (Type A uses a single byte `[0x87]`)
     func requestEquipmentVersion(peripheral: CBPeripheral, characteristic: CBCharacteristic?) {
         guard let c = characteristic else {

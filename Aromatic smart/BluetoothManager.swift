@@ -30,11 +30,15 @@ class BluetoothManager: NSObject, ObservableObject {
     @Published var pairingResultMessage: String? = nil
     @Published var state: CBManagerState = .unknown
     @Published var readyToSubscribe: Bool = false
+    
+
+   
+
 
     // MARK: - Private
     private var cancellables = Set<AnyCancellable>()
     private var centralManager: CBCentralManager!
-    private var pairingCharacteristic: CBCharacteristic?
+    var pairingCharacteristic: CBCharacteristic?
 
     /// The currently selected DiffuserAPI (e.g., Type A). Could be swapped if you detect Type B, etc.
     var diffuserAPI: DiffuserAPI?
@@ -75,6 +79,7 @@ class BluetoothManager: NSObject, ObservableObject {
     
     
     func isConnected(to device: CBPeripheral) -> Bool {
+        
         return connectedPeripheral?.identifier == device.identifier
     }
     
@@ -82,8 +87,9 @@ class BluetoothManager: NSObject, ObservableObject {
         return isConnected(to: device) ? "Connected" : "Not Connected"
     }
     
-    
-    
+    func loadDeviceModel(for device: CBPeripheral) -> String {
+        return diffuserAPI?.loadDeviceModel(peripheralUUID: device.identifier.uuidString) ?? "Unknown"
+    }
     
     
 
@@ -93,90 +99,42 @@ class BluetoothManager: NSObject, ObservableObject {
         print("Connecting to \(peripheral.name ?? "Unknown")...")
     }
     
-    func requestDataFromDevice(peripheral: CBPeripheral) {
+    
+    
+    func sendOldProtocolPassword(password: String, to peripheral: CBPeripheral) {
         guard let characteristic = pairingCharacteristic else {
-            //print("Characteristic not found.")
+            print("Error: No pairing characteristic available for old protocol password.")
             return
         }
-        let command = Data([0x40]) // Command to request data packets
-        peripheral.writeValue(command, for: characteristic, type: .withResponse)
-        //print("Sent 0x40 command to request data packets.")
-    }
-
-    func sendOldProtocolPassword(password: String, peripheral: CBPeripheral) {
-        // 1. Ensure the pairing characteristic is available
-        guard let characteristic = pairingCharacteristic else {
-            print("No pairing characteristic. Can't send old protocol password.")
-            return
-        }
-
-        // 2. Create the data to be written
-        let commandData = createOldProtocolCommand(password: password)
-
-        // 3. Write the password data to the characteristic
-        peripheral.writeValue(commandData, for: characteristic, type: .withResponse)
-
-        // 4. Log the action for debugging
-        let hexString = commandData.map { String(format: "%02x", $0) }.joined(separator: " ")
-        print("Old protocol password (\(password)) sent. Command Data: [\(hexString)]")
+        diffuserAPI?.sendOldProtocolPassword(peripheral: peripheral, characteristic: characteristic, password: password)
     }
     
-    func sendNewProtocolPassword(password: String, customCode: String, peripheral: CBPeripheral) {
-        // 1. Ensure the pairing characteristic is available
+    
+    
+ 
+    
+    func sendNewProtocolPassword(password: String, customCode: String, to peripheral: CBPeripheral) {
         guard let characteristic = pairingCharacteristic else {
-            print("No pairing characteristic. Can't send new protocol password.")
+            print("Error: No pairing characteristic available for new protocol password.")
             return
         }
-
-        // 2. Create the data to be written (new protocol command)
-        let commandData = createNewProtocolCommand(password: password, customCode: customCode)
-
-        // 3. Write the password data to the characteristic
-        peripheral.writeValue(commandData, for: characteristic, type: .withResponse)
-
-        // 4. Log for debugging
-        let hexString = commandData.map { String(format: "%02x", $0) }.joined(separator: " ")
-        print("New protocol password (\(password), custom code: \(customCode)) sent. Command Data: [\(hexString)]")
-
-        // 5. Optionally, wait or listen for pairing result, then proceed.
-        //    For instance, you might do something in didUpdateValueFor characteristic
-        //    or rely on pairingResultMessage being updated by parse logic.
+        diffuserAPI?.sendNewProtocolPassword(peripheral: peripheral, characteristic: characteristic, password: password, customCode: customCode)
     }
+    
+    
+
+    
     
     func sendPairingPassword(peripheral: CBPeripheral, customCode: String) {
-        // 1. Define the default password for old protocol
-        let defaultPassword = "8888"
-        
-        // 2. Send old protocol first
-        sendOldProtocolPassword(password: defaultPassword, peripheral: peripheral)
-
-        // 3. After a short delay, check pairing results
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            guard let self = self else { return }
-            
-            // If we have some pairing result message by now:
-            if let pairingResult = self.pairingResultMessage {
-                // If old protocol succeeded
-                if pairingResult.contains("V2.0") {
-                    print("Old protocol pairing successful.")
-                    // Possibly request data or do further steps here
-                    self.requestDataFromDevice(peripheral: peripheral)
-                } else {
-                    // If old protocol didn’t succeed, attempt the new protocol
-                    print("Old protocol failed or unexpected. Trying new protocol...")
-                    self.sendNewProtocolPassword(password: defaultPassword,
-                                                 customCode: customCode,
-                                                 peripheral: peripheral)
-                }
-            } else {
-                // If we don’t have any result, also try new protocol
-                print("No response from old protocol. Sending new protocol password.")
-                self.sendNewProtocolPassword(password: defaultPassword,
-                                             customCode: customCode,
-                                             peripheral: peripheral)
-            }
+        guard let characteristic = pairingCharacteristic else {
+            print("Error: No pairing characteristic available for pairing.")
+            return
         }
+        print("🔐 trying to pair with device")
+        diffuserAPI?.sendPairingPassword(peripheral: peripheral, characteristic: characteristic, customCode: customCode)
     }
+    
+
     
     func parseResponse(_ data: Data) {
         diffuserAPI?.parseResponse(data)
@@ -187,6 +145,79 @@ class BluetoothManager: NSObject, ObservableObject {
         diffuserAPI?.requestEquipmentVersion(peripheral: peripheral,
                                              characteristic: pairingCharacteristic)
     }
+    
+    func writeSettingsToDiffuser(peripheral: CBPeripheral, characteristic: CBCharacteristic, command: [UInt8]) {
+        diffuserAPI?.writeAndVerifySettings(peripheral: peripheral, characteristic: characteristic, writeCommand: command)
+    }
+    
+    func sendCurrentTimeToDiffuserAsBinary() {
+        guard let characteristic = pairingCharacteristic else {
+            print("Error: Pairing characteristic not available.")
+            return
+        }
+
+        // Get the current date and time
+        let now = Date()
+        let calendar = Calendar.current
+
+        // Extract components from the date
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second, .weekday], from: now)
+        guard let year = components.year,
+              let month = components.month,
+              let day = components.day,
+              let hour = components.hour,
+              let minute = components.minute,
+              let second = components.second,
+              let weekday = components.weekday else {
+            print("Error: Could not extract date components.")
+            return
+        }
+
+        // Validate ranges
+         guard (2000...2099).contains(year),
+               (1...12).contains(month),
+               (1...31).contains(day),
+               (0...23).contains(hour),
+               (0...59).contains(minute),
+               (0...59).contains(second),
+               (1...7).contains(weekday) else {
+             print("Error: Invalid date or time components.")
+             return
+         }
+
+
+        
+        // Inline binary conversion function
+        func toBinary(_ value: Int) -> UInt8 {
+            return UInt8(value) // Direct decimal representation
+        }
+
+        // Format into binary for each variable
+        let yearBinary: UInt8 = toBinary(year % 100) // Last two digits of the year
+        let monthBinary: UInt8 = toBinary(month)
+        let dayBinary: UInt8 = toBinary(day)
+        let hourBinary: UInt8 = toBinary(hour)
+        let minuteBinary: UInt8 = toBinary(minute)
+        let secondBinary: UInt8 = toBinary(second)
+
+        // Debugging logs for verification
+        print("Time components before binary conversion: Year: \(year % 100), Month: \(month), Day: \(day), Hour: \(hour), Minute: \(minute), Second: \(second)")
+        print("Binary Encoded: [Year: \(yearBinary), Month: \(monthBinary), Day: \(dayBinary), Hour: \(hourBinary), Minute: \(minuteBinary), Second: \(secondBinary)]")
+
+        // Use an invalid weekday for testing (optional)
+        // Adjust weekday to match the diffuser's convention (Monday = 1, ..., Sunday = 7)
+        let adjustedWeekday = (weekday == 1) ? 7 : UInt8(weekday - 1)
+
+        // Construct the command
+        let command: [UInt8] = [0x21, adjustedWeekday, yearBinary, monthBinary, dayBinary, hourBinary, minuteBinary, secondBinary]
+
+        // Write to characteristic
+        connectedPeripheral?.writeValue(Data(command), for: characteristic, type: .withResponse)
+
+        // Log the sent command for debugging
+        print("Sending time command: \(command.map { String(format: "%02x", $0) }.joined(separator: " "))")
+    }
+
 
     private func setupReadyToSubscribePublisher() {
         Publishers.CombineLatest($state, $connectedPeripheral)
@@ -566,7 +597,12 @@ extension BluetoothManager: CBPeripheralDelegate {
                 // 1. Immediately attempt pairing by sending the password
                 //    e.g., with a custom code "1234"
                 sendPairingPassword(peripheral: peripheral, customCode: "1234")
-
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.sendCurrentTimeToDiffuserAsBinary()
+                }
+                
+                
                 // 2. If the characteristic supports notifications, enable them
                 if characteristic.properties.contains(.notify) {
                     peripheral.setNotifyValue(true, for: characteristic)
@@ -588,5 +624,29 @@ extension BluetoothManager: CBPeripheralDelegate {
             return
         }
         parseResponse(data)
+    }
+}
+
+extension BluetoothManager {
+
+    /// Writes a sequence of bytes to a given characteristic using .withResponse.
+    func writeCommand(_ command: [UInt8], to characteristic: CBCharacteristic) {
+        let data = Data(command) // Convert [UInt8] to Data
+        writeCommand(data, to: characteristic)
+    }
+
+    /// Writes a Data object to a given characteristic using .withResponse.
+    func writeCommand(_ command: Data, to characteristic: CBCharacteristic) {
+        guard let peripheral = characteristic.service?.peripheral else {
+            print("No peripheral found in characteristic's service context.")
+            return
+        }
+
+        // Write the data using CoreBluetooth's .withResponse
+        peripheral.writeValue(command, for: characteristic, type: .withResponse)
+
+        // Log for debugging
+        let hexString = command.map { String(format: "%02x", $0) }.joined(separator: " ")
+        print("BluetoothManager: wrote command [\(hexString)] to \(characteristic.uuid)")
     }
 }

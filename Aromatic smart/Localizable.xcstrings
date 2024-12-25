@@ -23,6 +23,7 @@
       }
     },
     "%lld s" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -121,7 +122,15 @@
       }
     },
     "Configure the device’s operation times, intensity, fan, and other settings." : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اضبط إعدادات توقيت العمل، شدة التعطير، وغيرها"
+          }
+        }
+      }
     },
     "Confirm" : {
       "extractionState" : "stale",
@@ -172,6 +181,7 @@
       }
     },
     "Custom Durations" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -182,10 +192,25 @@
       }
     },
     "Cycle #%lld" : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دورة %lld"
+          }
+        }
+      }
     },
     "Days of Operation" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أيام التشغيل"
+          }
+        }
+      }
     },
     "Delete Device" : {
       "extractionState" : "stale",
@@ -305,6 +330,7 @@
       }
     },
     "Every %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -316,7 +342,7 @@
     },
     "every friday" : {
       "comment" : "كل جمعة",
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -441,6 +467,7 @@
       }
     },
     "Fan" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -449,6 +476,9 @@
           }
         }
       }
+    },
+    "Fan Control" : {
+
     },
     "Fan Status" : {
       "localizations" : {
@@ -489,6 +519,7 @@
       }
     },
     "Intensity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -577,10 +608,24 @@
       }
     },
     "No diffuser found for this peripheral." : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لم يتم العثور على جهاز التعطير "
+          }
+        }
+      }
     },
     "Off: %@" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إيقاف %@"
+          }
+        }
+      }
     },
     "OK" : {
       "localizations" : {
@@ -593,7 +638,14 @@
       }
     },
     "On: %@" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تشغيل %@"
+          }
+        }
+      }
     },
     "Operation cycle" : {
       "extractionState" : "stale",
@@ -670,12 +722,6 @@
         }
       }
     },
-    "Pause Time" : {
-
-    },
-    "Pause Time (s)" : {
-
-    },
     "Profile" : {
       "localizations" : {
         "ar" : {
@@ -750,6 +796,9 @@
         }
       }
     },
+    "Select Intensity" : {
+
+    },
     "Serial Number: %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -799,11 +848,21 @@
         }
       }
     },
+    "Time Settings" : {
+
+    },
     "Timing %lld" : {
 
     },
     "Timings" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التوقيتات"
+          }
+        }
+      }
     },
     "UUID: %@" : {
       "localizations" : {
@@ -816,10 +875,26 @@
       }
     },
     "Work Time" : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وقت التشغيل"
+          }
+        }
+      }
     },
     "Work Time (s)" : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وقت التشغيل (ث)"
+          }
+        }
+      }
     },
     "أجهزتي" : {
       "extractionState" : "stale",
