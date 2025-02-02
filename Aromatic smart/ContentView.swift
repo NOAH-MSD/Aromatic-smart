@@ -86,12 +86,16 @@ extension ContentView {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let container = try! ModelContainer(for: Diffuser.self)
-        
         let bluetoothManager = BluetoothManager.shared
-        let diffuserManager = DiffuserManager(context: container.mainContext, bluetoothManager: bluetoothManager)
+        let diffuserManager = DiffuserManager(
+            context: container.mainContext,
+            bluetoothManager: bluetoothManager,
+            diffuserAPI: bluetoothManager.diffuserAPI!  // Force unwrapped here as well
+        )
         
         return ContentView()
             .environmentObject(diffuserManager)
             .environmentObject(bluetoothManager)
     }
 }
+

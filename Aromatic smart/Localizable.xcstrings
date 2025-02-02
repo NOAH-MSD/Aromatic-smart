@@ -665,6 +665,7 @@
       }
     },
     "Operation Cycle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -673,6 +674,9 @@
           }
         }
       }
+    },
+    "Operation Cycle number: %lld" : {
+
     },
     "Operation cycles" : {
       "extractionState" : "stale",
@@ -749,6 +753,9 @@
         }
       }
     },
+    "Refresh Timings" : {
+
+    },
     "Remove Device" : {
       "localizations" : {
         "ar" : {
@@ -779,6 +786,9 @@
           }
         }
       }
+    },
+    "Save Settings" : {
+
     },
     "Scanning for devices..." : {
       "localizations" : {

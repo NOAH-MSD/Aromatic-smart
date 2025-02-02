@@ -191,6 +191,8 @@ struct DeviceDetailsView: View {
                 .font(.subheadline)
                 .foregroundColor(bluetoothManager.isConnected(to: device) ? .green : .red)
                 .padding()
+            
+            
 
             if !bluetoothManager.isConnected(to: device) {
                 Button(action: {
@@ -264,7 +266,8 @@ struct PairDeviceView_Previews: PreviewProvider {
         let bluetoothManager = BluetoothManager.shared
         let diffuserManager = DiffuserManager(
             context: container.mainContext,
-            bluetoothManager: bluetoothManager
+            bluetoothManager: bluetoothManager,
+            diffuserAPI: bluetoothManager.diffuserAPI!
         )
 
         PairDeviceView()

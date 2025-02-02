@@ -74,7 +74,7 @@ struct MainView_Previews: PreviewProvider {
 
         // Use the singleton instance of BluetoothManager
         let bluetoothManager = BluetoothManager.shared
-        let diffuserManager = DiffuserManager(context: container.mainContext, bluetoothManager: bluetoothManager)
+        let diffuserManager = DiffuserManager(context: container.mainContext, bluetoothManager: bluetoothManager,diffuserAPI: bluetoothManager.diffuserAPI!)
 
         return MainView()
             .environment(\.modelContext, container.mainContext)

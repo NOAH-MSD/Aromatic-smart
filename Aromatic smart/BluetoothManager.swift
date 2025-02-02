@@ -20,6 +20,8 @@ class BluetoothManager: NSObject, ObservableObject {
     var mainSwitchPublisher            = PassthroughSubject<MainSwitchResponse, Never>()
     var pcbAndEquipmentVersionPublisher = PassthroughSubject<PCBAndEquipmentVersionResponse, Never>()
     var genericResponsePublisher       = PassthroughSubject<Data, Never>()
+    var ackCompletion: ((Bool) -> Void)?
+    var ackTimer: Timer?
 
     // MARK: - Published Properties
     @Published var discoveredDevices: [CBPeripheral] = []
@@ -561,6 +563,20 @@ struct PCBAndEquipmentVersionResponse {
 
 // MARK: - CBPeripheralDelegate
 extension BluetoothManager: CBPeripheralDelegate {
+    
+    
+    
+    
+    func loadDiffuserSettings() {
+            guard let peripheral = connectedPeripheral,
+                  let characteristic = pairingCharacteristic else {
+                print("Error: No connected peripheral or pairing characteristic available.")
+                return
+            }
+
+            diffuserAPI?.loadDiffuserSettings(peripheral: peripheral, characteristic: characteristic)
+        }
+    
     func peripheral(_ peripheral: CBPeripheral,
                     didDiscoverServices error: Error?) {
         if let error = error {
@@ -574,11 +590,21 @@ extension BluetoothManager: CBPeripheralDelegate {
         }
     }
     
-    
+    func subscribeToNotifications(for characteristic: CBCharacteristic) {
+        guard let peripheral = connectedPeripheral else {
+            print("No connected peripheral to subscribe to notifications.")
+            return
+        }
 
-    func peripheral(_ peripheral: CBPeripheral,
-                    didDiscoverCharacteristicsFor service: CBService,
-                    error: Error?) {
+        if characteristic.properties.contains(.notify) {
+            peripheral.setNotifyValue(true, for: characteristic)
+            print("Subscribed to notifications for characteristic: \(characteristic.uuid.uuidString)")
+        } else {
+            print("Characteristic \(characteristic.uuid.uuidString) does not support notifications.")
+        }
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         if let error = error {
             print("⚠️ Characteristic discovery failed for \(service.uuid.uuidString): \(error.localizedDescription)")
             return
@@ -589,42 +615,85 @@ extension BluetoothManager: CBPeripheralDelegate {
         }
         for characteristic in characteristics {
             print("🔎 Discovered characteristic: \(characteristic.uuid.uuidString) on service \(service.uuid.uuidString)")
+
             // If it’s the pairing characteristic (FFF6):
             if characteristic.uuid == CBUUID(string: "FFF6") {
                 pairingCharacteristic = characteristic
                 print("🚪 Pairing characteristic found on \(peripheral.name ?? "Unknown").")
                 
-                // 1. Immediately attempt pairing by sending the password
-                //    e.g., with a custom code "1234"
+                // Subscribe to notifications for the pairing characteristic
+                subscribeToNotifications(for: characteristic)
+                
+                // Attempt pairing by sending the password
                 sendPairingPassword(peripheral: peripheral, customCode: "1234")
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self.sendCurrentTimeToDiffuserAsBinary()
                 }
-                
-                
-                // 2. If the characteristic supports notifications, enable them
-                if characteristic.properties.contains(.notify) {
-                    peripheral.setNotifyValue(true, for: characteristic)
-                }
+            }
+
+            // If characteristic matches handle 0x000a (custom UUID):
+            if characteristic.uuid == CBUUID(string: "000a") {
+                subscribeToNotifications(for: characteristic)
             }
         }
     }
 
-    func peripheral(_ peripheral: CBPeripheral,
-                    didUpdateValueFor characteristic: CBCharacteristic,
-                    error: Error?)
-    {
-        if let error = error {
-            print("Error reading value: \(error.localizedDescription)")
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        guard error == nil, let value = characteristic.value else {
+            print("Error receiving notification: \(error?.localizedDescription ?? "Unknown error")")
             return
         }
-        guard let data = characteristic.value else {
-            print("No data received.")
-            return
+
+        let hexValue = value.map { String(format: "%02x", $0) }.joined()
+        print("Received notification from \(characteristic.uuid): \(hexValue)")
+
+        // Process notification data based on characteristic
+        if characteristic.uuid == CBUUID(string: "000a") { // Match handle
+            switch value[0] {
+            case 0x40:
+                print("Acknowledgment received: \(hexValue)")
+                ackTimer?.invalidate()
+                ackTimer = nil
+                ackCompletion?(true)
+                ackCompletion = nil
+            case 0x46:
+                print("Configuration data: \(hexValue)")
+                // Process configuration data here
+            case 0x42:
+                if let model = String(data: value[1...], encoding: .ascii) {
+                    print("Device Model and Serial: \(model)")
+                    diffuserAPI?.saveDeviceModel(peripheralUUID: model, model: peripheral.identifier.uuidString)
+                }
+            default:
+                print("Unhandled notification: \(hexValue)")
+            }
+        } else {
+            parseResponse(value)
         }
-        parseResponse(data)
     }
+
+    /// Example function to check if the ACK data matches a success pattern
+    private func isAckSuccess(_ data: Data) -> Bool {
+        // e.g., you might expect `[0x1B, 0x02, 0x05, 0x00, 0x40, 0x11]`
+        // so let's drop the first byte (the opcode) and compare the rest
+        let expected: [UInt8] = [0x02, 0x05, 0x00, 0x40, 0x11]
+        guard data.count >= 6 else { return false }
+        let suffix = data.suffix(from: 1) // skip opcode
+        return Array(suffix) == expected
+    }
+
+    /// Called when the correct ACK is confirmed
+    private func notifyAckReceived() {
+        // If your logic is storing a completion handler for the write:
+        // e.g., ackCompletion?(.success(())) or ackCompletion?(.failure(...))
+        // For demonstration, let's just log
+        print("ACK received and validated!")
+    }
+    
+    
+    
+    
 }
 
 extension BluetoothManager {

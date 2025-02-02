@@ -142,7 +142,7 @@ struct DiffuserCard_Previews: PreviewProvider {
         let dummyBluetoothManager = BluetoothManager()
         let dummyDiffuserManager = DiffuserManager(
             context: try! ModelContainer(for: Diffuser.self).mainContext,
-            bluetoothManager: dummyBluetoothManager
+            bluetoothManager: dummyBluetoothManager,diffuserAPI: dummyBluetoothManager.diffuserAPI!
         )
 
         return NavigationView {

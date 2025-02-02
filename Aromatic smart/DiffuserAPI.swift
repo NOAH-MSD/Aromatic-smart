@@ -10,6 +10,7 @@ protocol DiffuserAPI {
     var responseHandlers: [UInt8: (Data) -> Void] { get }
     func saveDeviceModel(peripheralUUID: String, model: String)
     func loadDeviceModel(peripheralUUID: String) -> String?
+    func loadDiffuserSettings(peripheral: CBPeripheral, characteristic: CBCharacteristic)
     func startScanning(manager: CBCentralManager)
     func writeAndVerifySettings(peripheral: CBPeripheral, characteristic: CBCharacteristic, writeCommand: [UInt8])
     func requestEquipmentVersion(peripheral: CBPeripheral, characteristic: CBCharacteristic?)

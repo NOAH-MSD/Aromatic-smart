@@ -4,14 +4,14 @@ import Combine
 
 
 /// Type A diffuser logic: scanning, equipment version command, valid start bytes, parse handlers
-class TypeADiffuserAPI: DiffuserAPI {
+class TypeBDiffuserAPI: DiffuserAPI {
     // MARK: - Weak reference back to BluetoothManager
     /// We keep a weak var to avoid strong reference cycles.
     weak var bluetoothManager: BluetoothManager?
 
     // MARK: - DiffuserAPI protocol properties
-    let scanServiceUUIDs: [CBUUID] = [CBUUID(string: "FFF0")]  // Type A scans for FFF0
-    let requestEquipmentVersionByte: UInt8 = 0x87              // Type A uses 0x87
+    let scanServiceUUIDs: [CBUUID] = [CBUUID(string: "0x66")]  // Type B scans for
+    let requestEquipmentVersionByte: UInt8 = 0x87           
     let validStartBytes: Set<UInt8> = [
         0x8f, 0x0f, 0x40, 0x41, 0x21, 0x81, 0x01, 0x42, 0x22, 0xC2, 0xA2,
         0x85, 0x05, 0x43, 0xC3, 0x23, 0xA3, 0x86, 0x87, 0x44, 0xC4, 0x45,
@@ -123,54 +123,32 @@ class TypeADiffuserAPI: DiffuserAPI {
 
     private func logPasswordSent(_ protocolType: String, _ password: String, _ commandData: Data) {
         let hexString = commandData.map { String(format: "%02x", $0) }.joined(separator: " ")
-        print("\(protocolType) password (\(password)) sent. Comman Data: [\(hexString)]")
+        print("\(protocolType) password (\(password)) sent. Command Data: [\(hexString)]")
     }
     
-    func loadDiffuserSettings(peripheral: CBPeripheral, characteristic: CBCharacteristic) {
-        // 0x40 is now the working command for reading diffuser settings
-        let command: [UInt8] = [0x40]
-        let commandData = Data(command)
-        
-        // Write the command to the characteristic with response
-        peripheral.writeValue(commandData, for: characteristic, type: .withResponse)
-        
-        print("Sent command [\(command.map { String(format: "%02x", $0) }.joined(separator: " "))] to load diffuser settings.")
-    }
 
-    
     func writeAndVerifySettings(
         peripheral: CBPeripheral,
         characteristic: CBCharacteristic,
-        writeCommand: [UInt8] = []
+        writeCommand: [UInt8]
     ) {
-        // 1. Hardcode the observed command from the Wireshark log.
-        //    This array must match the exact bytes you want to replicate.
-        //    Example: 02 05 00 29 01 02 01 00 02 16 32 7D 00 02 00 19 00 50
-        let observedCommand: [UInt8] = [
-            0x02, 0x05, 0x00, 0x29, 0x01, 0x02, 0x01, 0x00,
-            0x02, 0x16, 0x32, 0x7D, 0x00, 0x02, 0x00, 0x19,
-            0x00, 0x50
-        ]
-
-        // 2. Convert it to Data and write to the diffuser with .withResponse
-        let writeData = Data(observedCommand)
+        // 1. Write the settings to the diffuser
+        let writeData = Data(writeCommand)
         peripheral.writeValue(writeData, for: characteristic, type: .withResponse)
         logCommand(writeData, for: characteristic)
 
-        // 3. (Optional) If your device expects a follow-up read or verification command,
-        //    you can still keep or modify the logic for deviceModel or readRequest:
-        //    For example, if "new" device uses [0x40], "old" uses [0x03], etc.
-        //    But if you only want the single observed command, you may omit the read entirely.
-
-        // Example (optional) read/verify step:
+        // 2. Determine the device model (old or new)
         let deviceModel = loadDeviceModel(peripheralUUID: peripheral.identifier.uuidString)
+
+        // 3. Decide the read request based on the device model
         let readRequest: [UInt8] = (deviceModel == "new") ? [0x40] : [0x03]
 
-        //DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-        //    let readData = Data(readRequest)
-        //    peripheral.writeValue(readData, for: characteristic, type: .withResponse)
-        //    self.logCommand(readData, for: characteristic)
-        //}
+        // 4. Optionally, add a small delay before sending the read request
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            let readData = Data(readRequest)
+            peripheral.writeValue(readData, for: characteristic, type: .withResponse)
+            self.logCommand(readData, for: characteristic)
+        }
     }
 
     /// Helper to log the command in a human-readable format
@@ -298,6 +276,15 @@ class TypeADiffuserAPI: DiffuserAPI {
         if let pcbv = PCBAndEquipmentVersionResponse(data: data) {
             bluetoothManager?.pcbAndEquipmentVersionPublisher.send(pcbv)
         }
+    }
+    
+    
+    
+    func loadDiffuserSettings(peripheral: CBPeripheral, characteristic: CBCharacteristic) {
+        let command: [UInt8] = [0x4A] // Example command to request settings
+        let data = Data(command)
+        peripheral.writeValue(data, for: characteristic, type: .withResponse)
+        print("Sent command to load diffuser settings.")
     }
 
     // MARK: - Helper

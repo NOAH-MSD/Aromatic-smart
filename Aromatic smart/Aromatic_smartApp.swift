@@ -20,9 +20,11 @@ struct Aromatic_smartApp: App {
 
         // Use the singleton instance
         let bluetoothManagerInstance = BluetoothManager.shared // <-- Use the singleton
+        let diffuserAPIInstance = TypeADiffuserAPI(bluetoothManager: bluetoothManagerInstance)
         let diffuserManagerInstance = DiffuserManager(
             context: sharedModelContainer.mainContext,
-            bluetoothManager: bluetoothManagerInstance
+            bluetoothManager: bluetoothManagerInstance,
+            diffuserAPI: bluetoothManagerInstance.diffuserAPI!
         )
 
         // Initialize @StateObject properties using local instances

@@ -7,15 +7,19 @@ class DiffuserManager: ObservableObject {
     @Published var diffusers: [Diffuser] = [] // Observable property for UI updates
     private var diffuserMapping: [CBPeripheral: Diffuser] = [:]
     private var modelContext: ModelContext
+    private var diffuserAPI: DiffuserAPI?
     private var bluetoothManager: BluetoothManager
     private var subscriptionsSetUp = false
     private var cancellables = Set<AnyCancellable>()
+    
+
 
     @Published var currentDiffuser: Diffuser?
 
-    init(context: ModelContext, bluetoothManager: BluetoothManager) {
+    init(context: ModelContext, bluetoothManager: BluetoothManager, diffuserAPI: DiffuserAPI) {
         self.bluetoothManager = bluetoothManager
         self.modelContext = context
+        self.diffuserAPI = diffuserAPI  // Assign the passed API implementation
         print("DiffuserManager initialized with BluetoothManager: \(Unmanaged.passUnretained(bluetoothManager).toOpaque())")
 
         // Load any existing diffusers from SwiftData
@@ -186,7 +190,7 @@ class DiffuserManager: ObservableObject {
         )
 
         // If there's a 9-timing limit, enforce it here
-        if diffuser.timings.count < 9 {
+        if diffuser.timings.count < 6 {
             diffuser.timings.append(newTiming)
             modelContext.insert(newTiming)
             do {
@@ -200,6 +204,31 @@ class DiffuserManager: ObservableObject {
         }
     }
 
+    func updateTimings(for peripheralUUID: String) {
+        guard let peripheral = bluetoothManager.connectedPeripheral,
+              peripheral.identifier.uuidString == peripheralUUID else {
+            print("❌ No connected peripheral found for UUID: \(peripheralUUID)")
+            return
+        }
+        
+        guard let diffuser = findDiffuser(by: peripheralUUID) else {
+            print("❌ Could not find diffuser for peripheral: \(peripheralUUID)")
+            return
+        }
+        
+        // Clear existing timings before refreshing
+        diffuser.timings.removeAll()
+        print("🗑 Cleared existing timings for diffuser: \(diffuser.id)")
+        
+        // Use the BluetoothManager’s method to load settings
+        bluetoothManager.loadDiffuserSettings()
+    }
+
+
+    
+
+    
+    
     // MARK: - Equipment / Machine Model / Switch / Clock
 
     private func handleEquipmentVersionResponse(_ response: EquipmentVersionResponse) {

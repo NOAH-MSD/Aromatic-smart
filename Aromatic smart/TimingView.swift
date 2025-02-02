@@ -7,29 +7,37 @@ struct TimingView: View {
 
     var body: some View {
         NavigationView {
-            // Find the diffuser by peripheralUUID
-            if let diffuser = diffuserManager.findDiffuser(by: peripheralUUID) {
-                // Fetch the diffuser’s timings
-                let timings = diffuser.timings
-
-                List(timings) { timing in
-                    NavigationLink(
-                        destination: {
-                            // Pass a single Timing to OperationCycleView
-                            OperationCycleView(timing: timing)
-                        }
-                    ) {
-                        TimingRow(timing: timing)
-                    }
+            VStack {
+                // Refresh button
+                Button(action: refreshTimings) {
+                    Text("Refresh Timings")
+                        .frame(maxWidth: .infinity)
                 }
-                .navigationTitle("Timings")
-            } else {
-                // If no Diffuser is found for this peripheralUUID
-                Text("No diffuser found for this peripheral.")
-                    .foregroundColor(.gray)
+                .buttonStyle(.borderedProminent)
+                .padding()
+
+                // Find the diffuser by peripheralUUID
+                if let diffuser = diffuserManager.findDiffuser(by: peripheralUUID) {
+                    let timings = diffuser.timings
+
+                    List(timings) { timing in
+                        NavigationLink(destination: OperationCycleView(timing: timing)) {
+                            TimingRow(timing: timing)
+                        }
+                    }
                     .navigationTitle("Timings")
+                } else {
+                    Text("No diffuser found for this peripheral.")
+                        .foregroundColor(.gray)
+                        .navigationTitle("Timings")
+                }
             }
         }
+    }
+
+    // Function to refresh timings using diffuserManager
+    private func refreshTimings() {
+        diffuserManager.updateTimings(for: peripheralUUID)
     }
 }
 
