@@ -94,7 +94,7 @@ struct DiffuserCard: View {
             }
         }
         .padding(12)
-        .background(diffuser.isConnected ? Color.blue.opacity(0.9) : Color.gray.opacity(0.3))
+        .background(Color(red: 0.102, green: 0.259, blue: 0.541))
         .cornerRadius(20)
         .shadow(radius: 4)
         .padding(.horizontal)
