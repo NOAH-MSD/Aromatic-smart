@@ -1,6 +1,5 @@
 import SwiftUI
 import CoreBluetooth
-import SwiftData
 
 // MARK: - PairDeviceView
 
@@ -9,26 +8,64 @@ struct PairDeviceView: View {
     @EnvironmentObject var bluetoothManager: BluetoothManager
     
     // MARK: - State Properties
+    @State private var isLoading = true  // Controls spinner visibility
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
     
     var body: some View {
         NavigationView {
-            // Use a ZStack to apply the background gradient behind the List.
             ZStack {
                 BackgroundGradientView()
+                dotsBackground
                 
-                List {
-                    ForEach(bluetoothManager.discoveredDevices, id: \.identifier) { peripheral in
-                        DeviceRow(peripheral: peripheral)
+                VStack(spacing: 20) {
+                    if isLoading {
+                        // Loading Animation and Info
+                        VStack(spacing: 8) {
+                            LoadingAnimationView()
+                            
+                            Text("جاري البحث عن الأجهزة ...")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                            
+                            Text("تأكد من أن جهازك قيد التشغيل وقابل للاكتشاف")
+                                .font(.subheadline)
+                                .foregroundColor(.white.opacity(0.8))
+                        }
+                    } else if bluetoothManager.discoveredDevices.isEmpty {
+                        // Message when no devices are found after scanning
+                        Text("لم يتم العثور على أجهزة")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                    }
+                    
+                    // List of Devices
+                    ScrollView {
+                        VStack(spacing: 12) {
+                            ForEach(bluetoothManager.discoveredDevices, id: \.identifier) { peripheral in
+                                DeviceRow(peripheral: peripheral)
+                                    .padding(.horizontal)
+                            }
+                        }
+                    }
+                    
+                    Spacer()
+                }
+                .padding(.top, 40)
+                .padding(.bottom, 20)
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        startScanning()
+                    } label: {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.white)
                     }
                 }
-                .listStyle(PlainListStyle())
             }
-            .navigationTitle("Devices")
-            .toolbar { scanButton }
         }
-        .onAppear { startScanningIfNeeded() }
+        .onAppear { startScanning() }
         .onDisappear { bluetoothManager.stopScanning() }
         .alert(isPresented: $showErrorAlert) {
             Alert(title: Text("Error"),
@@ -37,30 +74,19 @@ struct PairDeviceView: View {
         }
     }
     
-    // MARK: - Toolbar Scan Button
-    private var scanButton: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            Button {
-                guard bluetoothManager.state == .poweredOn else {
-                    showErrorAlert = true
-                    errorMessage = "Bluetooth is not powered on. Please enable Bluetooth."
-                    return
-                }
-                bluetoothManager.startScanning()
-            } label: {
-                Image(systemName: "magnifyingglass")
+    // MARK: - Scanning Logic
+    private func startScanning() {
+        isLoading = true  // Show spinner when scanning starts
+        bluetoothManager.startScanning()
+        
+        // Automatically stop spinner when scanning stops or a device is discovered
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            if !bluetoothManager.discoveredDevices.isEmpty {
+                isLoading = false  // Hide spinner if devices are found
             }
         }
-    }
-    
-    // MARK: - Helper Methods
-    private func startScanningIfNeeded() {
-        if bluetoothManager.state == .poweredOn {
-            bluetoothManager.startScanning()
-        } else {
-            showErrorAlert = true
-            errorMessage = "Bluetooth is not powered on. Please enable Bluetooth."
-        }
+        
+   
     }
 }
 
@@ -73,39 +99,49 @@ struct DeviceRow: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(peripheral.name ?? "Unknown Device")
+                Text(peripheral.name ?? "جهاز غير معروف")
                     .font(.headline)
+                    .foregroundColor(.black)
+                
                 Text(bluetoothManager.deviceStatus(for: peripheral))
                     .font(.subheadline)
                     .foregroundColor(bluetoothManager.isConnected(to: peripheral) ? .green : .red)
             }
             Spacer()
-            // Optionally, show a loading indicator if connecting.
-            if /* bluetoothManager.isConnecting(to: peripheral) */ false {
-                LoadingAnimationView()
-                    .frame(width: 30, height: 30)
-            }
-            // If the peripheral is not yet paired and connected, show a "Connect" button.
-            else if !bluetoothManager.isPairedAndConnected(peripheral) {
-                Button("Connect") {
+            
+            // Show connect button if not connected
+            if !bluetoothManager.isPairedAndConnected(peripheral) {
+                Button("اتصال") {
                     bluetoothManager.connect(peripheral)
                 }
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
                 .background(Color.blue)
                 .foregroundColor(.white)
-                .cornerRadius(8)
-            }
-            // Otherwise, show a "Connected" label.
-            else {
-                Text("Connected")
+                .cornerRadius(10)
+            } else {
+                Text("متصل")
                     .font(.subheadline)
                     .foregroundColor(.green)
             }
         }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 15)
+                .fill(Color.white)
+                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+        )
     }
 }
 
+
+extension BluetoothManager {
+    func isPairedAndConnected(_ peripheral: CBPeripheral) -> Bool {
+        let connected = isConnected(to: peripheral)
+        let paired = pairingResultMessage?.contains("successful") == true
+        return connected && paired
+    }
+}
 // MARK: - BackgroundGradientView
 
 struct BackgroundGradientView: View {
@@ -122,32 +158,40 @@ struct BackgroundGradientView: View {
     }
 }
 
-// MARK: - BluetoothManager Extension
-
-extension BluetoothManager {
-    func isPairedAndConnected(_ peripheral: CBPeripheral) -> Bool {
-        let connected = isConnected(to: peripheral)
-        let paired = pairingResultMessage?.contains("successful") == true
-        return connected && paired
-    }
-}
-
 // MARK: - LoadingAnimationView
 
 struct LoadingAnimationView: View {
-    @State private var isAnimating = false
-    
     var body: some View {
+        ProgressView()
+            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+            .scaleEffect(2.0, anchor: .center)  // Enlarges the spinner
+    }
+}
+
+private var dotsBackground: some View {
+    ZStack {
+        // green dot
         Circle()
-            .trim(from: 0, to: 0.7) // Create a partial circle
-            .stroke(Color.blue, lineWidth: 4)
-            .rotationEffect(Angle(degrees: isAnimating ? 360 : 0))
-            .animation(
-                .linear(duration: 1)
-                    .repeatForever(autoreverses: false),
-                value: isAnimating
-            )
-            .onAppear { isAnimating = true }
-            .onDisappear { isAnimating = false }
+            .fill(Color.green)
+            .frame(width: 4, height: 4)
+            .offset(x: -100, y: -50)
+
+        // yello dot (small)
+        Circle()
+            .fill(Color.yellow)
+            .frame(width: 8, height: 8)
+            .offset(x: -60, y: -10)
+
+        // bluw dot
+        Circle()
+            .fill(Color(red: 0.67, green: 1.0, blue: 1.0))  // #7FFCAA - Light Blue
+            .frame(width: 4, height: 4)
+            .offset(x: 1, y: 5)
+
+        // pink dot (small)
+        Circle()
+            .fill(Color(red: 1.0, green: 0.67, blue: 0.67))  // #FF7CAA - Pink
+            .frame(width: 10, height: 10)
+            .offset(x: 60, y: -25)
     }
 }
