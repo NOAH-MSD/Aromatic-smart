@@ -230,6 +230,7 @@
       }
     },
     "Device Details" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -546,6 +547,7 @@
 
     },
     "Make sure your Bluetooth device is turned on and discoverable." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -583,6 +585,7 @@
       }
     },
     "Name: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -593,6 +596,7 @@
       }
     },
     "No devices found." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -713,6 +717,7 @@
       }
     },
     "Pairing in progress..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -723,6 +728,7 @@
       }
     },
     "Pairing Result" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -784,6 +790,7 @@
       }
     },
     "Rescan" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -797,6 +804,7 @@
 
     },
     "Scanning for devices..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -855,6 +863,7 @@
       }
     },
     "Status: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -884,6 +893,7 @@
       }
     },
     "UUID: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -954,6 +964,9 @@
           }
         }
       }
+    },
+    "إيقاف" : {
+
     },
     "التكرار" : {
       "extractionState" : "stale",
@@ -1055,6 +1068,9 @@
           }
         }
       }
+    },
+    "تشغيل" : {
+
     },
     "تفضيلات" : {
       "extractionState" : "stale",
