@@ -466,6 +466,9 @@
         }
       }
     },
+    "Explore" : {
+
+    },
     "Fan" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -538,6 +541,9 @@
           }
         }
       }
+    },
+    "Main" : {
+
     },
     "Make sure your Bluetooth device is turned on and discoverable." : {
       "localizations" : {
@@ -858,6 +864,9 @@
         }
       }
     },
+    "Store" : {
+
+    },
     "Time Settings" : {
 
     },
@@ -922,6 +931,12 @@
           }
         }
       }
+    },
+    "أضف جهازك الآن" : {
+
+    },
+    "أنت على بُعد خطوات من الاستمتاع بروائح أروماتك الساحرة" : {
+
     },
     "إعدادات الجهاز" : {
       "extractionState" : "stale",
@@ -992,6 +1007,7 @@
       }
     },
     "الرئيسية" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1008,6 +1024,7 @@
       }
     },
     "المتجر" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1040,6 +1057,7 @@
       }
     },
     "تفضيلات" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1056,6 +1074,7 @@
       }
     },
     "لا يوجد أجهزة حاليا اضغط الزر أدناه لإضافة جهاز جديد" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1070,6 +1089,9 @@
           }
         }
       }
+    },
+    "مرحباً بك في تطبيق أروماتك .." : {
+
     }
   },
   "version" : "1.0"
