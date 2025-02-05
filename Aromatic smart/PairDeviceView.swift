@@ -11,12 +11,15 @@ struct PairDeviceView: View {
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
     
+    // For navigation dismissal
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         ZStack {
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color(red: 0.122, green: 0.251, blue: 0.565), // Darker blue
-                    Color(red: 0.542, green: 0.678, blue: 1)        // Lighter blue
+                    Color(red: 0.542, green: 0.678, blue: 1)       // Lighter blue
                 ]),
                 startPoint: .top,
                 endPoint: .bottom
@@ -26,7 +29,7 @@ struct PairDeviceView: View {
             
             VStack(spacing: 20) {
                 LoadingAnimationView()
-                    .padding(.top, 30)  // Adjust this to control the top spacing
+                    .padding(.top, 30)  // Adjust top spacing
                 Spacer()  // Pushes content below the logo
             }
             
@@ -49,7 +52,8 @@ struct PairDeviceView: View {
                         .font(.headline)
                         .foregroundColor(.white)
                 }
-                // List of Devices
+                
+                // List of Devices (ScrollView + VStack)
                 ScrollView {
                     VStack(spacing: 12) {
                         ForEach(bluetoothManager.discoveredDevices, id: \.identifier) { peripheral in
@@ -62,12 +66,19 @@ struct PairDeviceView: View {
             .padding(.top, 80)
             .padding(.bottom, 20)
         }
+        // Start/stop scanning & error handling
         .onAppear { startScanning() }
         .onDisappear { bluetoothManager.stopScanning() }
         .alert(isPresented: $showErrorAlert) {
             Alert(title: Text("Error"),
                   message: Text(errorMessage),
                   dismissButton: .default(Text("OK")))
+        }
+        // Listen for successful pairing, then dismiss
+        .onReceive(bluetoothManager.$pairingResultMessage) { message in
+            if let msg = message, msg.contains("successful") {
+                dismiss() // Navigate back once pairing is successful
+            }
         }
     }
     
@@ -76,10 +87,10 @@ struct PairDeviceView: View {
         isLoading = true  // Show spinner when scanning starts
         bluetoothManager.startScanning()
         
-        // Automatically stop spinner when scanning stops or a device is discovered
+        // Automatically stop spinner after 5s if at least one device is discovered
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             if !bluetoothManager.discoveredDevices.isEmpty {
-                isLoading = false  // Hide spinner if devices are found
+                isLoading = false
             }
         }
     }
@@ -99,7 +110,6 @@ struct PairDeviceView: View {
             }
             Spacer()
             
-            // Show connect button if not connected
             if !bluetoothManager.isPairedAndConnected(peripheral) {
                 Button("اتصال") {
                     bluetoothManager.connect(peripheral)
@@ -166,8 +176,6 @@ extension BluetoothManager {
     func isPairedAndConnected(_ peripheral: CBPeripheral) -> Bool {
         let connected = isConnected(to: peripheral)
         let paired = pairingResultMessage?.contains("successful") == true
-        
         return connected && paired
-        
     }
 }
