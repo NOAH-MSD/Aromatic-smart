@@ -13,7 +13,7 @@ struct DiffuserCard: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading, spacing: 10) {
             // Header: Editable Name and Connection Status
             HStack {
                 if isEditing {
@@ -47,19 +47,40 @@ struct DiffuserCard: View {
                     Image(systemName: diffuser.isConnected ? "wifi" : "wifi.slash")
                         .foregroundColor(diffuser.isConnected ? .green : .red)
                         .font(.system(size: 20))
+                    
                     Text(diffuser.isConnected ? "متصل" : "غير متصل")
                         .font(Font.custom("DIN Next LT Arabic", size: 16))
                         .foregroundColor(.white)
                 }
+                .onTapGesture {
+                    if !diffuser.isConnected, let peripheralUUID = diffuser.peripheralUUID {
+                        print("🔄 Attempting to reconnect to \(diffuser.name)...")
+                        diffuserManager.reconnectToPeripheral(with: peripheralUUID) { result in
+                            switch result {
+                            case .success(let peripheral):
+                                print("✅ Successfully reconnected to \(peripheral.name ?? "Unnamed Device")")
+                                diffuser.isConnected = true // Update the connection status
+                            case .failure(let error):
+                                print("❌ Failed to reconnect: \(error.localizedDescription)")
+                            }
+                        }
+                    }
+                }
+                
+                
+                
+                
             }
 
-            // Centered Image
+            // Centered Image with proper frame and padding
             HStack {
                 Spacer()
                 Image("AF300")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 120, height: 120)
+                    
+                    
+                    .frame(height: 160)  // Fixed height to match Figma
+                    .frame(width: 263)
+                    .padding(.bottom, 5)  // Extra padding to prevent clipping
                     .shadow(color: Color.black.opacity(0.25), radius: 10, x: 0, y: 4)
                 Spacer()
             }
@@ -94,10 +115,11 @@ struct DiffuserCard: View {
                 }
             }
         }
-        .padding(12)
+        .padding(18)
         .background(Color(red: 0.102, green: 0.259, blue: 0.541))
         .cornerRadius(20)
         .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 4)
+
     }
 }
 

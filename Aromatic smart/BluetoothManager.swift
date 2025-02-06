@@ -102,6 +102,60 @@ class BluetoothManager: NSObject, ObservableObject {
     }
     
     
+    /// Attempts to reconnect to a previously connected peripheral using its UUID.
+    func reconnectToPeripheral(with uuidString: String, completion: @escaping (Result<CBPeripheral, Error>) -> Void) {
+        guard let uuid = UUID(uuidString: uuidString) else {
+            completion(.failure(NSError(domain: "BluetoothManager", code: 1001, userInfo: [NSLocalizedDescriptionKey: "Invalid UUID string: \(uuidString)"])))
+            return
+        }
+
+        // Attempt to retrieve the peripheral from known peripherals
+        let retrievedPeripherals = centralManager.retrievePeripherals(withIdentifiers: [uuid])
+
+        if let peripheral = retrievedPeripherals.first {
+            print("Reconnecting to peripheral: \(peripheral.name ?? "Unknown") with UUID: \(uuidString)")
+
+            // Assign the delegate and reconnect
+            peripheral.delegate = self
+            centralManager.connect(peripheral, options: nil)
+
+            // On successful connection, trigger pairing logic
+            completion(.success(peripheral))
+
+            // Store the connected peripheral
+            connectedPeripheral = peripheral
+
+            // Discover services and characteristics after connecting
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.loadDiffuserSettings() // Load diffuser settings (characteristics)
+            }
+        } else {
+            // Peripheral not found in the retrieved list
+            print("Peripheral with UUID \(uuidString) not found among known peripherals.")
+            completion(.failure(NSError(domain: "BluetoothManager", code: 1002, userInfo: [NSLocalizedDescriptionKey: "Peripheral not found for UUID: \(uuidString)"])))
+        }
+    }
+    
+    
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        print("Connected to \(peripheral.name ?? "Unknown")")
+        connectedPeripheral = peripheral
+        peripheral.delegate = self
+        peripheral.discoverServices(nil)
+    }
+
+    func centralManager(_ central: CBCentralManager,
+                        didDisconnectPeripheral peripheral: CBPeripheral,
+                        error: Error?)
+    {
+        print("Disconnected from \(peripheral.name ?? "Unknown")")
+        if connectedPeripheral?.identifier == peripheral.identifier {
+            connectedPeripheral = nil
+        }
+    }
+
+    
+    
     
     func sendOldProtocolPassword(password: String, to peripheral: CBPeripheral) {
         guard let characteristic = pairingCharacteristic else {
@@ -269,22 +323,11 @@ extension BluetoothManager: CBCentralManagerDelegate {
         }
     }
 
-    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        print("Connected to \(peripheral.name ?? "Unknown")")
-        connectedPeripheral = peripheral
-        peripheral.delegate = self
-        peripheral.discoverServices(nil)
-    }
 
-    func centralManager(_ central: CBCentralManager,
-                        didDisconnectPeripheral peripheral: CBPeripheral,
-                        error: Error?)
-    {
-        print("Disconnected from \(peripheral.name ?? "Unknown")")
-        if connectedPeripheral?.identifier == peripheral.identifier {
-            connectedPeripheral = nil
-        }
-    }
+
+
+    
+    
 
     func centralManager(_ central: CBCentralManager,
                         didFailToConnect peripheral: CBPeripheral,
@@ -292,7 +335,18 @@ extension BluetoothManager: CBCentralManagerDelegate {
     {
         print("Failed to connect to \(peripheral.name ?? "Unknown")")
     }
+    
+
+    
+    
+    
+    
 }
+
+
+
+
+
 
 
 struct AuthenticationResponse {
@@ -719,3 +773,4 @@ extension BluetoothManager {
         print("BluetoothManager: wrote command [\(hexString)] to \(characteristic.uuid)")
     }
 }
+

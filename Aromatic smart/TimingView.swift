@@ -31,7 +31,9 @@ struct TimingView: View {
                         .foregroundColor(.gray)
                         .navigationTitle("Timings")
                 }
-            }
+            }        .onAppear {
+                    refreshTimings()
+                  }
         }
     }
 

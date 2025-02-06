@@ -37,6 +37,7 @@ class DiffuserManager: ObservableObject {
                 if isReady {
                     print("BluetoothManager is ready. Setting up subscriptions.")
                     self.setupSubscriptions()
+                    self.updateConnectionStatus(for: self.bluetoothManager.connectedPeripheral)
                 } else {
                     print("BluetoothManager not ready. Subscriptions will not be set up.")
                 }
@@ -61,6 +62,15 @@ class DiffuserManager: ObservableObject {
 
         print("Setting up subscriptions. State: \(bluetoothManager.state), Peripheral: \(bluetoothManager.connectedPeripheral?.name ?? "None")")
 
+        // Observe changes to the connected peripheral
+        bluetoothManager.$connectedPeripheral
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] connectedPeripheral in
+                guard let self = self else { return }
+                self.updateConnectionStatus(for: connectedPeripheral)
+            }
+            .store(in: &cancellables)
+        
         // Authentication response subscription
         bluetoothManager.authenticationResponsePublisher
             .receive(on: DispatchQueue.main)
@@ -135,32 +145,37 @@ class DiffuserManager: ObservableObject {
 
     // MARK: - Find or Create Diffuser
     private func findOrCreateDiffuser(for peripheral: CBPeripheral) -> Diffuser? {
-        if let existingDiffuser = diffuserMapping[peripheral] {
-            // Update peripheralUUID in case we reconnected
-            existingDiffuser.peripheralUUID = peripheral.identifier.uuidString
-            print("Linked existing diffuser \(existingDiffuser.id) to peripheral \(peripheral.identifier)")
+        let peripheralUUID = peripheral.identifier.uuidString
+
+        // Check if the diffuser already exists
+        if let existingDiffuser = diffusers.first(where: { $0.peripheralUUID == peripheralUUID }) {
+            // Update the mapping to ensure we have the latest reference
+            diffuserMapping[peripheral] = existingDiffuser
+            print("🔄 Existing diffuser found for \(peripheralUUID). Returning the existing instance.")
             return existingDiffuser
-        } else {
-            // Create a new Diffuser
-            let newDiffuser = Diffuser(
-                name: "New Diffuser",
-                isConnected: true,
-                modelNumber: "Unknown",
-                serialNumber: peripheral.identifier.uuidString,
-                timerSetting: 30,
-                peripheralUUID: peripheral.identifier.uuidString
-            )
-            modelContext.insert(newDiffuser)
-            diffusers.append(newDiffuser)
-            diffuserMapping[peripheral] = newDiffuser
-            do {
-                try modelContext.save()
-                print("Created and linked new diffuser \(newDiffuser.id) to peripheral \(peripheral.identifier)")
-                return newDiffuser
-            } catch {
-                print("Failed to save new diffuser for \(peripheral.identifier): \(error)")
-                return nil
-            }
+        }
+
+        // If it does not exist, create a new one
+        let newDiffuser = Diffuser(
+            name: "New Diffuser",
+            isConnected: true,
+            modelNumber: "Unknown",
+            serialNumber: peripheralUUID,
+            timerSetting: 30,
+            peripheralUUID: peripheralUUID
+        )
+
+        modelContext.insert(newDiffuser)
+        diffusers.append(newDiffuser)
+        diffuserMapping[peripheral] = newDiffuser
+
+        do {
+            try modelContext.save()
+            print("✅ Created and linked new diffuser \(newDiffuser.id) to peripheral \(peripheral.identifier)")
+            return newDiffuser
+        } catch {
+            print("❌ Failed to save new diffuser for \(peripheral.identifier): \(error)")
+            return nil
         }
     }
 
@@ -278,8 +293,17 @@ class DiffuserManager: ObservableObject {
         }
     }
 
+    
+    private func updateConnectionStatus(for connectedPeripheral: CBPeripheral?) {
+        for diffuser in diffusers {
+            diffuser.isConnected = (diffuser.peripheralUUID == connectedPeripheral?.identifier.uuidString)
+        }
+        saveContext()
+        print("✅ Updated connection status for all diffusers.")
+    }
     // MARK: - CRUD
 
+    
     func addDiffuser(name: String, isConnected: Bool, modelNumber: String, serialNumber: String, timerSetting: Int) {
         let newDiffuser = Diffuser(
             name: name,
@@ -303,6 +327,8 @@ class DiffuserManager: ObservableObject {
         }
         saveContext()
     }
+    
+    
 
     // MARK: - Persistence
 
@@ -315,6 +341,53 @@ class DiffuserManager: ObservableObject {
         } catch {
             print("Error loading diffusers: \(error)")
         }
+    }
+    
+    
+    func attemptReconnectionForAllSavedDiffusers() {
+        print("🔄 Attempting reconnection for all saved diffusers...")
+
+        for diffuser in diffusers {
+            guard let diffuserUUID = diffuser.peripheralUUID else {
+                print("⚠️ Skipping diffuser \(diffuser.name) due to missing UUID.")
+                continue
+            }
+
+            // Check if the peripheral is already connected
+            if diffuser.isConnected {
+                print("✅ Diffuser \(diffuser.name) is already connected. Skipping reconnection.")
+                continue
+            }
+
+            bluetoothManager.reconnectToPeripheral(with: diffuserUUID) { [weak self] result in
+                guard let self = self else { return }
+
+                switch result {
+                case .success(let peripheral):
+                    print("✅ Successfully reconnected to peripheral: \(peripheral.name ?? "Unnamed Device")")
+
+                    diffuser.isConnected = true
+                    diffuser.peripheralUUID = peripheral.identifier.uuidString
+                    self.currentDiffuser = diffuser
+                    self.saveContext()
+                    print("🔗 Re-linked diffuser \(diffuser.id) to reconnected peripheral.")
+
+                    // Reload diffuser settings after reconnection
+                    //self.updateTimings(for: diffuserUUID)
+
+
+                case .failure(let error):
+                    print("❌ Failed to reconnect to \(diffuser.name): \(error.localizedDescription)")
+                    diffuser.isConnected = false
+                    self.saveContext()
+                    print("📴 Marked diffuser \(diffuser.id) as disconnected.")
+                }
+            }
+        }
+    }
+    
+    func reconnectToPeripheral(with uuid: String, completion: @escaping (Result<CBPeripheral, Error>) -> Void) {
+        bluetoothManager.reconnectToPeripheral(with: uuid, completion: completion)
     }
 
     private func saveContext() {

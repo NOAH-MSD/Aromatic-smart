@@ -7,43 +7,50 @@ struct MainView: View {
     @Query var diffusers: [Diffuser]
 
     var body: some View {
-        ZStack {
-            // Gradient Background
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    Color(red: 0.122, green: 0.251, blue: 0.565),   // Darker blue (Top)
-                    Color(red: 0.542, green: 0.678, blue: 1)        // Lighter blue (Bottom)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
-            
-            dotsBackground
+        NavigationStack {
+            ZStack {
+                // Gradient Background
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(red: 0.122, green: 0.251, blue: 0.565),   // Darker blue (Top)
+                        Color(red: 0.542, green: 0.678, blue: 1)        // Lighter blue (Bottom)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+                
+                dotsBackground
 
-            // Fixed logo at the top using alignment
-            VStack {
-                logoView
-                    .padding(.top, 3)  // Adjust this to control the top spacing
-                Spacer()  // Pushes content below the logo
-            }
+                // Fixed logo at the top using alignment
+                VStack {
+                    logoView
+                        .padding(.top, 3)  // Adjust this to control the top spacing
+                    Spacer()  // Pushes content below the logo
+                }
 
-            // Main content (noDevicesView or scroll view)
-            VStack(spacing: 20) {
+                // Main content (noDevicesView or scroll view)
+                VStack(spacing: 20) {
+                    if diffusers.isEmpty {
+                        noDevicesView
+                    } else {
+                        devicesScrollView
+                    }
+                }
+                .padding(.top, 150)  // Ensures main content starts below the fixed logo
+
+                // Floating buttons
                 if diffusers.isEmpty {
-                    noDevicesView
+                    floatingAddButton
                 } else {
-                    devicesScrollView
+                    floatingAddCircle
                 }
             }
-            .padding(.top, 150)  // Ensures main content starts below the fixed logo
-
-            // Floating button
-            floatingAddButton
-            
         }
     }
 }
+
+
 
 
 
@@ -80,6 +87,30 @@ extension MainView {
             }
             .padding(.top, -70)
             .frame(maxWidth: .infinity, alignment: .center)
+        }
+    }
+    
+    
+    private var floatingAddCircle: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                NavigationLink(destination: PairDeviceView()) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 60, height: 60)
+                            .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)  // Softer shadow
+                        
+                        Image(systemName: "plus")
+                            .font(.system(size: 28, weight: .bold))
+                            .foregroundColor(Color.blue)
+                    }
+                }
+                .padding(.top, -70)
+                .frame(maxWidth: .infinity, alignment: .center)
+            }
         }
     }
 

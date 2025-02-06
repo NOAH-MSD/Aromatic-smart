@@ -161,6 +161,7 @@
       }
     },
     "Connected" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -281,6 +282,7 @@
       }
     },
     "Disconnected" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -302,6 +304,7 @@
       }
     },
     "Enter Diffuser Name" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -577,6 +580,7 @@
       }
     },
     "Model: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -771,6 +775,7 @@
 
     },
     "Remove Device" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -884,6 +889,9 @@
     "Timing %lld" : {
 
     },
+    "Timing Configurations" : {
+
+    },
     "Timings" : {
       "localizations" : {
         "ar" : {
@@ -943,6 +951,9 @@
           }
         }
       }
+    },
+    "أدخل اسم الجهاز" : {
+
     },
     "أضف جهازك الآن" : {
 
@@ -1041,6 +1052,9 @@
         }
       }
     },
+    "الطراز: %@" : {
+
+    },
     "المتجر" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1098,6 +1112,12 @@
       }
     },
     "جاري البحث عن الأجهزة ..." : {
+
+    },
+    "حذف الجهاز" : {
+
+    },
+    "غير متصل" : {
 
     },
     "لا يوجد أجهزة حاليا اضغط الزر أدناه لإضافة جهاز جديد" : {
