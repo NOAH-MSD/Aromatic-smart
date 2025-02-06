@@ -242,6 +242,9 @@
         }
       }
     },
+    "Device not found." : {
+
+    },
     "Devices" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -624,6 +627,7 @@
       }
     },
     "No diffuser found for this peripheral." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -634,6 +638,7 @@
       }
     },
     "Off: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -654,6 +659,7 @@
       }
     },
     "On: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -858,6 +864,9 @@
         }
       }
     },
+    "Start:" : {
+
+    },
     "Starting Time" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -879,6 +888,9 @@
           }
         }
       }
+    },
+    "Stop:" : {
+
     },
     "Store" : {
 

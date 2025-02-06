@@ -1,65 +1,141 @@
 import SwiftUI
-import SwiftData
 
-struct TimingView: View {
+struct TimingsView: View {
     @EnvironmentObject var diffuserManager: DiffuserManager
     let peripheralUUID: String
 
     var body: some View {
-        NavigationView {
-            VStack {
-                // Refresh button
-                Button(action: refreshTimings) {
-                    Text("Refresh Timings")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-                .padding()
+        if let diffuser = diffuserManager.findDiffuser(by: peripheralUUID) {
+            let timings = diffuser.timings
 
-                // Find the diffuser by peripheralUUID
-                if let diffuser = diffuserManager.findDiffuser(by: peripheralUUID) {
-                    let timings = diffuser.timings
+            NavigationView {
+                ZStack {
+                    // Background gradient
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(red: 0.122, green: 0.251, blue: 0.565),   // Darker blue (Top)
+                            Color(red: 0.542, green: 0.678, blue: 1)        // Lighter blue (Bottom)
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .ignoresSafeArea()
 
-                    List(timings) { timing in
-                        NavigationLink(destination: OperationCycleView(timing: timing)) {
-                            TimingRow(timing: timing)
+                    VStack(spacing: 10) {
+                        headerView
+
+                        // Rounded transparent background correctly sized
+                        RoundedRectangle(cornerRadius: 25)
+                            .fill(Color.white.opacity(0.25))
+                            .padding(.horizontal, 16)
+                            .frame(maxHeight: .infinity)  // Allow it to dynamically expand
+                            .overlay(
+                                ScrollView {
+                                    VStack(spacing: 10) {
+                                        ForEach(timings) { timing in
+                                            NavigationLink(destination: OperationCycleView(timing: timing)) {
+                                                TimingRow(timing: timing)
+                                            }
+                                            .buttonStyle(PlainButtonStyle())  // No chevron
+                                            .padding(.horizontal, 10)
+                                        }
+                                    }
+                                    .padding(.vertical, 10)
+                                }
+                            )
+
+                        Spacer()
+
+                        // Refresh timings button
+                        Button(action: updateTimings) {
+                            Text("Refresh Timings")
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.blue)
+                                .cornerRadius(10)
                         }
+                        .padding(.bottom, 20)
                     }
-                    .navigationTitle("Timings")
-                } else {
-                    Text("No diffuser found for this peripheral.")
-                        .foregroundColor(.gray)
-                        .navigationTitle("Timings")
+
+
                 }
-            }        .onAppear {
-                    refreshTimings()
-                  }
+                .onAppear {
+                    updateTimings()
+                }
+            }
+        } else {
+            Text("Device not found.")
+                .foregroundColor(.red)
+                .font(Font.system(size: 20))
         }
     }
 
-    // Function to refresh timings using diffuserManager
-    private func refreshTimings() {
+    private var headerView: some View {
+        HStack {
+            Text("Timings")  // Moved to the right
+                .font(Font.custom("DIN Next LT Arabic", size: 24))
+                .foregroundColor(.white)
+            Spacer()
+        }
+        .padding([.leading, .trailing], 20)
+        .padding(.top, 50)
+    }
+
+    private func updateTimings() {
         diffuserManager.updateTimings(for: peripheralUUID)
     }
 }
 
-// A simple row to display each timing’s basic info
+// MARK: - Timing Row
 struct TimingRow: View {
     let timing: Timing
 
     var body: some View {
         HStack {
+            // Timing title on the right
             Text("Timing \(timing.number)")
-                .font(.headline)
+                .font(.system(size: 16))
+                .foregroundColor(.black)
+                .padding(.leading, 10)
+
             Spacer()
-            VStack(alignment: .trailing, spacing: 4) {
-                Text("On: \(timing.powerOn)")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                Text("Off: \(timing.powerOff)")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
+
+            VStack(alignment: .leading, spacing: 2) {
+                // Start time
+                HStack {
+                    Text(timing.powerOn)
+                        .font(.system(size: 14))
+                        .foregroundColor(.black)
+                    Text("Start:")
+                        .font(.system(size: 14))
+                        .foregroundColor(.gray)
+                }
+
+                // Stop time
+                HStack {
+                    Text(timing.powerOff)
+                        .font(.system(size: 14))
+                        .foregroundColor(.black)
+                    Text("Stop:")
+                        .font(.system(size: 14))
+                        .foregroundColor(.gray)
+                }
             }
+            .padding(.trailing, 5)
+            .padding(.leading, 5)
+            
+            Image(systemName: "chevron.left")
+                .foregroundColor(.gray)
+                .font(.system(size: 18))
+                .padding(.leading, 8)
+
         }
+        .padding(10)
+        .background(Color.white.opacity(0.9))
+        .cornerRadius(15)
+        .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 5)
+        .frame(width: UIScreen.main.bounds.width - 60)  // Reduced row width
+
     }
 }

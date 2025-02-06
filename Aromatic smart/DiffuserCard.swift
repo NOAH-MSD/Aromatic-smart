@@ -91,7 +91,7 @@ struct DiffuserCard: View {
                 .foregroundColor(.white)
 
             // Timing Configurations Navigation Link
-            NavigationLink(destination: TimingView(peripheralUUID: diffuser.peripheralUUID ?? "UnknownUUID")) {
+            NavigationLink(destination: TimingsView(peripheralUUID: diffuser.peripheralUUID ?? "UnknownUUID")) {
                 Text("Timing Configurations")
                     .bold()
                     .font(Font.custom("DIN Next LT Arabic", size: 18))
@@ -119,7 +119,9 @@ struct DiffuserCard: View {
         .background(Color(red: 0.102, green: 0.259, blue: 0.541))
         .cornerRadius(20)
         .shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 4)
-
+        /*.onAppear {
+            diffuserManager.attemptReconnectionForAllSavedDiffusers()
+        } */ // 🚀 Call reconnection function when the view appears
     }
 }
 
