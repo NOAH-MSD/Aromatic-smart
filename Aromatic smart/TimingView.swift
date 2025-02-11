@@ -24,11 +24,11 @@ struct TimingsView: View {
                     VStack(spacing: 10) {
                         headerView
 
-                        // Rounded transparent background correctly sized
+                        // Rounded transparent background  
                         RoundedRectangle(cornerRadius: 25)
                             .fill(Color.white.opacity(0.25))
                             .padding(.horizontal, 16)
-                            .frame(maxHeight: .infinity)  // Allow it to dynamically expand
+                            .frame(maxHeight: 360)  // i want this to expand just a little more than the total of timing rows
                             .overlay(
                                 ScrollView {
                                     VStack(spacing: 10) {
@@ -40,7 +40,7 @@ struct TimingsView: View {
                                             .padding(.horizontal, 10)
                                         }
                                     }
-                                    .padding(.vertical, 10)
+                                    .padding(.vertical, 20)
                                 }
                             )
 
@@ -86,11 +86,9 @@ struct TimingsView: View {
         diffuserManager.updateTimings(for: peripheralUUID)
     }
 }
-
 // MARK: - Timing Row
 struct TimingRow: View {
     let timing: Timing
-
     var body: some View {
         HStack {
             // Timing title on the right
@@ -98,7 +96,6 @@ struct TimingRow: View {
                 .font(.system(size: 16))
                 .foregroundColor(.black)
                 .padding(.leading, 10)
-
             Spacer()
 
             VStack(alignment: .leading, spacing: 2) {
@@ -107,7 +104,7 @@ struct TimingRow: View {
                     Text(timing.powerOn)
                         .font(.system(size: 14))
                         .foregroundColor(.black)
-                    Text("Start:")
+                    Text("Start: ")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
                 }
@@ -135,7 +132,7 @@ struct TimingRow: View {
         .background(Color.white.opacity(0.9))
         .cornerRadius(15)
         .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 5)
-        .frame(width: UIScreen.main.bounds.width - 60)  // Reduced row width
+        .frame(width: UIScreen.main.bounds.width - 60)
 
     }
 }

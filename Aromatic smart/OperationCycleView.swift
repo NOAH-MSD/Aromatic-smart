@@ -22,7 +22,7 @@ struct OperationCycleView: View {
         _selectedIntensity = State(initialValue: timing.grade)
         _fanEnabled = State(initialValue: timing.fanSwitch)
     }
-
+    
     // MARK: - Body
     var body: some View {
         List {
@@ -43,7 +43,7 @@ struct OperationCycleView: View {
             // Intensity Picker Section
             Section(header: Text("Intensity Level")) {
                 Picker("Select Intensity", selection: $selectedIntensity) {
-                    ForEach(0..<4) { grade in
+                    ForEach(1..<5) { grade in
                         Text(gradeName(for: grade)).tag(grade)
                     }
                 }
@@ -95,7 +95,7 @@ struct OperationCycleView: View {
     /// Returns a user-friendly name for a given grade/intensity level
     private func gradeName(for grade: Int) -> String {
         switch grade {
-        case 3: return "Jet"
+        case 3: return "Jet "
         case 2: return "High"
         case 1: return "Mid"
         default: return "Low"
