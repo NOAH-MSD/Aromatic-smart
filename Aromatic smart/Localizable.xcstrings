@@ -204,7 +204,11 @@
         }
       }
     },
+    "Days of operation" : {
+
+    },
     "Days of Operation" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -489,10 +493,14 @@
         }
       }
     },
-    "Fan Control" : {
+    "FAN CONTROL" : {
+
+    },
+    "Fan state" : {
 
     },
     "Fan Status" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -512,6 +520,9 @@
           }
         }
       }
+    },
+    "High" : {
+
     },
     "ⓘ اضغط لضبط مؤقت التشغيل" : {
       "extractionState" : "stale",
@@ -542,6 +553,7 @@
       }
     },
     "Intensity Level" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -550,6 +562,12 @@
           }
         }
       }
+    },
+    "Jet" : {
+
+    },
+    "Low" : {
+
     },
     "Main" : {
 
@@ -564,6 +582,9 @@
           }
         }
       }
+    },
+    "Mid" : {
+
     },
     "Model Number: %@" : {
       "extractionState" : "stale",
@@ -750,6 +771,9 @@
         }
       }
     },
+    "Perfuming intensity" : {
+
+    },
     "Profile" : {
       "localizations" : {
         "ar" : {
@@ -833,9 +857,6 @@
         }
       }
     },
-    "Select Intensity" : {
-
-    },
     "Serial Number: %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -864,7 +885,7 @@
         }
       }
     },
-    "Start:" : {
+    "Start: " : {
 
     },
     "Starting Time" : {

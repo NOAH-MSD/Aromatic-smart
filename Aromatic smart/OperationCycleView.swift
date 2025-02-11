@@ -2,8 +2,9 @@ import SwiftUI
 
 struct OperationCycleView: View {
     @EnvironmentObject var bluetoothManager: BluetoothManager
+    @Environment(\.layoutDirection) var layoutDirection
     @Bindable var timing: Timing
-
+    
     // Local states for UI
     @State private var timingNumber: UInt8
     @State private var powerOnDate: Date
@@ -11,7 +12,7 @@ struct OperationCycleView: View {
     @State private var selectedDays: Set<String>
     @State private var selectedIntensity: Int
     @State private var fanEnabled: Bool
-
+    
     // MARK: - Init
     init(timing: Timing) {
         self._timing = Bindable(timing)
@@ -23,72 +24,177 @@ struct OperationCycleView: View {
         _fanEnabled = State(initialValue: timing.fanSwitch)
     }
     
-    // MARK: - Body
+    //MARK: Body view
+    
+    
     var body: some View {
-        List {
-            // Time Pickers Section
-            Section(header: Text("Time Settings")) {
-                HStack(spacing: 20) {
-                    TimePicker(title: "Start Time", date: $powerOnDate)
-                    Divider().frame(height: 100)
-                    TimePicker(title: "End Time", date: $powerOffDate)
-                }
-            }
+        ZStack {
+            // 🌟 Background gradient
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(red: 0.122, green: 0.251, blue: 0.565), // Darker blue (Top)
+                    Color(red: 0.542, green: 0.678, blue: 1)      // Lighter blue (Bottom)
+                ]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+            
+            ScrollView {
+                VStack(spacing: 15) {
+                    // 🌟 Header Section
+                    
 
-            // Fan Toggle Section
-            Section(header: Text("Fan Control")) {
-                Toggle("Fan Status", isOn: $fanEnabled)
-            }
+                    
+                    
 
-            // Intensity Picker Section
-            Section(header: Text("Intensity Level")) {
-                Picker("Select Intensity", selection: $selectedIntensity) {
-                    ForEach(1..<5) { grade in
-                        Text(gradeName(for: grade)).tag(grade)
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-            }
-
-            // Days of Operation Section
-            Section(header: Text("Days of Operation")) {
-                ForEach(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], id: \.self) { day in
-                    HStack {
-                        Text(day)
-                        Spacer()
-                        if selectedDays.contains(day) {
-                            Image(systemName: "checkmark")
-                                .foregroundColor(.blue)
+                    
+                    // 🌟 Time Settings Section with restored background frame and RTL adjustment
+                    Section(header: Text("Time Settings")) {
+                        HStack(spacing: 20) {
+                            if layoutDirection == .rightToLeft {
+                                TimePicker(title: "End Time", date: $powerOffDate)
+                                Divider().frame(height: 100)
+                                TimePicker(title: "Start Time", date: $powerOnDate)
+                            } else {
+                                TimePicker(title: "Start Time", date: $powerOnDate)
+                                Divider().frame(height: 100)
+                                TimePicker(title: "End Time", date: $powerOffDate)
+                            }
                         }
+                        .padding()
+                        .frame(width: UIScreen.main.bounds.width - 40)
+                        .background(Color.white.opacity(0.5))
+                        .cornerRadius(15)
                     }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        if selectedDays.contains(day) {
-                            selectedDays.remove(day)
-                        } else {
-                            selectedDays.insert(day)
+                    
+                    // 🌟 Fan Control Section
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("FAN CONTROL")
+                            .font(Font.custom("DIN Next LT Arabic", size: 14))
+                            .foregroundColor(.white.opacity(0.8))
+                        
+                        HStack {
+                            Toggle("", isOn: $fanEnabled)
+                                .labelsHidden()
+                                .toggleStyle(SwitchToggleStyle(tint: .blue))
+                                .scaleEffect(1.1)
+                            
+                            Text("Fan state")
+                                .font(Font.custom("DIN Next LT Arabic", size: 14))
+                                .foregroundColor(.black)
+                                .bold()
                         }
+                        .padding()
+                        .frame(width: UIScreen.main.bounds.width - 40)
+                        .background(Color.white.opacity(0.5))
+                        .cornerRadius(15)
                     }
-                }
-            }
+                    
+                    // 🌟 Intensity Level Picker Section
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("Perfuming intensity")
+                            .font(Font.custom("DIN Next LT Arabic", size: 14))
+                            .foregroundColor(.white.opacity(0.8))
+                        
+                        Picker("", selection: $selectedIntensity) {
+                            Text("Jet").tag(3)
+                            Text("High").tag(2)
+                            Text("Mid").tag(1)
+                            Text("Low").tag(0)
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        .padding()
+                        .frame(width: UIScreen.main.bounds.width - 40)
+                        .background(Color.white.opacity(0.5))
+                        .cornerRadius(15)
+                    }
+                    
+                    // 🌟 Days of Operation Section as vertically arranged buttons with fine dividers
+                    // 🌟 Days of Operation Section
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("Days of operation")
+                            .font(Font.custom("DIN Next LT Arabic", size: 14))
+                            .foregroundColor(.white.opacity(0.8))
 
-            // Save Button
-            Section {
-                Button(action: {
-                    saveSettings()
-                }) {
-                    Text("Save Settings")
-                        .frame(maxWidth: .infinity)
+                        VStack {
+                            ForEach(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], id: \.self) { day in
+                                HStack {
+                                    Text(day)
+                                        .font(Font.custom("DIN Next LT Arabic", size: 14))
+                                        .foregroundColor(.black)
+                                        .bold()
+
+                                    Spacer()
+
+                                    if selectedDays.contains(day) {
+                                        Image(systemName: "checkmark")
+                                            .foregroundColor(.green)
+                                            .font(.system(size: 18)) // Matches the guide
+                                    }
+                                }
+                                .contentShape(Rectangle())
+                                .padding(.vertical, 10)
+                                .onTapGesture {
+                                    if selectedDays.contains(day) {
+                                        selectedDays.remove(day)
+                                    } else {
+                                        selectedDays.insert(day)
+                                    }
+                                }
+
+                                // ✅ **Subtle dividers between days**
+                                if day != "Saturday" {
+                                    Divider()
+                                        .background(Color.gray.opacity(0.3))
+                                        .padding(.horizontal, 10)
+                                }
+                            }
+                        }
+                        .padding()
+                        .frame(width: UIScreen.main.bounds.width - 40)
+                        .background(Color.white.opacity(0.5))
+                        .cornerRadius(15)
+                    }
+
+                    
+                    Spacer()
+                    
+                    // 🌟 Save Settings Button
+                    Button(action: {}) {
+                        Text("Save Settings")
+                            .font(Font.custom("DIN Next LT Arabic", size: 18).weight(.medium))
+                            .foregroundColor(.white)
+                            .frame(width: 200, height: 50)
+                            .background(Color.blue.opacity(0.9))
+                            .cornerRadius(12)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 20)
                 }
-                .buttonStyle(.borderedProminent)
-            }
+                .padding(.top, 20)
+                .padding(.horizontal, 20)
+            }.navigationTitle("Operation Cycle number: \(timing.number)")
+                
         }
-        .navigationTitle("Operation Cycle number: \(timing.number)")
-        .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            // Optionally do an initial sync if needed
-        }
+            
     }
+
+
+    
+
+
+    
+    
+    
+    
+    
+
+
+    
+
+    
+
 
     // MARK: - Helper Functions
 
