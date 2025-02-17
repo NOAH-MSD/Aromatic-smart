@@ -10,7 +10,7 @@ class Timing: Identifiable {
     var powerOn: String
     var powerOff: String
     var daysOfOperation: [String]
-    var gradeMode: String
+    var gradeMode: Bool
     var grade: Int
     var customWorkTime: Int
     var customPauseTime: Int
@@ -23,7 +23,7 @@ class Timing: Identifiable {
         powerOn: String,
         powerOff: String,
         daysOfOperation: [String],
-        gradeMode: String,
+        gradeMode: Bool = false,
         grade: Int,
         customWorkTime: Int,
         customPauseTime: Int,

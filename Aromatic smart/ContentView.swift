@@ -54,6 +54,8 @@ struct ContentView: View {
 
 // MARK: - Subviews and Helpers
 
+
+
 extension ContentView {
     /// Floating "+" button for adding a device
  

@@ -12,6 +12,7 @@ struct OperationCycleView: View {
     @State private var selectedDays: Set<String>
     @State private var selectedIntensity: Int
     @State private var fanEnabled: Bool
+    @State private var gradeMode: Bool
     
     // MARK: - Init
     init(timing: Timing) {
@@ -22,6 +23,7 @@ struct OperationCycleView: View {
         _selectedDays = State(initialValue: Set(timing.daysOfOperation))
         _selectedIntensity = State(initialValue: timing.grade)
         _fanEnabled = State(initialValue: timing.fanSwitch)
+        _gradeMode = State(initialValue: timing.gradeMode)
     }
     
     //MARK: Body view
@@ -41,121 +43,262 @@ struct OperationCycleView: View {
             .ignoresSafeArea()
             
             ScrollView {
-                VStack(spacing: 15) {
+                VStack(spacing: 22) {
                     // 🌟 Header Section
-                    
+                    headerView
+                    Spacer()
 
                     
                     
 
                     
-                    // 🌟 Time Settings Section with restored background frame and RTL adjustment
-                    Section(header: Text("Time Settings")) {
-                        HStack(spacing: 20) {
-                            if layoutDirection == .rightToLeft {
-                                TimePicker(title: "End Time", date: $powerOffDate)
-                                Divider().frame(height: 100)
-                                TimePicker(title: "Start Time", date: $powerOnDate)
-                            } else {
-                                TimePicker(title: "Start Time", date: $powerOnDate)
-                                Divider().frame(height: 100)
-                                TimePicker(title: "End Time", date: $powerOffDate)
+                    // 🌟 Time Settings Section with proper background and rounded corners
+                    Section {
+                        VStack {
+                            Text("Time Settings")
+                                .font(Font.custom("DIN Next LT Arabic", size: 14))
+                                .foregroundColor(.white.opacity(0.8)).bold()
+                            HStack(spacing: 20) {
+                                if layoutDirection == .rightToLeft {
+                                    TimePicker(title: "End Time", date: $powerOffDate).bold()
+ 
+                                    
+                                    
+                                    Rectangle()
+                                        .fill(Color.white)
+                                        .frame(width: 1, height: 90)
+                                    TimePicker(title: "Start Time", date: $powerOnDate)
+                                } else {
+                                    TimePicker(title: "Start Time", date: $powerOnDate)
+                                    Rectangle()
+                                        .fill(Color.white)
+                                        .frame(width: 1, height: 90)
+                                    TimePicker(title: "End Time", date: $powerOffDate)
+                                }
                             }
+                            .padding()
+                            .frame(width: 309, height: 118) // Match width and height from UIKit
+                            .background(Color.white.opacity(0.7)) // Same transparency as UIKit view
+                            .cornerRadius(25) // Apply rounded corners
                         }
-                        .padding()
-                        .frame(width: UIScreen.main.bounds.width - 40)
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(15)
+                        .frame(maxWidth: .infinity) // Keep it responsive
                     }
+
+
                     
                     // 🌟 Fan Control Section
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("FAN CONTROL")
+                    VStack(spacing: 5) {
+                        Text("Fan Control")
                             .font(Font.custom("DIN Next LT Arabic", size: 14))
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(.white.opacity(0.8)).bold()
                         
                         HStack {
                             Toggle("", isOn: $fanEnabled)
                                 .labelsHidden()
                                 .toggleStyle(SwitchToggleStyle(tint: .blue))
                                 .scaleEffect(1.1)
+                            if fanEnabled {
+                                Image(systemName: "fan.fill")
+                                    .symbolEffect(.bounce, options: .repeat(.periodic(2)))
+                                    .padding(.trailing, 10)
+                                    .foregroundColor(.blue)
+                            }
+                            else if !fanEnabled {
+                                Image(systemName: "fan")
+                                    
+                                    .padding(.trailing, 10)
+                                    .foregroundColor(Color.gray)
+                            }
+
+
+                       
+
                             
+
+                                
+                            Spacer()
                             Text("Fan state")
+                                .font(Font.custom("DIN Next LT Arabic", size: 16))
+                                    .foregroundColor(.black)
+                                    .bold()
+                        }
+                        .padding()
+                        .frame(width: 309) // Match width & height from UIKit
+                        .background(Color.white.opacity(0.7)) // Apply same transparency
+                        .cornerRadius(20.5)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    }
+                    
+                    
+                    
+                    
+                    
+                    
+                    // 🌟 Perfuming Intensity Section Styled to Match UIKit
+                    VStack(spacing: 5) {
+                        HStack{
+                            Text("Perfuming intensity")
                                 .font(Font.custom("DIN Next LT Arabic", size: 14))
-                                .foregroundColor(.black)
+                                .foregroundColor(.white.opacity(0.8))
                                 .bold()
                         }
-                        .padding()
-                        .frame(width: UIScreen.main.bounds.width - 40)
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(15)
-                    }
-                    
-                    // 🌟 Intensity Level Picker Section
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("Perfuming intensity")
-                            .font(Font.custom("DIN Next LT Arabic", size: 14))
-                            .foregroundColor(.white.opacity(0.8))
-                        
-                        Picker("", selection: $selectedIntensity) {
-                            Text("Jet").tag(3)
-                            Text("High").tag(2)
-                            Text("Mid").tag(1)
-                            Text("Low").tag(0)
+                        ZStack {
+                            // Background Frame
+                            RoundedRectangle(cornerRadius: 20.5)
+                                .fill(Color.white.opacity(0.7)) // Correct background color from UIKit
+                                .frame(width: 309, height: 51)
+                            HStack(spacing: 10) {
+                                Image(systemName: "dot.radiowaves.left.and.right", variableValue: Double(intensityFactor(for: selectedIntensity))).foregroundColor(Color.blue).symbolEffect(.pulse, options: .repeat(.periodic(1))).padding(.trailing,10)
+                                ForEach(["Jet", "High", "Mid", "Low"], id: \.self) { label in
+                                    ZStack {
+                                        if selectedIntensity == tagFor(label) {
+                                            RoundedRectangle(cornerRadius: 11)
+                                                .fill(Color.white)
+                                                .frame(width: 57, height: 26).scaleEffect(scaleFactor(for: selectedIntensity))
+                                                .shadow(color: Color.black.opacity(0.25), radius: 1, x: 0, y: 1)
+                                        }
+                                            Text(label)
+                                                .font(Font.custom("DIN Next LT Arabic", size: 14))
+                                                .foregroundColor(.black)
+                                                .bold()
+                                    }
+                                    .onTapGesture {
+                                        selectedIntensity = tagFor(label)
+                                    }
+                                    if label != "Low" { // Dividers between options
+                                        Rectangle()
+                                            .fill(Color.white)
+                                            .frame(width: 1, height: 17)
+                                    }
+                                }
+                                
+
+                            }
                         }
-                        .pickerStyle(SegmentedPickerStyle())
-                        .padding()
-                        .frame(width: UIScreen.main.bounds.width - 40)
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(15)
                     }
+
+
+                    
+                    HStack{
+                        Text("Custom Durations")
+                            .font(Font.custom("DIN Next LT Arabic", size: 16))
+                                .foregroundColor(.black)
+                                .bold()
+                        Spacer()
+                        Toggle("Custom Durations", isOn: $gradeMode)
+                            .labelsHidden()
+                            .toggleStyle(SwitchToggleStyle(tint: .blue))
+                            .scaleEffect(1.1)
+                    }.padding()
+                        .frame(width: 309) // Match width & height from UIKit
+                        .background(Color.white.opacity(0.7)) // Apply same transparency
+                        .cornerRadius(20.5)
+                        .frame(maxWidth: .infinity, alignment: .center)
+
+                    // Custom Durations Section
+                    Section() {
+
+                        if gradeMode == true {
+                            VStack{
+                                
+                                HStack(spacing: 20) {
+                                    VStack(alignment: .leading) {
+                                        Text("Work Time").font(Font.custom("DIN Next LT Arabic", size: 16))
+                                            .foregroundColor(.black)
+                                            .bold()
+                                        Picker("Work Time", selection: $timing.customWorkTime) {
+                                            ForEach(15...600, id: \.self) { value in
+                                                Text("\(value) s").tag(value)
+                                            }
+                                        }
+                                        .pickerStyle(WheelPickerStyle())
+                                        .frame(width: 100, height: 100)
+                                    }
+                                    
+                                    Rectangle()
+                                        .fill(Color.white)
+                                        .frame(width: 1, height: 80)
+                                    
+                                    VStack(alignment: .leading) {
+                                        Text("Pause Time").font(Font.custom("DIN Next LT Arabic", size: 16))
+                                            .foregroundColor(.black)
+                                            .bold()
+                                        Picker("Pause Time", selection: $timing.customPauseTime) {
+                                            ForEach(15...600, id: \.self) { value in
+                                                Text("\(value) s").tag(value)
+                                            }
+                                        }
+                                        .pickerStyle(WheelPickerStyle())
+                                        .frame(width: 100, height: 100)
+                                    }
+                                }
+                            }
+                            
+                            .frame(width: 309) // Match width and height from UIKit
+                            .background(Color.white.opacity(0.7)) // Same transparency as UIKit view
+                            .cornerRadius(25) // Apply rounded corners
+                        }
+                        }
+                        
+                        
+
+                    
+                    
+                    
                     
                     // 🌟 Days of Operation Section as vertically arranged buttons with fine dividers
-                    // 🌟 Days of Operation Section
-                    VStack(alignment: .leading, spacing: 5) {
+                    VStack(spacing: 5) {
                         Text("Days of operation")
                             .font(Font.custom("DIN Next LT Arabic", size: 14))
                             .foregroundColor(.white.opacity(0.8))
+                            .bold()
 
-                        VStack {
-                            ForEach(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], id: \.self) { day in
-                                HStack {
-                                    Text(day)
-                                        .font(Font.custom("DIN Next LT Arabic", size: 14))
-                                        .foregroundColor(.black)
-                                        .bold()
+                        ZStack {
+                            // ✅ Background container with shadow
+                            RoundedRectangle(cornerRadius: 25)
+                                .fill(Color.white.opacity(0.7))
+                                
 
-                                    Spacer()
+                            VStack(spacing: 5) {
+                                ForEach(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], id: \.self) { day in
+                                    HStack {
+                                        // ✅ **Day Label**
+                                        Text(day)
+                                            .font(Font.custom("DIN Next LT Arabic", size: 14))
+                                            .foregroundColor(.black)
+                                            .padding(.leading,20)
+                                            
 
-                                    if selectedDays.contains(day) {
-                                        Image(systemName: "checkmark")
-                                            .foregroundColor(.green)
-                                            .font(.system(size: 18)) // Matches the guide
+                                        Spacer()
+
+                                        // ✅ **Filled Checkmark for Selected Days**
+                                        Image(systemName: selectedDays.contains(day) ? "checkmark" : "circle").contentTransition(.symbolEffect(.replace))
+                                            .font(.system(size: 18))
+                                            .foregroundColor(selectedDays.contains(day) ? .green : .gray.opacity(0.5))
+                                            .padding(.trailing,25)
                                     }
-                                }
-                                .contentShape(Rectangle())
-                                .padding(.vertical, 10)
-                                .onTapGesture {
-                                    if selectedDays.contains(day) {
-                                        selectedDays.remove(day)
-                                    } else {
-                                        selectedDays.insert(day)
+                                    .frame(width: 284, height: 38)
+                                    .background(Color(hex: "#E4E4E4")) // ✅ Matches guide color
+                                    .cornerRadius(24)
+                                    //.padding(.horizontal, 10) // ✅ More padding for better alignment
+                                    .onTapGesture {
+                                        if selectedDays.contains(day) {
+                                            selectedDays.remove(day)
+                                        } else {
+                                            selectedDays.insert(day)
+                                        }
                                     }
-                                }
 
-                                // ✅ **Subtle dividers between days**
-                                if day != "Saturday" {
-                                    Divider()
-                                        .background(Color.gray.opacity(0.3))
-                                        .padding(.horizontal, 10)
+ 
                                 }
                             }
+                            .padding(.vertical, 30) // ✅ Adjust list padding
                         }
-                        .padding()
-                        .frame(width: UIScreen.main.bounds.width - 40)
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(15)
+                        .frame( minHeight: 270, maxHeight: .infinity) // ✅ Auto-sizing background
+                        .frame(width: 309)
                     }
+
+
 
                     
                     Spacer()
@@ -172,9 +315,9 @@ struct OperationCycleView: View {
                     .padding(.horizontal, 16)
                     .padding(.bottom, 20)
                 }
-                .padding(.top, 20)
+                
                 .padding(.horizontal, 20)
-            }.navigationTitle("Operation Cycle number: \(timing.number)")
+            }
                 
         }
             
@@ -192,7 +335,15 @@ struct OperationCycleView: View {
 
 
     
-
+    private var headerView: some View {
+        HStack {
+            Text("Operation Cycle \(timing.number)")
+                .font(Font.custom("DIN Next LT Arabic", size: 24))
+                .foregroundColor(.white).bold()
+        }
+        .padding([.leading, .trailing], 20)
+        .padding(.top, 50)
+    }
     
 
 
@@ -246,6 +397,39 @@ struct OperationCycleView: View {
         }
     }
     
+    
+    
+    private func scaleFactor(for intensity: Int) -> CGFloat {
+        switch intensity {
+        case 0: return 1.05  // Low - 5% increase
+        case 1: return 1.30  // Mid - 10% increase
+        case 2: return 1.40  // High - 15% increase
+        case 3: return 1.55  // Jet - 20% increase
+        default: return 1.0  // Default size
+        }
+    }
+    private func intensityFactor(for intensity: Int) -> Double {
+        switch intensity {
+        case 0: return 0.1  // Low - 10%
+        case 1: return 0.3  // Mid - 20%
+        case 2: return 0.6  // High - 50%
+        case 3: return 1  // Jet - 80%
+        default: return 0.0  // Default (No bars)
+        }
+    }
+
+    
+
+    // Converts text to the correct tag
+    private func tagFor(_ label: String) -> Int {
+        switch label {
+            case "Jet": return 3
+            case "High": return 2
+            case "Mid": return 1
+            case "Low": return 0
+            default: return -1
+        }
+    }
     
     private func sendWriteCommand(
         command: [UInt8],
@@ -315,7 +499,7 @@ struct OperationCycleView: View {
         // D6: Timing flags: bit0 (display/delete) and bit1 (timing on) are set; include bit3 (fan on) if enabled.
         let timingFlags: UInt8 = fanEnabled ? (0x03 | 0x08) : 0x03
         // D12: Grade mode. (0 = grade mode; change as needed.)
-        let gradeModeField: UInt8 = 0x00
+        let gradeModeField: UInt8 = gradeMode ? 0x01 : 0x00
         // D13: Grade (intensity level).
         let grade: UInt8 = UInt8(selectedIntensity)
         
@@ -382,7 +566,9 @@ struct TimePicker: View {
 
     var body: some View {
         VStack {
-            Text(title).font(.headline)
+            Text(title).font(Font.custom("DIN Next LT Arabic", size: 16))
+                .foregroundColor(.black)
+                .bold()
             DatePicker("", selection: $date, displayedComponents: .hourAndMinute)
                 .labelsHidden()
                 .scaleEffect(1.2)
@@ -398,4 +584,18 @@ extension DateFormatter {
         return formatter
     }
 }
+
+extension Color {
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let r, g, b: Double
+        r = Double((int >> 16) & 0xFF) / 255.0
+        g = Double((int >> 8) & 0xFF) / 255.0
+        b = Double(int & 0xFF) / 255.0
+        self.init(red: r, green: g, blue: b)
+    }
+}
+
 

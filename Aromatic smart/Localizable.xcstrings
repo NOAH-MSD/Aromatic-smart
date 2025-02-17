@@ -23,7 +23,6 @@
       }
     },
     "%lld s" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -183,7 +182,6 @@
       }
     },
     "Custom Durations" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -250,7 +248,6 @@
 
     },
     "Devices" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -493,7 +490,7 @@
         }
       }
     },
-    "FAN CONTROL" : {
+    "Fan Control" : {
 
     },
     "Fan state" : {
@@ -520,9 +517,6 @@
           }
         }
       }
-    },
-    "High" : {
-
     },
     "ⓘ اضغط لضبط مؤقت التشغيل" : {
       "extractionState" : "stale",
@@ -563,12 +557,6 @@
         }
       }
     },
-    "Jet" : {
-
-    },
-    "Low" : {
-
-    },
     "Main" : {
 
     },
@@ -582,9 +570,6 @@
           }
         }
       }
-    },
-    "Mid" : {
-
     },
     "Model Number: %@" : {
       "extractionState" : "stale",
@@ -718,7 +703,7 @@
         }
       }
     },
-    "Operation Cycle number: %lld" : {
+    "Operation Cycle %lld" : {
 
     },
     "Operation cycles" : {
@@ -770,6 +755,9 @@
           }
         }
       }
+    },
+    "Pause Time" : {
+
     },
     "Perfuming intensity" : {
 
@@ -947,7 +935,6 @@
       }
     },
     "Work Time" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {

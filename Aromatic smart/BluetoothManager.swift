@@ -443,7 +443,7 @@ struct FragranceTimingResponse {
     let powerOnTime: String
     let powerOffTime: String
     let daysOfOperation: [String]
-    let gradeMode: String
+    let gradeMode: Bool
     let grade: UInt8
     let customWorkTime: UInt16
     let customPauseTime: UInt16
@@ -461,7 +461,7 @@ struct FragranceTimingResponse {
         self.powerOnTime = String(format: "%02d:%02d", data[7], data[8])
         self.powerOffTime = String(format: "%02d:%02d", data[9], data[10])
         self.daysOfOperation = FragranceTimingResponse.decodeDaysOfWeek(byte: data[11])
-        self.gradeMode = data[12] == 1 ? "Custom" : "Default"
+        self.gradeMode = ((data[12] == 1 ? 1 : 0) != 0)
         self.grade = data[13]
         self.customWorkTime = UInt16(data[14]) << 8 | UInt16(data[15])
         self.customPauseTime = UInt16(data[16]) << 8 | UInt16(data[17])

@@ -15,6 +15,7 @@ struct PairDeviceView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
+       
         ZStack {
             LinearGradient(
                 gradient: Gradient(colors: [
@@ -27,25 +28,33 @@ struct PairDeviceView: View {
             .ignoresSafeArea()
             dotsBackground
             
-            VStack(spacing: 20) {
-                LoadingAnimationView()
-                    .padding(.top, 30)  // Adjust top spacing
-                Spacer()  // Pushes content below the logo
+            VStack(spacing: 3) {
+                headerView
+                Spacer()
+
+       
             }
             
-            VStack(spacing: 20) {
+            VStack(spacing: 10) {
                 if isLoading {
                     // Loading Animation and Info
                     VStack(spacing: 8) {
+                        Spacer()
+                        LoadingAnimationView()
+                        Spacer()
                         Text("جاري البحث عن الأجهزة ...")
                             .font(.headline)
                             .foregroundColor(.white)
                         
+                        
                         Text("تأكد من أن جهازك قيد التشغيل وقابل للاكتشاف")
                             .font(.subheadline)
                             .foregroundColor(.white.opacity(0.8))
+                        Spacer()
+                        
+  
                     }
-                    .padding(.top, 20)
+                    
                 } else if bluetoothManager.discoveredDevices.isEmpty {
                     // Message when no devices are found after scanning
                     Text("لم يتم العثور على أجهزة")
@@ -62,9 +71,22 @@ struct PairDeviceView: View {
                         }
                     }
                 }
+                
+                Section() {
+                    VStack(alignment: .leading, spacing: 5) {
+                        HStack(spacing: 20) {
+                         Image("SupportedDevices")
+                        }
+                        .padding()
+                        .frame(width: UIScreen.main.bounds.width - 40)
+                        .background(Color.white.opacity(0.5))
+                        .cornerRadius(15)
+                    }.padding(.top,180)
+                    
+                }
             }
-            .padding(.top, 80)
-            .padding(.bottom, 20)
+            .padding(.top, 130)
+            
         }
         // Start/stop scanning & error handling
         .onAppear { startScanning() }
@@ -132,6 +154,17 @@ struct PairDeviceView: View {
                 .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
         )
     }
+}
+
+private var headerView: some View {
+    HStack {
+        Text("Devices")
+            .font(Font.custom("DIN Next LT Arabic", size: 24))
+            .foregroundColor(.white)
+        Spacer()
+    }
+    .padding([.leading, .trailing], 20)
+    .padding(.top, 50)
 }
 
 // MARK: - Background Gradient and Dots
