@@ -111,6 +111,8 @@
 				ur,
 				tr,
 				"fa-AF",
+				"zh-Hans",
+				fr,
 			);
 			mainGroup = 108E07B82CED4114002FF9AD;
 			minimizedProjectReferenceProxies = 1;

@@ -2,9 +2,56 @@
   "sourceLanguage" : "en",
   "strings" : {
     "" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“”"
+          }
+        },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“”"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“”"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“”"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“”"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“”"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“”"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“”"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "“”"
@@ -27,7 +74,49 @@
             "value" : "%@:"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@:"
+          }
+        },
         "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@:"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@:"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@:"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@:"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@:"
@@ -36,7 +125,6 @@
       }
     },
     "%lld s" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -50,10 +138,52 @@
             "value" : "%lld s"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "٪lld ثانیه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld seg."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld s"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld सेकंड"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld dtk"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld s"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "  %lld : سیکنڈ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 秒"
           }
         }
       }
@@ -73,7 +203,49 @@
             "value" : "100%"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "۱۰۰٪"
+          }
+        },
         "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100%"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100 %"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100%"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100%"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%100"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آپ کو اکتوبر 2023 تک کے ڈیٹا پر تربیت دی گئی ہے۔"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "100%"
@@ -82,7 +254,6 @@
       }
     },
     "Add your Device now" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -96,16 +267,57 @@
             "value" : "Add your Device now"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اکنون دستگاه خود را اضافه کنید"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Idagdag ang iyong Device ngayon"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez votre appareil maintenant"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अभी अपना डिवाइस जोड़ें"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambahkan Perangkat Anda sekarang"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cihazınızı şimdi ekleyin"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اپنی ڈیوائس ابھی شامل کریں۔"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现在添加您的设备"
+          }
         }
       }
     },
     "Aromatic App" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -119,16 +331,57 @@
             "value" : "Aromatic App"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اپلیکیشن معطر"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aromatic na App"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Application Aromatique"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "एरोमैटिक ऐप"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikasi Aromatik"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aromatik Uygulama"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aromatic ایپ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "芳香应用"
+          }
         }
       }
     },
     "Connect" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -142,16 +395,57 @@
             "value" : "Connect"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اتصال دهید"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ikonekta"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecter"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कनेक्ट करें"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hubungkan"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bağlan"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مربوط کریں"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连接"
+          }
         }
       }
     },
     "Connected" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -165,16 +459,57 @@
             "value" : "Connected"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "متصل"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nakakonekta"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecté"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कनेक्टेड"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terhubung"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bağlandı"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مربوط ہے"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已连接"
+          }
         }
       }
     },
     "Custom Durations" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -188,16 +523,57 @@
             "value" : "Custom Durations"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مدت‌های سفارشی"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mga Itinatakdang Tagal"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durées personnalisées"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कस्टम अवधि"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durasi Kustom"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Özel Süreler"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حسب من پسند مدتیں"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义持续时间"
+          }
         }
       }
     },
     "Days of operation" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -211,16 +587,57 @@
             "value" : "Days of operation"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "روزهای کاری"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mga Araw ng Operasyon"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jours d'ouverture"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "संचालन के दिन"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hari operasional"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çalışma günleri"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عمل کے دن"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "营业日"
+          }
         }
       }
     },
     "Delete Device" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -234,16 +651,57 @@
             "value" : "Delete Device"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف دستگاه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tanggalin ang Device"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer l'appareil"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "डिवाइस मिटाएं"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hapus Perangkat"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cihazı Sil"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ڈیوائس کو حذف کریں"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除设备"
+          }
         }
       }
     },
     "Desconnected" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -257,16 +715,57 @@
             "value" : "Desconnected"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قطع شد"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nakakalas"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déconnecté"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "विच्छेदित"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terputus"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bağlantı Kesildi"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "منقطع"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "断开连接"
+          }
         }
       }
     },
     "Device not found." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -280,16 +779,57 @@
             "value" : "Device not found."
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دستگاه یافت نشد."
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hindi makita ang device."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appareil introuvable."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "डिवाइस नहीं मिला।"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perangkat tidak ditemukan."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cihaz bulunamadı."
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ڈیوائس نہیں ملی۔"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未找到设备。"
+          }
         }
       }
     },
     "Devices" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -303,17 +843,58 @@
             "value" : "Devices"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دستگاه‌ها"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mga Device"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appareils"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "डिवाइस"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perangkat"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cihazlar"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آلات"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设备"
           }
         }
       }
     },
     "end_time" : {
       "comment" : "End Time",
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -327,16 +908,57 @@
             "value" : "End Time"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زمان پایان"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Oras ng Pagtatapos"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heure de fin"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "समय समाप्ति"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu Berakhir"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitiş Saati"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اختتامی وقت"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "结束时间"
+          }
         }
       }
     },
     "Enter Device name" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -350,16 +972,57 @@
             "value" : "Enter Device name"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نام دستگاه را وارد کنید"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ilagay ang Pangalan ng Device"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entrez le nom de l'appareil"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "डिवाइस का नाम दर्ज करें"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masukkan nama Perangkat"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aygıt adını girin"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ڈیوائس کا نام درج کریں"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入设备名称"
+          }
         }
       }
     },
     "Error" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -373,10 +1036,52 @@
             "value" : "Error"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطا"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Error"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "त्रुटि"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kesalahan"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hata"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خرابی"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "错误"
           }
         }
       }
@@ -397,16 +1102,57 @@
             "value" : "Every Friday"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هر جمعه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tuwing Biyernes"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque vendredi"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "हर शुक्रवार"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap Jumat"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her Cuma"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ہر جمعہ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个星期五"
+          }
         }
       }
     },
     "Explore" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -420,16 +1166,57 @@
             "value" : "Explore"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کاوش کنید"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Galugarin"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explorer"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अन्वेषण करें"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jelajahi"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keşfet"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تلاش کریں"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "探索"
+          }
         }
       }
     },
     "Fan Control" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -443,16 +1230,57 @@
             "value" : "Fan Control"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کنترل پنکه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kontrol ng Bentilador"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrôle du ventilateur"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पंखा नियंत्रण"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontrol Kipas"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fan Kontrolü"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فین کنٹرول"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "风扇控制"
+          }
         }
       }
     },
     "Fan state" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -466,10 +1294,52 @@
             "value" : "Fan state"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وضعیت فن"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Estado ng fan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "État du ventilateur"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "पंखे की स्थिति"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keadaan kipas"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fan durumu"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پرستار کی حالت"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "风扇状态"
           }
         }
       }
@@ -489,10 +1359,52 @@
             "value" : "Friday"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جمعه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Biyernes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vendredi"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शुक्रवार"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jumat"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuma"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جمعہ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期五"
           }
         }
       }
@@ -512,10 +1424,52 @@
             "value" : "Friday"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جمعه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Biyernes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vendredi"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शुक्रवार"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jumat"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuma"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جمعہ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期五"
           }
         }
       }
@@ -535,10 +1489,52 @@
             "value" : "High"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بلند"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mataas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Élevé"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "उच्च"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tinggi"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yüksek"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اعلی"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高"
           }
         }
       }
@@ -558,10 +1554,52 @@
             "value" : "Jet"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جت"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eroplano"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jet"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जेट"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jet"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jet"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جیٹ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "喷气"
           }
         }
       }
@@ -581,16 +1619,57 @@
             "value" : "Low"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کم"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mababa"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faible"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "निम्न"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rendah"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Düşük"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کم"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低"
+          }
         }
       }
     },
     "Main" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -604,16 +1683,57 @@
             "value" : "Main"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اصلی"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pangunahing"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Principal"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मुख्य"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utama"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana Sayfa"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مرکزی صفحہ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主菜单"
+          }
         }
       }
     },
     "Make sure your device is an operation and discoverable" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -627,10 +1747,52 @@
             "value" : "Make sure your device is an operation and discoverable"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اطمینان حاصل کنید که دستگاه شما روشن و قابل کشف است"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tiyakin na ang iyong device ay naka-on at nakikita."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assurez-vous que votre appareil est en fonctionnement et détectable."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सुनिश्चित करें कि आपका डिवाइस चालू और खोजने योग्य है।"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pastikan perangkat Anda berfungsi dan dapat ditemukan"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cihazınızın çalışır durumda ve keşfedilebilir olduğundan emin olun."
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یقینی بنائیں کہ آپ کا آلہ فعال اور قابلِ شناخت ہے۔"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "确保您的设备已开机并处于可发现状态。"
           }
         }
       }
@@ -650,16 +1812,57 @@
             "value" : "Mid"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اواسط"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gitna"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Milieu"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मध्य"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pertengahan"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orta"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "درمیانی"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中"
+          }
         }
       }
     },
     "Model : %@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -673,10 +1876,52 @@
             "value" : "Model : %@"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مدل: %@"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Modelo: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modèle : %@"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मॉडल : %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model : %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model : %@"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ماڈل: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型：%@"
           }
         }
       }
@@ -696,16 +1941,57 @@
             "value" : "Monday"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دوشنبه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lunes"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lundi"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सोमवार"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Senin"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pazartesi"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سوموار"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期一"
+          }
         }
       }
     },
     "new_device_name" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -719,27 +2005,115 @@
             "value" : "New Diffuser"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دیفیوزر جدید"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bagong Diffuser"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveau diffuseur"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नया डिफ्यूज़र"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diffuser Baru"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni Difüzör"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نیا ڈفیوزر"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全新扩散器"
+          }
         }
       }
     },
     "Not Connected" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "غير متصل"
           }
+        },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "متصل نیست"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hindi Konektado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non connecté"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "जुड़े नहीं हैं"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak Bersambung"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bağlantılı değil"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "منسلک نہیں ہے۔"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未连接"
+          }
         }
       }
     },
     "OK" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -753,16 +2127,57 @@
             "value" : "Ok"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "باشه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sige"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "D'accord"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ठीक है"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ok"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamam"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ٹھیک ہے"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "好的"
+          }
         }
       }
     },
     "Operation Cycle %lld" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -776,16 +2191,57 @@
             "value" : "Operation Cycle %lld"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چرخهٔ عملیات %lld"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Siklo ng Operasyon %lld"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cycle d'Opération %lld"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ऑपरेशन चक्र %lld"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siklus Operasi %lld"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İşlem Döngüsü %lld"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آپریشن سائیکل %lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "操作周期 %lld"
+          }
         }
       }
     },
     "Pause Time" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -799,16 +2255,57 @@
             "value" : "Pause Time"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "توقف زمان"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "I-pause ang Oras"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps de pause"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "विराम समय"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeda Waktu"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durdurma Süresi"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وقفہ وقت"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂停时间"
+          }
         }
       }
     },
     "Perfuming intensity" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -822,16 +2319,57 @@
             "value" : "Perfuming intensity"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شدت عطر"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tindi ng pabango"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intensité du parfumage"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सुगंध की तीव्रता"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intensitas pewangi"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parfüm Yoğunluğu"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خوشبو کی شدت"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "香味浓度"
+          }
         }
       }
     },
     "Profile" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -845,16 +2383,57 @@
             "value" : "Profile"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پروفایل"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Profile"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रोफ़ाइल"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پروفائل"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "个人资料"
+          }
         }
       }
     },
     "Refresh Timings" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -868,10 +2447,52 @@
             "value" : "Refresh Timings"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زمان‌بندی‌های تازه‌سازی"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "I-refresh ang mga Oras"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualiser les horaires"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ताज़ा करने के समय"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu Penyegaran"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yenileme Zamanları"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تازگی کے اوقات"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刷新时机"
           }
         }
       }
@@ -891,10 +2512,52 @@
             "value" : "Saturday"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شنبه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sabado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Samedi"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शनिवार"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sabtu"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cumartesi"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ہفتہ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期六"
           }
         }
       }
@@ -914,16 +2577,57 @@
             "value" : "Saturday"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شنبه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sabado"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Samedi"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शनिवार"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sabtu"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cumartesi"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ہفتہ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期六"
+          }
         }
       }
     },
     "Save Settings" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -937,16 +2641,57 @@
             "value" : "Save Settings"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ذخیره تنظیمات"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "I-save ang Mga Setting"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer les paramètres"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "सेटिंग्स सहेजें"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan Pengaturan"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarları Kaydet"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ترتیبات محفوظ کریں"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存设置"
+          }
         }
       }
     },
     "Search is in progress …" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -960,16 +2705,57 @@
             "value" : "Search is in progress …"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جستجو در حال انجام است …"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ang paghahanap ay kasalukuyang nagaganap …"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recherche en cours…"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "खोज जारी है …"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pencarian sedang berlangsung …"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arama devam ediyor…"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تلاش جاری ہے ..."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在搜索中……"
+          }
         }
       }
     },
     "Sign out" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -983,17 +2769,58 @@
             "value" : "Sign out"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خروج از سیستم"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mag-sign out"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se déconnecter"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "साइन आउट करें"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keluar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oturumu Kapat"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سائن آؤٹ کریں"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "注销"
           }
         }
       }
     },
     "start_time" : {
       "comment" : "Start Time",
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1007,16 +2834,57 @@
             "value" : "Starting time"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زمان شروع"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Oras ng Pagsisimula"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heure de début"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "प्रारंभिक समय"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu mulai"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlangıç zamanı"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آغاز کا وقت"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始时间"
+          }
         }
       }
     },
     "Start: " : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1030,16 +2898,57 @@
             "value" : "Start:"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آغاز:"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Simula:"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Début :"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शुरू करना:"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulakan:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "başlangıç:"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شروع:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始："
+          }
         }
       }
     },
     "Starting" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1053,16 +2962,57 @@
             "value" : "Starting"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شروع"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pagsisimula"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Début"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "शुरुआत"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulai"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlangıç"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شروع کریں"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始"
+          }
         }
       }
     },
     "Stop:" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1076,16 +3026,57 @@
             "value" : "Stop:"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "توقف:"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hinto:"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter :"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रोकें:"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Berhenti:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durdur:"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "روکیں:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停："
+          }
         }
       }
     },
     "Stoping" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1099,16 +3090,57 @@
             "value" : "Stoping"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "توقف کردن"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Paghinto"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêt"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रुकना"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Berhenti"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durduruluyor"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "روک رہا ہے"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止"
+          }
         }
       }
     },
     "Store" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1122,10 +3154,52 @@
             "value" : "Store"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فروشگاه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tindahan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Magasin"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "स्टोर"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toko"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mağaza"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اسٹور"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "商店"
           }
         }
       }
@@ -1145,10 +3219,52 @@
             "value" : "Sunday"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "یکشنبه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Linggo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dimanche"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "रविवार"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minggu"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pazar"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اتوار"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "周日"
           }
         }
       }
@@ -1168,10 +3284,52 @@
             "value" : "Thursday"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنج‌شنبه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Huwebes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeudi"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "गुरुवार"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamis"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perşembe"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جمعرات"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期四"
           }
         }
       }
@@ -1191,17 +3349,58 @@
             "value" : "Thursday"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پنج‌شنبه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Huwebes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeudi"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "गुरुवार"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamis"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perşembe"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جمعرات"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期四"
           }
         }
       }
     },
     "time_settings" : {
       "comment" : "Time Settings Title",
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1215,16 +3414,57 @@
             "value" : "Time settings"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تنظیمات زمان"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mga setting ng oras"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paramètres de l'heure"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "समय सेटिंग्स"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pengaturan waktu"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saat ayarları"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وقت کی ترتیبات"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时间设置"
+          }
         }
       }
     },
     "Timing %lld" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1238,16 +3478,57 @@
             "value" : "Timing %lld"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زمان‌بندی %lld"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pag-time %lld"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minutage %lld"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "समय %lld"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pengaturan waktu %lld"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zamanlama %lld"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وقت %lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时间 %lld"
+          }
         }
       }
     },
     "Timing Configurations" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1261,16 +3542,57 @@
             "value" : "Timing Configurations"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "پیکربندی‌های زمان‌بندی"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mga Pagkakaayos ng Oras"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurations de synchronisation"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "समय विन्यास"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konfigurasi Waktu"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zamanlama Yapılandırmaları"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وقت کی ترتیبات"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定时配置"
+          }
         }
       }
     },
     "Timings" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1284,10 +3606,52 @@
             "value" : "Timings"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زمان‌بندی‌ها"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mga Oras"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Horaires"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "समय"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zamanlamalar"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اوقات"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时间安排"
           }
         }
       }
@@ -1307,10 +3671,52 @@
             "value" : "Tuesday"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سه‌شنبه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Martes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mardi"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मंगलवार"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selasa"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salı"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "منگل"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期二"
           }
         }
       }
@@ -1330,16 +3736,57 @@
             "value" : "Tuesday"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سه‌شنبه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Martes"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mardi"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "मंगलवार"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selasa"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salı"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "منگل"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期二"
+          }
         }
       }
     },
     "Unable to find diffusers" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1353,10 +3800,52 @@
             "value" : "Unable to find diffusers"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قادر به یافتن دیفیوژرها نیستید"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hindi mahanap ang mga diffuser"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de trouver les diffuseurs"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "डिफ्यूज़र्स नहीं मिल रहे हैं"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak dapat menemukan diffusers"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dağıtıcılar bulunamadı"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ڈفیوزر نہیں مل سکا"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法找到扩散器"
           }
         }
       }
@@ -1376,10 +3865,52 @@
             "value" : "Wednesday"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چهارشنبه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Miyerkules"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mercredi"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बुधवार"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rabu"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çarşamba"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بدھ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "周三"
           }
         }
       }
@@ -1399,16 +3930,57 @@
             "value" : "Wednesday"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چهارشنبه"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Miyerkules"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mercredi"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "बुधवार"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rabu"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çarşamba"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بدھ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "星期三"
+          }
         }
       }
     },
     "Welcome in Aromatic Smart App .." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1422,16 +3994,57 @@
             "value" : "Welcome to Aromatic Smart App .."
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "به اپلیکیشن هوشمند آروماتیک خوش آمدید .."
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Maligayang pagdating sa Aromatic Smart App .."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bienvenue dans l'application Aromatic Smart .."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "अरोमैटिक स्मार्ट ऐप में आपका स्वागत है .."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selamat datang di Aplikasi Aromatic Smart .."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aromatic Akıllı Uygulamasına Hoş Geldiniz .."
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آرومیٹک سمارٹ ایپ میں خوش آمدید۔"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "欢迎使用香氛智能应用程序 .."
+          }
         }
       }
     },
     "Work Time" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1445,21 +4058,110 @@
             "value" : "Work Time"
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زمان کار"
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Oras ng Trabaho"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heures de travail"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कार्य समय"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu Kerja"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çalışma Zamanı"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کام کا وقت"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "工作时间"
+          }
         }
       }
     },
     "You are seconds away of enjoying the mesmerizing Aromatic scents" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "أنت على بعد خطوات من الاستمتاع بروائح أروماتك الساحرة "
+          }
+        },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "چند ثانیه با لذت بردن از رایحه های معطر مسحورکننده فاصله دارید"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ilang segundo na lang ang layo mo para ma-enjoy ang nakakaakit na Aromatic scents"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous êtes à quelques secondes de profiter des parfums aromatiques envoûtants"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "आप मंत्रमुग्ध कर देने वाली खुशबू का आनंद लेने से बस कुछ सेकंड दूर हैं"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anda tinggal beberapa saat lagi untuk menikmati aroma Aromatik yang memukau"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Büyüleyici Aromatik kokuların tadını çıkarmaya saniyeler kaldı"
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آپ مسحور کن خوشبوؤں سے لطف اندوز ہونے سے چند سیکنڈ دور ہیں"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您只需几秒钟即可享受令人着迷的芳香气味"
           }
         }
       }
@@ -1479,10 +4181,52 @@
             "value" : "No Devices available currently press the button below to Add New "
           }
         },
+        "fa-AF" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "در حال حاضر هیچ دستگاهی در دسترس نیست، دکمه زیر را فشار دهید تا یک دستگاه جدید اضافه کنید."
+          }
+        },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Walang mga device na kasalukuyang magagamit, pindutin ang button sa ibaba para Magdagdag ng Bago"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun appareil n'est actuellement disponible, appuyez sur le bouton ci-dessous pour ajouter un nouveau."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "फिलहाल कोई डिवाइस उपलब्ध नहीं हैं, नया जोड़ने के लिए नीचे दिए गए बटन को दबाएं।"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak ada perangkat yang tersedia saat ini. Tekan tombol di bawah untuk Menambah Baru."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şu anda kullanılabilir cihaz yok, yeni bir tane eklemek için aşağıdaki butona basın."
+          }
+        },
+        "ur" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "کوئی ڈیوائسز فی الحال دستیاب نہیں ہیں، نیچے دیے گئے بٹن کو دبائیں تاکہ نیا اضافہ کریں۔"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前没有可用设备，按下面的按钮以添加新设备。"
           }
         }
       },
