@@ -1,3 +1,10 @@
+//
+//  Untitled.swift
+//  Aromatic smart
+//
+//  Created by عارف on 19/02/2025.
+//
+
 import SwiftUI
 import WebKit
 
@@ -13,5 +20,3 @@ struct WebView: UIViewRepresentable {
         uiView.load(request)
     }
 }
-
-

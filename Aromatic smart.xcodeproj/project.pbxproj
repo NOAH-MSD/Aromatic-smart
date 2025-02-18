@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		108E07C12CED4114002FF9AD /* Aromatic smart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Aromatic smart.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		108E07C12CED4114002FF9AD /* Aromatic smart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "Aromatic smart.app"; path = "/Users/aarif/Desktop/Aromatic smart/build/Debug-iphoneos/Aromatic smart.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -46,16 +46,7 @@
 			isa = PBXGroup;
 			children = (
 				108E07C32CED4114002FF9AD /* Aromatic smart */,
-				108E07C22CED4114002FF9AD /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		108E07C22CED4114002FF9AD /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				108E07C12CED4114002FF9AD /* Aromatic smart.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -117,7 +108,7 @@
 			mainGroup = 108E07B82CED4114002FF9AD;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 108E07C22CED4114002FF9AD /* Products */;
+			productRefGroup = 108E07B82CED4114002FF9AD;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -155,7 +146,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Aromatic smart/Aromatic_smart.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Aromatic smart/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = G4PC78KPUV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -191,7 +182,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Aromatic smart/Aromatic_smart.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Aromatic smart/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = G4PC78KPUV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
