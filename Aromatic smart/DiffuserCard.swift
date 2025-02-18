@@ -17,7 +17,7 @@ struct DiffuserCard: View {
             // Header: Editable Name and Connection Status
             HStack {
                 if isEditing {
-                    TextField("أدخل اسم الجهاز", text: $editedName, onCommit: {
+                    TextField("Enter Device name", text: $editedName, onCommit: {
                         diffuser.name = editedName
                         isEditing = false  // Save changes and exit edit mode
                     })
@@ -48,7 +48,7 @@ struct DiffuserCard: View {
                         .foregroundColor(diffuser.isConnected ? .green : .red)
                         .font(.system(size: 20))
                     
-                    Text(diffuser.isConnected ? "متصل" : "غير متصل")
+                    Text(diffuser.isConnected ? "Connected" : "Desconnected")
                         .font(Font.custom("DIN Next LT Arabic", size: 16))
                         .foregroundColor(.white)
                 }
@@ -86,7 +86,7 @@ struct DiffuserCard: View {
             }
 
             // Model Number and Details
-            Text("الطراز: \(diffuser.modelNumber)")
+            Text("Model : \(diffuser.modelNumber)")
                 .font(Font.custom("DIN Next LT Arabic", size: 18))
                 .foregroundColor(.white)
 
@@ -109,7 +109,7 @@ struct DiffuserCard: View {
                 HStack {
                     Image(systemName: "trash")
                         .foregroundColor(.red)
-                    Text("حذف الجهاز")
+                    Text("Delete Device")
                         .font(Font.custom("DIN Next LT Arabic", size: 16))
                         .foregroundColor(.red)
                 }

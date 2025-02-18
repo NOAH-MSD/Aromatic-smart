@@ -70,7 +70,7 @@ extension MainView {
             }) {
                 NavigationLink(destination: PairDeviceView()) {
                     HStack {
-                        Text("أضف جهازك الآن")
+                        Text("Add your Device now")
                             .font(Font.custom("DIN Next LT Arabic", size: 18))
                             .foregroundColor(.white)
 
@@ -123,14 +123,14 @@ extension MainView {
 
     private var noDevicesView: some View {
         VStack(spacing: 5) {
-            Text("مرحباً بك في تطبيق أروماتك ..")
+            Text("Welcome in Aromatic Smart App ..")
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
                 .font(Font.custom("DIN Next LT Arabic", size: 20))
                 .padding(.bottom, 4)
             
 
-            Text("أنت على بُعد خطوات من الاستمتاع بروائح أروماتك الساحرة")
+            Text("You are seconds away of enjoying the mesmerizing Aromatic scents")
                 .foregroundColor(.white.opacity(0.8))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)

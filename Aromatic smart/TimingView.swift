@@ -101,22 +101,23 @@ struct TimingRow: View {
             VStack(alignment: .leading, spacing: 2) {
                 // Start time
                 HStack {
-                    Text(timing.powerOn)
-                        .font(.system(size: 14))
-                        .foregroundColor(.black)
+
                     Text("Start: ")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
+                    Text(timing.powerOn)
+                        .font(.system(size: 14))
+                        .foregroundColor(.black)
                 }
 
                 // Stop time
                 HStack {
-                    Text(timing.powerOff)
-                        .font(.system(size: 14))
-                        .foregroundColor(.black)
                     Text("Stop:")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
+                    Text(timing.powerOff)
+                        .font(.system(size: 14))
+                        .foregroundColor(.black)
                 }
             }
             .padding(.trailing, 5)

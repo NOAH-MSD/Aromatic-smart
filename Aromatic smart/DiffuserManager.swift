@@ -3,6 +3,7 @@ import SwiftData
 import Combine
 import CoreBluetooth
 
+
 class DiffuserManager: ObservableObject {
     @Published var diffusers: [Diffuser] = [] // Observable property for UI updates
     private var diffuserMapping: [CBPeripheral: Diffuser] = [:]
@@ -12,6 +13,11 @@ class DiffuserManager: ObservableObject {
     private var subscriptionsSetUp = false
     private var cancellables = Set<AnyCancellable>()
     
+
+    var newDiffuserNameKey: String {
+        String(localized: "new_device_name") // ✅ Fetches localized string
+    }
+
 
 
     @Published var currentDiffuser: Diffuser?
@@ -154,10 +160,11 @@ class DiffuserManager: ObservableObject {
             print("🔄 Existing diffuser found for \(peripheralUUID). Returning the existing instance.")
             return existingDiffuser
         }
-
+        
+        
         // If it does not exist, create a new one
         let newDiffuser = Diffuser(
-            name: "New Diffuser",
+            name: newDiffuserNameKey,
             isConnected: true,
             modelNumber: "Unknown",
             serialNumber: peripheralUUID,

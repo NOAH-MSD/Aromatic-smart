@@ -22,7 +22,7 @@ struct TimingCardView: View {
                     
                     Spacer()
                     
-                    Text("تشغيل") // "Start"
+                    Text("Starting") // "Start"
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                 }
@@ -34,7 +34,7 @@ struct TimingCardView: View {
                     
                     Spacer()
                     
-                    Text("إيقاف") // "Stop"
+                    Text("Stoping") // "Stop"
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                 }

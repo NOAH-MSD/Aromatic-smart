@@ -31,10 +31,7 @@ struct PairDeviceView: View {
             VStack(spacing: 3) {
                 headerView
                 Spacer()
-
-       
             }
-            
             VStack(spacing: 10) {
                 if isLoading {
                     // Loading Animation and Info
@@ -42,26 +39,21 @@ struct PairDeviceView: View {
                         Spacer()
                         LoadingAnimationView()
                         Spacer()
-                        Text("جاري البحث عن الأجهزة ...")
+                        Text("Search is in progress …")
                             .font(.headline)
                             .foregroundColor(.white)
-                        
-                        
-                        Text("تأكد من أن جهازك قيد التشغيل وقابل للاكتشاف")
+                        Text("Make sure your device is an operation and discoverable")
                             .font(.subheadline)
                             .foregroundColor(.white.opacity(0.8))
                         Spacer()
-                        
   
                     }
-                    
                 } else if bluetoothManager.discoveredDevices.isEmpty {
                     // Message when no devices are found after scanning
-                    Text("لم يتم العثور على أجهزة")
+                    Text("Unable to find diffusers")
                         .font(.headline)
                         .foregroundColor(.white)
                 }
-                
                 // List of Devices (ScrollView + VStack)
                 ScrollView {
                     VStack(spacing: 12) {
@@ -71,7 +63,6 @@ struct PairDeviceView: View {
                         }
                     }
                 }
-                
                 Section() {
                     VStack(alignment: .leading, spacing: 5) {
                         HStack(spacing: 20) {
@@ -86,7 +77,6 @@ struct PairDeviceView: View {
                 }
             }
             .padding(.top, 130)
-            
         }
         // Start/stop scanning & error handling
         .onAppear { startScanning() }
@@ -122,7 +112,7 @@ struct PairDeviceView: View {
     private func deviceRow(peripheral: CBPeripheral) -> some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(peripheral.name ?? "جهاز غير معروف")
+                Text(peripheral.name ?? "unknown device")
                     .font(.headline)
                     .foregroundColor(.black)
                 
@@ -133,7 +123,7 @@ struct PairDeviceView: View {
             Spacer()
             
             if !bluetoothManager.isPairedAndConnected(peripheral) {
-                Button("اتصال") {
+                Button("Connect") {
                     bluetoothManager.connect(peripheral)
                 }
                 .padding(.horizontal, 12)
@@ -142,7 +132,7 @@ struct PairDeviceView: View {
                 .foregroundColor(.white)
                 .cornerRadius(10)
             } else {
-                Text("متصل")
+                Text("Connected")
                     .font(.subheadline)
                     .foregroundColor(.green)
             }

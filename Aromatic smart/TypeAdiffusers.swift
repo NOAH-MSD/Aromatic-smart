@@ -164,7 +164,7 @@ class TypeADiffuserAPI: DiffuserAPI {
 
         // Example (optional) read/verify step:
         let deviceModel = loadDeviceModel(peripheralUUID: peripheral.identifier.uuidString)
-        let readRequest: [UInt8] = (deviceModel == "new") ? [0x40] : [0x03]
+        let _: [UInt8] = (deviceModel == "new") ? [0x40] : [0x03]
 
         //DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
         //    let readData = Data(readRequest)

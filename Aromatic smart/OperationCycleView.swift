@@ -14,6 +14,14 @@ struct OperationCycleView: View {
     @State private var fanEnabled: Bool
     @State private var gradeMode: Bool
     
+    let daysOfWeekKeys = [
+        "sunday_key", "monday_key", "tuesday_key",
+        "wednesday_key", "thursday_key", "friday_key", "saturday_key"
+    ]
+    let Intencitykeys: [String] = ["Low", "Mid", "High","Jet"]
+    
+
+    
     // MARK: - Init
     init(timing: Timing) {
         self._timing = Bindable(timing)
@@ -40,9 +48,11 @@ struct OperationCycleView: View {
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .ignoresSafeArea()
             
+            .ignoresSafeArea()
+            dotsBackground
             ScrollView {
+                
                 VStack(spacing: 22) {
                     // 🌟 Header Section
                     headerView
@@ -55,34 +65,32 @@ struct OperationCycleView: View {
                     // 🌟 Time Settings Section with proper background and rounded corners
                     Section {
                         VStack {
-                            Text("Time Settings")
+                            Text(NSLocalizedString("time_settings", comment: "Time Settings Title"))
                                 .font(Font.custom("DIN Next LT Arabic", size: 14))
-                                .foregroundColor(.white.opacity(0.8)).bold()
+                                .foregroundColor(.white.opacity(0.8))
+                                .bold()
+
                             HStack(spacing: 20) {
-                                if layoutDirection == .rightToLeft {
-                                    TimePicker(title: "End Time", date: $powerOffDate).bold()
- 
-                                    
-                                    
+                                TimePicker(title: NSLocalizedString("start_time", comment: "Start Time"), date: $powerOnDate)
+                                   
+                                        
+
                                     Rectangle()
                                         .fill(Color.white)
                                         .frame(width: 1, height: 90)
-                                    TimePicker(title: "Start Time", date: $powerOnDate)
-                                } else {
-                                    TimePicker(title: "Start Time", date: $powerOnDate)
-                                    Rectangle()
-                                        .fill(Color.white)
-                                        .frame(width: 1, height: 90)
-                                    TimePicker(title: "End Time", date: $powerOffDate)
-                                }
+
+                                TimePicker(title: NSLocalizedString("end_time", comment: "End Time"), date: $powerOffDate)
+                                
                             }
                             .padding()
                             .frame(width: 309, height: 118) // Match width and height from UIKit
                             .background(Color.white.opacity(0.7)) // Same transparency as UIKit view
-                            .cornerRadius(25) // Apply rounded corners
+                            .cornerRadius(28) // Apply rounded corners
                         }
                         .frame(maxWidth: .infinity) // Keep it responsive
                     }
+
+
 
 
                     
@@ -93,6 +101,11 @@ struct OperationCycleView: View {
                             .foregroundColor(.white.opacity(0.8)).bold()
                         
                         HStack {
+                            Text("Fan state")
+                                .font(Font.custom("DIN Next LT Arabic", size: 16))
+                                    .foregroundColor(.black)
+                                    .bold()
+                            Spacer()
                             Toggle("", isOn: $fanEnabled)
                                 .labelsHidden()
                                 .toggleStyle(SwitchToggleStyle(tint: .blue))
@@ -111,16 +124,9 @@ struct OperationCycleView: View {
                             }
 
 
-                       
-
+                                
                             
 
-                                
-                            Spacer()
-                            Text("Fan state")
-                                .font(Font.custom("DIN Next LT Arabic", size: 16))
-                                    .foregroundColor(.black)
-                                    .bold()
                         }
                         .padding()
                         .frame(width: 309) // Match width & height from UIKit
@@ -148,8 +154,8 @@ struct OperationCycleView: View {
                                 .fill(Color.white.opacity(0.7)) // Correct background color from UIKit
                                 .frame(width: 309, height: 51)
                             HStack(spacing: 10) {
-                                Image(systemName: "dot.radiowaves.left.and.right", variableValue: Double(intensityFactor(for: selectedIntensity))).foregroundColor(Color.blue).symbolEffect(.pulse, options: .repeat(.periodic(1))).padding(.trailing,10)
-                                ForEach(["Jet", "High", "Mid", "Low"], id: \.self) { label in
+                               
+                                ForEach(Intencitykeys, id: \.self) { label in   //daysOfWeekKeys, id: \.self) { dayKey in
                                     ZStack {
                                         if selectedIntensity == tagFor(label) {
                                             RoundedRectangle(cornerRadius: 11)
@@ -157,7 +163,7 @@ struct OperationCycleView: View {
                                                 .frame(width: 57, height: 26).scaleEffect(scaleFactor(for: selectedIntensity))
                                                 .shadow(color: Color.black.opacity(0.25), radius: 1, x: 0, y: 1)
                                         }
-                                            Text(label)
+                                        Text(LocalizedStringKey(label))
                                                 .font(Font.custom("DIN Next LT Arabic", size: 14))
                                                 .foregroundColor(.black)
                                                 .bold()
@@ -172,7 +178,7 @@ struct OperationCycleView: View {
                                     }
                                 }
                                 
-
+                                Image(systemName: "water.waves", variableValue: Double(intensityFactor(for: selectedIntensity))).foregroundColor(Color.blue).symbolEffect(.pulse, options: .repeat(.periodic(1))).padding(.trailing,10)
                             }
                         }
                     }
@@ -257,46 +263,43 @@ struct OperationCycleView: View {
                             // ✅ Background container with shadow
                             RoundedRectangle(cornerRadius: 25)
                                 .fill(Color.white.opacity(0.7))
-                                
 
                             VStack(spacing: 5) {
-                                ForEach(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], id: \.self) { day in
+                                ForEach(daysOfWeekKeys, id: \.self) { dayKey in
                                     HStack {
-                                        // ✅ **Day Label**
-                                        Text(day)
+                                        // ✅ **Localized Day Label**
+                                        Text(LocalizedStringKey(dayKey)) // 🔹 Use localization key
                                             .font(Font.custom("DIN Next LT Arabic", size: 14))
                                             .foregroundColor(.black)
-                                            .padding(.leading,20)
-                                            
+                                            .padding(.leading, 20)
 
                                         Spacer()
 
                                         // ✅ **Filled Checkmark for Selected Days**
-                                        Image(systemName: selectedDays.contains(day) ? "checkmark" : "circle").contentTransition(.symbolEffect(.replace))
+                                        Image(systemName: selectedDays.contains(dayKey) ? "checkmark" : "circle")
+                                            .contentTransition(.symbolEffect(.replace))
                                             .font(.system(size: 18))
-                                            .foregroundColor(selectedDays.contains(day) ? .green : .gray.opacity(0.5))
-                                            .padding(.trailing,25)
+                                            .foregroundColor(selectedDays.contains(dayKey) ? .green : .gray.opacity(0.5))
+                                            .padding(.trailing, 25)
                                     }
                                     .frame(width: 284, height: 38)
                                     .background(Color(hex: "#E4E4E4")) // ✅ Matches guide color
                                     .cornerRadius(24)
-                                    //.padding(.horizontal, 10) // ✅ More padding for better alignment
                                     .onTapGesture {
-                                        if selectedDays.contains(day) {
-                                            selectedDays.remove(day)
+                                        if selectedDays.contains(dayKey) {
+                                            selectedDays.remove(dayKey)
                                         } else {
-                                            selectedDays.insert(day)
+                                            selectedDays.insert(dayKey)
                                         }
                                     }
-
- 
                                 }
                             }
                             .padding(.vertical, 30) // ✅ Adjust list padding
                         }
-                        .frame( minHeight: 270, maxHeight: .infinity) // ✅ Auto-sizing background
+                        .frame(minHeight: 270, maxHeight: .infinity) // ✅ Auto-sizing background
                         .frame(width: 309)
                     }
+
 
 
 
@@ -304,7 +307,7 @@ struct OperationCycleView: View {
                     Spacer()
                     
                     // 🌟 Save Settings Button
-                    Button(action: {}) {
+                    Button(action: {saveSettings()}) {
                         Text("Save Settings")
                             .font(Font.custom("DIN Next LT Arabic", size: 18).weight(.medium))
                             .foregroundColor(.white)
@@ -599,3 +602,30 @@ extension Color {
 }
 
 
+private var dotsBackground: some View {
+    ZStack {
+        // green dot
+        Circle()
+            .fill(Color.green)
+            .frame(width: 4, height: 4)
+            .offset(x: -100, y: -50)
+
+        // yello dot (small)
+        Circle()
+            .fill(Color.yellow)
+            .frame(width: 8, height: 8)
+            .offset(x: -60, y: -10)
+
+        // bluw dot
+        Circle()
+            .fill(Color(red: 0.67, green: 1.0, blue: 1.0))  // #7FFCAA - Light Blue
+            .frame(width: 4, height: 4)
+            .offset(x: 1, y: 5)
+
+        // pink dot (small)
+        Circle()
+            .fill(Color(red: 1.0, green: 0.67, blue: 0.67))  // #FF7CAA - Pink
+            .frame(width: 10, height: 10)
+            .offset(x: 60, y: -25)
+    }
+}

@@ -34,7 +34,7 @@ struct UserProfileView: View {
                 // Logout action here
                 print("User logged out")
             }) {
-                Text("تسجيل الخروج")
+                Text("Sign out")
                     .font(.headline)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)

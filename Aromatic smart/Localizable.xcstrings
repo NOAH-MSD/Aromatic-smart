@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -12,43 +13,104 @@
       }
     },
     "%@:" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@:"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@:"
+          }
         }
       }
     },
     "%lld s" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "ث %lld"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld s"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld seg."
+          }
         }
       }
     },
     "100%" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "100٪"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100%"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100%"
+          }
         }
       }
     },
-    "Aromatic App" : {
+    "Add your Device now" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "أروماتك"
+            "value" : "أضف جهازك الآن"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your Device now"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idagdag ang iyong Device ngayon"
+          }
+        }
+      }
+    },
+    "Aromatic App" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تطبيق أروماتك "
           }
         },
         "en" : {
@@ -56,94 +118,11 @@
             "state" : "translated",
             "value" : "Aromatic App"
           }
-        }
-      }
-    },
-    "Auto" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تلقائي"
-          }
-        }
-      }
-    },
-    "Choose the Diffusing Intensity for your program" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اختر شدة التعطير لجهازك"
-          }
-        }
-      }
-    },
-    "Choose the time of activity for your device" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اختر وقت نشاط جهازك "
-          }
         },
-        "en" : {
+        "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose the time of activity for your device"
-          }
-        }
-      }
-    },
-    "Configuration" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الإعدادات"
-          }
-        }
-      }
-    },
-    "Configure the device’s operation times, intensity, and other settings." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اضبط إعدادات توقيت العمل، شدة التعطير، وغيرها"
-          }
-        }
-      }
-    },
-    "Configure the device’s operation times, intensity, fan, and other settings." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اضبط إعدادات توقيت العمل، شدة التعطير، وغيرها"
-          }
-        }
-      }
-    },
-    "Confirm" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تأكيد"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Confirm"
+            "value" : "Aromatic na App"
           }
         }
       }
@@ -156,6 +135,18 @@
             "state" : "translated",
             "value" : "اتصل"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikonekta"
+          }
         }
       }
     },
@@ -167,51 +158,63 @@
             "state" : "translated",
             "value" : "متصل"
           }
-        }
-      }
-    },
-    "Connection Status" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "حالة الاتصال "
+            "value" : "Connected"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nakakonekta"
           }
         }
       }
     },
     "Custom Durations" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "مدة مخصصة"
           }
-        }
-      }
-    },
-    "Cycle #%lld" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "دورة %lld"
+            "value" : "Custom Durations"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mga Itinatakdang Tagal"
           }
         }
       }
     },
     "Days of operation" : {
-
-    },
-    "Days of Operation" : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "أيام التشغيل"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Days of operation"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mga Araw ng Operasyon"
           }
         }
       }
@@ -228,26 +231,65 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Delete device"
+            "value" : "Delete Device"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tanggalin ang Device"
           }
         }
       }
     },
-    "Device Details" : {
+    "Desconnected" : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "تفاصيل الجهاز "
+            "value" : "غير متصل"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desconnected"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nakakalas"
           }
         }
       }
     },
     "Device not found." : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لم يتم العثور على الجهاز. "
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device not found."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hindi makita ang device."
+          }
+        }
+      }
     },
     "Devices" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -260,43 +302,17 @@
             "state" : "translated",
             "value" : "Devices"
           }
-        }
-      }
-    },
-    "Diffusing Intencity" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
+        },
+        "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "قوة التعطير"
+            "value" : "Mga Device"
           }
         }
       }
     },
-    "Diffusing Intensity" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "قوة التعطير "
-          }
-        }
-      }
-    },
-    "Disconnected" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "غير متصل"
-          }
-        }
-      }
-    },
-    "Ending Time" : {
+    "end_time" : {
+      "comment" : "End Time",
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
@@ -304,10 +320,22 @@
             "state" : "translated",
             "value" : "وقت التوقف"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End Time"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oras ng Pagtatapos"
+          }
         }
       }
     },
-    "Enter Diffuser Name" : {
+    "Enter Device name" : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
@@ -315,37 +343,40 @@
             "state" : "translated",
             "value" : "أدخل اسم الجهاز"
           }
-        }
-      }
-    },
-    "Enter Pairing Password" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "أدخل كلمة مرور الاقتران ( 8888) عادة "
+            "value" : "Enter Device name"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ilagay ang Pangalan ng Device"
           }
         }
       }
     },
     "Error" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "خطأ"
           }
-        }
-      }
-    },
-    "Every %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "كل %@"
+            "value" : "Error"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error"
           }
         }
       }
@@ -357,7 +388,7 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "كل جمعة "
+            "value" : "كل يوم جمعة"
           }
         },
         "en" : {
@@ -365,138 +396,62 @@
             "state" : "translated",
             "value" : "Every Friday"
           }
-        }
-      }
-    },
-    "every monday" : {
-      "comment" : "كل إثنين",
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "كل إثنين"
-          }
         },
-        "en" : {
+        "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Every Monday"
-          }
-        }
-      }
-    },
-    "every saturday" : {
-      "comment" : "كل سبت",
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "كل سبت "
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Every Saturday"
-          }
-        }
-      }
-    },
-    "every sunday" : {
-      "comment" : "كل أحد",
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "كل أحد "
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Every Sunday"
-          }
-        }
-      }
-    },
-    "every thursday" : {
-      "comment" : "كل خميس",
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "كل خميس "
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Every Thursday"
-          }
-        }
-      }
-    },
-    "every tuesday" : {
-      "comment" : "كل ثلاثاء",
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "كل ثلاثاء"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Every Tuesday"
-          }
-        }
-      }
-    },
-    "every wednesday" : {
-      "comment" : "كل أربعاء",
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "كل أربعاء "
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Every Wednesday"
+            "value" : "Tuwing Biyernes"
           }
         }
       }
     },
     "Explore" : {
-
-    },
-    "Fan" : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "المروحة"
+            "value" : "اكتشاف"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explore"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galugarin"
           }
         }
       }
     },
     "Fan Control" : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التحكم بالمروحة"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fan Control"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontrol ng Bentilador"
+          }
+        }
+      }
     },
     "Fan state" : {
-
-    },
-    "Fan Status" : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
@@ -504,270 +459,384 @@
             "state" : "translated",
             "value" : "حالة المروحة"
           }
-        }
-      }
-    },
-    "from 1pm to 10pm in selected days" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "من الساعة 1م إلى 10م في أيام مختارة "
+            "value" : "Fan state"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estado ng fan"
           }
         }
       }
     },
-    "ⓘ اضغط لضبط مؤقت التشغيل" : {
-      "extractionState" : "stale",
+    "friday" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "اضغط لضبط مؤقت التشغيلⓘ"
+            "value" : "الجمعة"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap to set timers"
+            "value" : "Friday"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biyernes"
           }
         }
       }
     },
-    "Intensity" : {
-      "extractionState" : "stale",
+    "friday_key" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "الشدة"
+            "value" : "الجمعة"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friday"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biyernes"
           }
         }
       }
     },
-    "Intensity Level" : {
-      "extractionState" : "stale",
+    "High" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "شدة التعطير"
+            "value" : "عالي"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "High"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mataas"
+          }
+        }
+      }
+    },
+    "Jet" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نفاث"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jet"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eroplano"
+          }
+        }
+      }
+    },
+    "Low" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "منخفض"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Low"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mababa"
           }
         }
       }
     },
     "Main" : {
-
-    },
-    "Make sure your Bluetooth device is turned on and discoverable." : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "تأكد من أن جهازك قيد التشغيل وقابل للاكتشاف"
-          }
-        }
-      }
-    },
-    "Model Number: %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "رقم الموديل : %@ "
+            "value" : "الرئيسية "
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Model number: %@"
+            "value" : "Main"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pangunahing"
           }
         }
       }
     },
-    "Model: %@" : {
+    "Make sure your device is an operation and discoverable" : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "الطراز : %@"
+            "value" : "فضلاً تأكد أن جهازك قريب ويعمل وقابل للاكتشاف "
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make sure your device is an operation and discoverable"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiyakin na ang iyong device ay naka-on at nakikita."
           }
         }
       }
     },
-    "Name: %@" : {
+    "Mid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "متوسط"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mid"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gitna"
+          }
+        }
+      }
+    },
+    "Model : %@" : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "الاسم: %@"
+            "value" : "الطراز : %@ "
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model : %@"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelo: %@"
           }
         }
       }
     },
-    "No devices found." : {
+    "monday_key" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الإثنين"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monday"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lunes"
+          }
+        }
+      }
+    },
+    "new_device_name" : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "لم يتم العثور على أي أجهزة"
+            "value" : "جهاز تعطير جديد"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Diffuser"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bagong Diffuser"
           }
         }
       }
     },
-    "No devices found. Please try scanning again." : {
+    "Not Connected" : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "لم يتم العثور على جهازك، تأكد من تشغيل الجهاز و أعد البحث مجدداً. "
-          }
-        }
-      }
-    },
-    "No diffuser found for this peripheral." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لم يتم العثور على جهاز التعطير "
-          }
-        }
-      }
-    },
-    "Off: %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إيقاف %@"
+            "value" : "غير متصل"
           }
         }
       }
     },
     "OK" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "حسناً "
           }
-        }
-      }
-    },
-    "On: %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تشغيل %@"
-          }
-        }
-      }
-    },
-    "Operation cycle" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "دورة التشغيل"
-          }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Operation cycle"
+            "value" : "Ok"
           }
-        }
-      }
-    },
-    "Operation Cycle" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
+        },
+        "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "دورة التشغيل"
+            "value" : "Sige"
           }
         }
       }
     },
     "Operation Cycle %lld" : {
-
-    },
-    "Operation cycles" : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "دورة التشغيل"
+            "value" : "دورة التشغيل %lld"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "‏Operation Cycles"
+            "value" : "Operation Cycle %lld"
           }
-        }
-      }
-    },
-    "Pair Device" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
+        },
+        "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "الاقتران بالجهاز "
-          }
-        }
-      }
-    },
-    "Pairing in progress..." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "جاري الاقتران .. "
-          }
-        }
-      }
-    },
-    "Pairing Result" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "حالة الاقتران"
+            "value" : "Siklo ng Operasyon %lld"
           }
         }
       }
     },
     "Pause Time" : {
-
-    },
-    "Perfuming intensity" : {
-
-    },
-    "Profile" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "الملف "
+            "value" : "وقت التوقف"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause Time"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I-pause ang Oras"
+          }
+        }
+      }
+    },
+    "Perfuming intensity" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قوة البخ"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perfuming intensity"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tindi ng pabango"
+          }
+        }
+      }
+    },
+    "Profile" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الملف الشخصي"
           }
         },
         "en" : {
@@ -775,327 +844,132 @@
             "state" : "translated",
             "value" : "Profile"
           }
-        }
-      }
-    },
-    "Programs :" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
+        },
+        "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "البرامج :"
+            "value" : "Profile"
           }
         }
       }
     },
     "Refresh Timings" : {
-
-    },
-    "Remove Device" : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "حذف الجهاز"
+            "value" : "تحديث الأوقات"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refresh Timings"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I-refresh ang mga Oras"
           }
         }
       }
     },
-    "Repeat" : {
-      "extractionState" : "stale",
+    "saturday" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "تكرار"
+            "value" : "السبت"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saturday"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sabado"
           }
         }
       }
     },
-    "Rescan" : {
-      "extractionState" : "stale",
+    "saturday_key" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "إعادة البحث"
+            "value" : "السبت"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saturday"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sabado"
           }
         }
       }
     },
     "Save Settings" : {
-
-    },
-    "Scanning for devices..." : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "البحث عن أجهزة… "
+            "value" : "حفط الإعدادات"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scanning for devices"
+            "value" : "Save Settings"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I-save ang Mga Setting"
           }
         }
       }
     },
-    "Serial Number: %@" : {
+    "Search is in progress …" : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "الرقم التسلسلي : %@"
+            "value" : "جاري البحث .. "
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Serial number: %@"
-          }
-        }
-      }
-    },
-    "Serial: %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "التسلسلي: %@"
-          }
-        }
-      }
-    },
-    "Start: " : {
-
-    },
-    "Starting Time" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "وقت البدء "
-          }
-        }
-      }
-    },
-    "Status: %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : " الحالة : %@"
-          }
-        }
-      }
-    },
-    "Stop:" : {
-
-    },
-    "Store" : {
-
-    },
-    "Time Settings" : {
-
-    },
-    "Timing %lld" : {
-
-    },
-    "Timing Configurations" : {
-
-    },
-    "Timings" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "التوقيتات"
-          }
-        }
-      }
-    },
-    "UUID: %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الرقم المميز : %@"
-          }
-        }
-      }
-    },
-    "Work Time" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "وقت التشغيل"
-          }
-        }
-      }
-    },
-    "Work Time (s)" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "وقت التشغيل (ث)"
-          }
-        }
-      }
-    },
-    "أجهزتي" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أجهزتي"
+            "value" : "Search is in progress …"
           }
         },
-        "en" : {
+        "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "My Devices"
+            "value" : "Ang paghahanap ay kasalukuyang nagaganap …"
           }
         }
       }
     },
-    "أدخل اسم الجهاز" : {
-
-    },
-    "أضف جهازك الآن" : {
-
-    },
-    "أنت على بُعد خطوات من الاستمتاع بروائح أروماتك الساحرة" : {
-
-    },
-    "إعدادات الجهاز" : {
+    "Sign out" : {
       "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الإعدادات "
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Settings"
-          }
-        }
-      }
-    },
-    "إيقاف" : {
-
-    },
-    "اتصال" : {
-
-    },
-    "التكرار" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "التكرار"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Repeats"
-          }
-        }
-      }
-    },
-    "الحالة: غير متصل" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الحالة: غير متصل"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "State: disconnected"
-          }
-        }
-      }
-    },
-    "الحالة: متصل" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الحالة: متصل "
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "State: connected"
-          }
-        }
-      }
-    },
-    "الرئيسية" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الرئيسية"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Home"
-          }
-        }
-      }
-    },
-    "الطراز: %@" : {
-
-    },
-    "المتجر" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "المتجر "
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Store"
-          }
-        }
-      }
-    },
-    "تأكد من أن جهازك قيد التشغيل وقابل للاكتشاف" : {
-
-    },
-    "تسجيل الخروج" : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1108,45 +982,495 @@
             "state" : "translated",
             "value" : "Sign out"
           }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mag-sign out"
+          }
         }
       }
     },
-    "تشغيل" : {
-
-    },
-    "تفضيلات" : {
+    "start_time" : {
+      "comment" : "Start Time",
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "تفضيلات"
+            "value" : "وقت البدء"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Preferences"
+            "value" : "Starting time"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oras ng Pagsisimula"
           }
         }
       }
     },
-    "جاري البحث عن الأجهزة ..." : {
-
-    },
-    "حذف الجهاز" : {
-
-    },
-    "غير متصل" : {
-
-    },
-    "لا يوجد أجهزة حاليا اضغط الزر أدناه لإضافة جهاز جديد" : {
+    "Start: " : {
       "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "لا يوجد أجهزة حاليا اضغط الزر أدناه لإضافة جهاز جديد"
+            "value" : "يبدأ :"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start:"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simula:"
+          }
+        }
+      }
+    },
+    "Starting" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البدء"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starting"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagsisimula"
+          }
+        }
+      }
+    },
+    "Stop:" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يتوقف :"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop:"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hinto:"
+          }
+        }
+      }
+    },
+    "Stoping" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التوقف"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stoping"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paghinto"
+          }
+        }
+      }
+    },
+    "Store" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المتجر"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Store"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tindahan"
+          }
+        }
+      }
+    },
+    "sunday_key" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الأحد"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunday"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linggo"
+          }
+        }
+      }
+    },
+    "thursday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الخميس"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thursday"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Huwebes"
+          }
+        }
+      }
+    },
+    "thursday_key" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الخميس"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thursday"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Huwebes"
+          }
+        }
+      }
+    },
+    "time_settings" : {
+      "comment" : "Time Settings Title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إعدادات التوقيت"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time settings"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mga setting ng oras"
+          }
+        }
+      }
+    },
+    "Timing %lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التوقيت %lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timing %lld"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pag-time %lld"
+          }
+        }
+      }
+    },
+    "Timing Configurations" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إعدادات التوقيت"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timing Configurations"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mga Pagkakaayos ng Oras"
+          }
+        }
+      }
+    },
+    "Timings" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التوقيتات"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timings"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mga Oras"
+          }
+        }
+      }
+    },
+    "tuesday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الثلاثاء"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tuesday"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Martes"
+          }
+        }
+      }
+    },
+    "tuesday_key" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الثلاثاء"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tuesday"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Martes"
+          }
+        }
+      }
+    },
+    "Unable to find diffusers" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لم يتم العثور على أجهزة تعطير قريبة "
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to find diffusers"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hindi mahanap ang mga diffuser"
+          }
+        }
+      }
+    },
+    "wednesday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الأربعاء"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wednesday"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Miyerkules"
+          }
+        }
+      }
+    },
+    "wednesday_key" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الأربعاء"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wednesday"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Miyerkules"
+          }
+        }
+      }
+    },
+    "Welcome in Aromatic Smart App .." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مرحباً بك في تطبيق أروماتك.. "
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to Aromatic Smart App .."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maligayang pagdating sa Aromatic Smart App .."
+          }
+        }
+      }
+    },
+    "Work Time" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وقت التشغيل"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Work Time"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oras ng Trabaho"
+          }
+        }
+      }
+    },
+    "You are seconds away of enjoying the mesmerizing Aromatic scents" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أنت على بعد خطوات من الاستمتاع بروائح أروماتك الساحرة "
+          }
+        }
+      }
+    },
+    "لا يوجد أجهزة حاليا اضغط الزر أدناه لإضافة جهاز جديد" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا توجد أجهزة متاحة حاليًا، اضغط على الزر أدناه لإضافة جهاز جديد."
           }
         },
         "en" : {
@@ -1154,17 +1478,15 @@
             "state" : "translated",
             "value" : "No Devices available currently press the button below to Add New "
           }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Walang mga device na kasalukuyang magagamit, pindutin ang button sa ibaba para Magdagdag ng Bago"
+          }
         }
-      }
-    },
-    "لم يتم العثور على أجهزة" : {
-
-    },
-    "متصل" : {
-
-    },
-    "مرحباً بك في تطبيق أروماتك .." : {
-
+      },
+      "shouldTranslate" : false
     }
   },
   "version" : "1.0"

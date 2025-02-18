@@ -85,8 +85,16 @@ class BluetoothManager: NSObject, ObservableObject {
         return connectedPeripheral?.identifier == device.identifier
     }
     
+    var ConnectedTag: String {
+        String(localized: "Connected")
+    }
+    
+    var NotConnectedTag: String {
+        String(localized: "Not Connected")
+    }
+    
     func deviceStatus(for device: CBPeripheral) -> String {
-        return isConnected(to: device) ? "Connected" : "Not Connected"
+        return isConnected(to: device) ? ConnectedTag : NotConnectedTag
     }
     
     func loadDeviceModel(for device: CBPeripheral) -> String {
